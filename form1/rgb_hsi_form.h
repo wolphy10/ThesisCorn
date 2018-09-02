@@ -1,3 +1,10 @@
+#include <iostream>
+#include <fstream>
+
+// Minimize
+#pragma once
+#include <Windows.h>
+
 // Convert String^ to std::string
 #include <msclr/marshal_cppstd.h>
 
@@ -29,7 +36,7 @@ namespace form1 {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
-	/// <summary>
+		/// <summary>
 	/// Summary for rgb_hsi_form
 	/// </summary>
 	public ref class rgb_hsi_form : public System::Windows::Forms::Form
@@ -54,15 +61,14 @@ namespace form1 {
 				delete components;
 			}
 		}
+
 	private: System::Windows::Forms::Button^  btnOpen;
 	private: System::Windows::Forms::OpenFileDialog^  openFile;
 	public: System::Windows::Forms::PictureBox^  img_Hue;
 	private:
 	public: System::Windows::Forms::PictureBox^  img_Saturation;
 
-
-
-
+	
 	private: System::Windows::Forms::Label^  lblHue;
 	private: System::Windows::Forms::Label^  lblSaturation;
 	private: System::Windows::Forms::Panel^  progressPanel;
@@ -117,6 +123,8 @@ namespace form1 {
 
 	private: System::Windows::Forms::Panel^  panelBtn;
 	private: System::Windows::Forms::Label^  lblTitle;
+	private: System::Windows::Forms::Button^  btnMin;
+
 
 
 	public:
@@ -149,6 +157,8 @@ namespace form1 {
 	protected:
 
 	private:
+
+		
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -189,6 +199,7 @@ namespace form1 {
 			this->lblPathHead = (gcnew System::Windows::Forms::Label());
 			this->img_orig = (gcnew System::Windows::Forms::PictureBox());
 			this->panelBtn = (gcnew System::Windows::Forms::Panel());
+			this->btnMin = (gcnew System::Windows::Forms::Button());
 			this->lblTitle = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_Hue))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_Saturation))->BeginInit();
@@ -305,7 +316,7 @@ namespace form1 {
 				static_cast<System::Byte>(0)));
 			this->btnLocation->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(18)), static_cast<System::Int32>(static_cast<System::Byte>(18)),
 				static_cast<System::Int32>(static_cast<System::Byte>(18)));
-			this->btnLocation->Location = System::Drawing::Point(845, 22);
+			this->btnLocation->Location = System::Drawing::Point(807, 22);
 			this->btnLocation->Name = L"btnLocation";
 			this->btnLocation->Size = System::Drawing::Size(133, 28);
 			this->btnLocation->TabIndex = 3;
@@ -543,6 +554,7 @@ namespace form1 {
 			// 
 			this->panelBtn->BackColor = System::Drawing::Color::White;
 			this->panelBtn->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
+			this->panelBtn->Controls->Add(this->btnMin);
 			this->panelBtn->Controls->Add(this->lblTitle);
 			this->panelBtn->Controls->Add(this->btnFirst);
 			this->panelBtn->Controls->Add(this->btnOpen);
@@ -552,6 +564,28 @@ namespace form1 {
 			this->panelBtn->Name = L"panelBtn";
 			this->panelBtn->Size = System::Drawing::Size(992, 60);
 			this->panelBtn->TabIndex = 12;
+			this->panelBtn->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &rgb_hsi_form::panelBtn_MouseDown);
+			this->panelBtn->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &rgb_hsi_form::panelBtn_MouseMove);
+			this->panelBtn->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &rgb_hsi_form::panelBtn_MouseUp);
+			// 
+			// btnMin
+			// 
+			this->btnMin->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(245)), static_cast<System::Int32>(static_cast<System::Byte>(243)),
+				static_cast<System::Int32>(static_cast<System::Byte>(241)));
+			this->btnMin->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(219)),
+				static_cast<System::Int32>(static_cast<System::Byte>(218)), static_cast<System::Int32>(static_cast<System::Byte>(216)));
+			this->btnMin->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->btnMin->Font = (gcnew System::Drawing::Font(L"Segoe UI", 8.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->btnMin->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(18)), static_cast<System::Int32>(static_cast<System::Byte>(18)),
+				static_cast<System::Int32>(static_cast<System::Byte>(18)));
+			this->btnMin->Location = System::Drawing::Point(946, 22);
+			this->btnMin->Name = L"btnMin";
+			this->btnMin->Size = System::Drawing::Size(32, 28);
+			this->btnMin->TabIndex = 7;
+			this->btnMin->Text = L"_";
+			this->btnMin->UseVisualStyleBackColor = false;
+			this->btnMin->Click += gcnew System::EventHandler(this, &rgb_hsi_form::btnMin_Click);
 			// 
 			// lblTitle
 			// 
@@ -610,6 +644,8 @@ namespace form1 {
 		System::String^ message = "";		
 		System::String^ final_path = "";
 		System::String^ img_change = "";
+
+		txtProgress->Clear();	
 
 		//*** START OF RGB CONVERSION ***/
 
@@ -697,9 +733,9 @@ namespace form1 {
 				}
 
 				std::string final_path2 = msclr::interop::marshal_as<std::string>(final_path);
-				std::string h1_path = std::string("Image Processing/HUE__") + final_path2 + std::string(".jpg");
+				std::string h1_path = std::string("Image Processing/") + final_path2 + std::string("__1__HUE.jpg");
 				txtProgress->AppendText("Hue Selection Completed...\r\n");
-				std::string s1_path = std::string("Image Processing/SAT__") + final_path2 + std::string(".jpg");
+				std::string s1_path = std::string("Image Processing/") + final_path2 + std::string("__1__SAT.jpg");
 				txtProgress->AppendText("Saturation Selection Completed...");
 				txtProgress->ScrollToCaret();
 						
@@ -727,106 +763,107 @@ namespace form1 {
 		#pragma region Gaussian Filter
 
 		/* start producing Gaussian filter kernel */
-		txtProgress->AppendText("\r\nCreating Gaussian filter kernel...\r\n");
 
-		const double PI = atan(1) * 4;
-		double sigma = 40; // 2 orig --- the higher, the more blurred | 20 previously used
-		const int kernalWidth = 5, kernalHeight = 5; // 5 always!
+			txtProgress->AppendText("\r\nCreating Gaussian filter kernel...\r\n");
 
-		float kernalArray[kernalWidth][kernalHeight];
-		double total = 0;
+			const double PI = atan(1) * 4;
+			double sigma = 40; // 2 orig --- the higher, the more blurred | 20 previously used
+			const int kernalWidth = 5, kernalHeight = 5; // 5 always!
 
-		//calculate each relavant value to neighour pixels and store it in 2d array
-		for (int row = 0; row < kernalWidth; row++) {
-			for (int col = 0; col < kernalHeight; col++) {
-				// Formula for Gaussian Filter from RRL
-				float value = (1 / (2 * PI * pow(sigma, 2)))
-					* exp(-(pow(row - kernalWidth / 2, 2) + pow(col - kernalHeight / 2, 2)) / (2 * exp(2))) - (-2);							
-				// End of formula
-				kernalArray[row][col] = value;
-				total += value;
+			float kernalArray[kernalWidth][kernalHeight];
+			double total = 0;
+
+			//calculate each relavant value to neighour pixels and store it in 2d array
+			for (int row = 0; row < kernalWidth; row++) {
+				for (int col = 0; col < kernalHeight; col++) {
+					// Formula for Gaussian Filter from RRL
+					float value = (1 / (2 * PI * pow(sigma, 2)))
+						* exp(-(pow(row - kernalWidth / 2, 2) + pow(col - kernalHeight / 2, 2)) / (2 * exp(2))) - (-2);							
+					// End of formula
+					kernalArray[row][col] = value;
+					total += value;
+				}
 			}
-		}
 
-		//Scale value in 2d array in to 1
-		for (int row = 0; row < kernalWidth; row++) {
-			for (int col = 0; col < kernalHeight; col++) {
-				kernalArray[row][col] = kernalArray[row][col] / total;
+			//Scale value in 2d array in to 1
+			for (int row = 0; row < kernalWidth; row++) {
+				for (int col = 0; col < kernalHeight; col++) {
+					kernalArray[row][col] = kernalArray[row][col] / total;
+				}
 			}
-		}
 
-		txtProgress->AppendText("Gaussian filter kernel created...\r\n");
+			txtProgress->AppendText("Gaussian filter kernel created...\r\n");
 		
 		//*** End producing Gaussian filter kernel ***//
 
-		txtProgress->AppendText("Applying Gaussian filter to hue image...");
-		txtProgress->ScrollToCaret();
-		cv::Mat hue = cv::imread(open_hue);
+			txtProgress->AppendText("Applying Gaussian filter to hue image...");
+			txtProgress->ScrollToCaret();
+			cv::Mat hue = cv::imread(open_hue);
 
-		Mat Hgray(hue.size(), CV_8UC1);
-		Mat HueBlurred(hue.size(), CV_8UC1); 
-		cvtColor(hue, Hgray, CV_RGB2GRAY);
+			Mat Hgray(hue.size(), CV_8UC1);
+			Mat HueBlurred(hue.size(), CV_8UC1); 
+			cvtColor(hue, Hgray, CV_RGB2GRAY);
 
-		int verticleImageBound = (kernalHeight - 1) / 2, horizontalImageBound = (kernalWidth - 1) / 2;
+			int verticleImageBound = (kernalHeight - 1) / 2, horizontalImageBound = (kernalWidth - 1) / 2;
 
-		//Assian Gaussian Blur value of the center point. Repeating this process for all other points through image
+			//Assian Gaussian Blur value of the center point. Repeating this process for all other points through image
 
-		//*** FOR HUE ***//
-		for (int row = 0 + verticleImageBound; row < Hgray.rows - verticleImageBound; row++) {
-			for (int col = 0 + horizontalImageBound; col < Hgray.cols - horizontalImageBound; col++) {
-				float value = 0.0;
-				for (int kRow = 0; kRow < kernalHeight; kRow++) {
-					for (int kCol = 0; kCol < kernalWidth; kCol++) {
-						//multiply pixel value with corresponding gaussian kernal value
-						float pixel = Hgray.at<uchar>(kRow + row - verticleImageBound, kCol + col - horizontalImageBound) * kernalArray[kRow][kCol];
-						value += pixel;
+			//*** FOR HUE ***//
+			for (int row = 0 + verticleImageBound; row < Hgray.rows - verticleImageBound; row++) {
+				for (int col = 0 + horizontalImageBound; col < Hgray.cols - horizontalImageBound; col++) {
+					float value = 0.0;
+					for (int kRow = 0; kRow < kernalHeight; kRow++) {
+						for (int kCol = 0; kCol < kernalWidth; kCol++) {
+							//multiply pixel value with corresponding gaussian kernal value
+							float pixel = Hgray.at<uchar>(kRow + row - verticleImageBound, kCol + col - horizontalImageBound) * kernalArray[kRow][kCol];
+							value += pixel;
+						}
 					}
+					//assign new values to central point
+					HueBlurred.at<uchar>(row, col) = cvRound(value);
 				}
-				//assign new values to central point
-				HueBlurred.at<uchar>(row, col) = cvRound(value);
 			}
-		}
 
-		txtProgress->AppendText("\r\nGaussian filter to hue successfully applied...\r\n");		
-		txtProgress->AppendText("Applying Gaussian filter to saturation image...");
-		txtProgress->ScrollToCaret();
+			txtProgress->AppendText("\r\nGaussian filter to hue successfully applied...\r\n");		
+			txtProgress->AppendText("Applying Gaussian filter to saturation image...");
+			txtProgress->ScrollToCaret();
 
-		cv::Mat sat = cv::imread(open_sat);
-		Mat Sgray(sat.size(), CV_8UC1);
-		Mat SatBlurred(sat.size(), CV_8UC1);
-		cvtColor(sat, Sgray, CV_RGB2GRAY);
+			cv::Mat sat = cv::imread(open_sat);
+			Mat Sgray(sat.size(), CV_8UC1);
+			Mat SatBlurred(sat.size(), CV_8UC1);
+			cvtColor(sat, Sgray, CV_RGB2GRAY);
 
-		//*** FOR SAT ***//
-		for (int row = 0 + verticleImageBound; row < Sgray.rows - verticleImageBound; row++) {
-			for (int col = 0 + horizontalImageBound; col < Sgray.cols - horizontalImageBound; col++) {
-				float value = 0.0;
-				for (int kRow = 0; kRow < kernalHeight; kRow++) {
-					for (int kCol = 0; kCol < kernalWidth; kCol++) {
-						//multiply pixel value with corresponding gaussian kernal value
-						float pixel = Sgray.at<uchar>(kRow + row - verticleImageBound, kCol + col - horizontalImageBound) * kernalArray[kRow][kCol];
-						value += pixel;
+			//*** FOR SAT ***//
+			for (int row = 0 + verticleImageBound; row < Sgray.rows - verticleImageBound; row++) {
+				for (int col = 0 + horizontalImageBound; col < Sgray.cols - horizontalImageBound; col++) {
+					float value = 0.0;
+					for (int kRow = 0; kRow < kernalHeight; kRow++) {
+						for (int kCol = 0; kCol < kernalWidth; kCol++) {
+							//multiply pixel value with corresponding gaussian kernal value
+							float pixel = Sgray.at<uchar>(kRow + row - verticleImageBound, kCol + col - horizontalImageBound) * kernalArray[kRow][kCol];
+							value += pixel;
+						}
 					}
+					//assign new values to central point
+					SatBlurred.at<uchar>(row, col) = cvRound(value);
 				}
-				//assign new values to central point
-				SatBlurred.at<uchar>(row, col) = cvRound(value);
 			}
-		}
 
-		txtProgress->AppendText("\r\nGaussian filter to saturation successfully applied...");		
-		txtProgress->ScrollToCaret();
-		std::string blurredH = std::string("Image Processing/BLURREDHUE__") + final_path2 + std::string(".jpg");
-		std::string blurredS = std::string("Image Processing/BLURREDSAT__") + final_path2 + std::string(".jpg");
-		imwrite(blurredH, HueBlurred); imwrite(blurredS, SatBlurred);
-		message = gcnew System::String(blurredH.c_str());
-		txtProgress->AppendText("\r\n" + message + " successfully created...");
-		message = gcnew System::String(blurredS.c_str());
-		txtProgress->AppendText(message + " successfully created...");
-		txtProgress->ScrollToCaret();
+			txtProgress->AppendText("\r\nGaussian filter to saturation successfully applied...");		
+			txtProgress->ScrollToCaret();
+			std::string blurredH = std::string("Image Processing/") + final_path2 + std::string("__2__BLURREDHUE.jpg");
+			std::string blurredS = std::string("Image Processing/") + final_path2 + std::string("__2__BLURREDSAT.jpg");
+			imwrite(blurredH, HueBlurred); imwrite(blurredS, SatBlurred);
+			message = gcnew System::String(blurredH.c_str());
+			txtProgress->AppendText("\r\n" + message + " successfully created...");
+			message = gcnew System::String(blurredS.c_str());
+			txtProgress->AppendText(message + " successfully created...");
+			txtProgress->ScrollToCaret();
 		
-		img_change = gcnew System::String(open_hue.c_str());
-		img_noblur->BackgroundImage = System::Drawing::Image::FromFile(img_change);
-		img_change = gcnew System::String(blurredH.c_str());
-		img_blur->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+			img_change = gcnew System::String(open_hue.c_str());
+			img_noblur->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+			img_change = gcnew System::String(blurredH.c_str());
+			img_blur->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 
 		#pragma endregion
 
@@ -834,110 +871,171 @@ namespace form1 {
 			START OF OTSU | OTSU'S METHOD			
 		*/
 
-		txtProgress->AppendText("\r\nStart of Otsu's Method...\r\n");
-		int pixel;
-		float betweenvariance = 0, maxbetweenvariance = 0, sum = 0;		
-		float optimizedthresh = 0; //optimized threshhold, at the end of otsu's algorithm this will be the thresshold with the max between group vairance
-		float histogram[256], probability[256];
+			txtProgress->AppendText("\r\nStart of Otsu's Method...\r\n");
+			int pixel;						// pixel value
+			float betweenvariance = 0;		// between group variance
+			float maxbetweenvariance = 0;	// max between group variance
+			float optimizedthresh = 0;		// optimized threshhold, at the end of otsu's algorithm this will be the thresshold with the max between group vairance
+			float sum = 0;					// sum of all histogram values to calculate the mean grey level value of the imagem values before threshholding
+			float histogram[256], probability[256];
 
-		cv::Mat otsu_img = cv::imread(blurredH, CV_8UC1);
-		int rows = otsu_img.rows, cols = otsu_img.cols;
-		cv::Size size = otsu_img.size();
-		rows = size.height; cols = size.width;		
+			cv::Mat otsu_img = cv::imread(blurredH, CV_8UC1);
+			int rows = otsu_img.rows, cols = otsu_img.cols;
+			cv::Size size = otsu_img.size();
+			rows = size.height; cols = size.width;		
 
-		for (int i = 0; i <= 255; i++) {
-			histogram[i] = 0;
-			probability[i] = 0;
-		}
-
-		//cycle through entire otsu_img and get pixel values and populate the histogram with them
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < cols; j++) {				
-				pixel = (int)otsu_img.at<uchar>(i, j);
-				sum += pixel;
-				histogram[pixel]++;
+			for (int i = 0; i <= 255; i++) {
+				histogram[i] = 0;
+				probability[i] = 0;
 			}
-		}
 
-		//calculate the probability of each histogram value and store them in the probability array
-		for (int i = 0; i <= 255; i++) {
-			probability[i] = histogram[i] / (cols*rows);
-		}
-
-		float p1 = probability[0]; //Initial probability p1 which is equal to just the probability of the 0 grey value
-		float q1 = p1; //initial q which is the sum of probabilities before 1, which is equal to p1		
-		float mu1 = 0; //initial mean before the 1 has to be 0. mu(1)=0		
-		float mu2 = 0; //initial mean after the 0. Initially set to 0. This gets reset in the algorithm		
-		float mu = sum / (cols*rows); //mean grey level (mu) calculation
-		
-		float q1prev = q1; //set previous q1, q1(t), to equal the current q1
-		for (int t = 1; t < 255; t++) {
-			float q1next = q1prev + probability[t + 1]; //q1next-q1(t+1)
-			float mu1next = (q1prev*mu1 + (t + 1)*(probability[t + 1])) / q1next; //set mu1(t+1)
-			float mu2next = (mu - q1next*mu1next) / (1 - q1next); //set mu2(t+1)
-			betweenvariance = q1prev*(1 - q1prev)*((mu1 - mu2)*(mu1 - mu2)); //calculate between group variance
-																			 //max between group variance is initially set to 0. Change the max between group variance, and change the optimized threshold to t if the current variance is > max.
-			if (betweenvariance > maxbetweenvariance) {
-				maxbetweenvariance = betweenvariance;
-				optimizedthresh = t; //set new optimized threshhold
-			}
-			q1prev = q1next; //set q1(t) to be used in the next iteration to be equal to the current q1(t+1) which is q1next
-			mu1 = mu1next; //do the same for mu1. set mu1(t) of next iteration to equal the current mu1(t+1)
-			mu2 = mu2next; //set mu2(t) of next iteration to equal the current mu2(t+1)
-			if (q1next == 0) {
-				mu1 = 0; //this eliminates divide by 0 errors because the calculate of the next mu1 would be undefend if the next value of q1 is 0, according to the otsu recursive algorithm
-			}
-		}
-
-		txtProgress->AppendText("Applying Otsu's method...");
-		txtProgress->ScrollToCaret();
-		//set otsu_img values based on the optimized threshhold calculated above.
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < cols; j++) {
-				pixel = (int)otsu_img.at<uchar>(i, j);
-				if (pixel < optimizedthresh) { //if pixel is< than the threshhold, set it to 200
-					pixel = otsu_img.at<uchar>(i, j) = 200;
-				}
-				else { //if pixel is> than the threshhold, set it to 0
-					pixel = otsu_img.at<uchar>(i, j) = 0;
+			// cycle through entire otsu_img and get pixel values and populate the histogram with them
+			for (int i = 0; i < rows; i++) {
+				for (int j = 0; j < cols; j++) {				
+					pixel = (int)otsu_img.at<uchar>(i, j);
+					sum += pixel;
+					histogram[pixel]++;
 				}
 			}
-		}
 
-		txtProgress->AppendText("\r\nOtsu's Method Completed...\r\n");
-		std::string otsu = std::string("Image Processing/OTSU__") + final_path2 + std::string(".jpg");
-		imwrite(otsu, otsu_img); message = gcnew System::String(otsu.c_str());
-		txtProgress->AppendText(message + " successfully created...");
-		txtProgress->ScrollToCaret();
+			//calculate the probability of each histogram value and store them in the probability array
+			for (int i = 0; i <= 255; i++) {
+				probability[i] = histogram[i] / (cols*rows);
+			}
+
+			float p1 = probability[0];		// Initial probability p1 which is equal to just the probability of the 0 grey value
+			float q1 = p1;					// Initial q which is the sum of probabilities before 1, which is equal to p1		
+			float mu1 = 0;					// Initial mean before the 1 has to be 0. mu(1)=0		
+			float mu2 = 0;					// Initial mean after the 0. Initially set to 0. This gets reset in the algorithm		
+			float mu = sum / (cols*rows);	// Mean grey level (mu) calculation
 		
-		img_change = gcnew System::String(otsu.c_str());
-		img_otsu->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+			float q1prev = q1; //set previous q1, q1(t), to equal the current q1
+			for (int t = 1; t < 255; t++) {
+				float q1next = q1prev + probability[t + 1]; //q1next-q1(t+1)
+				float mu1next = (q1prev*mu1 + (t + 1)*(probability[t + 1])) / q1next; //set mu1(t+1)
+				float mu2next = (mu - q1next*mu1next) / (1 - q1next); //set mu2(t+1)
+				betweenvariance = q1prev*(1 - q1prev)*((mu1 - mu2)*(mu1 - mu2)); //calculate between group variance
+																				 //max between group variance is initially set to 0. Change the max between group variance, and change the optimized threshold to t if the current variance is > max.
+				if (betweenvariance > maxbetweenvariance) {
+					maxbetweenvariance = betweenvariance;
+					optimizedthresh = t; //set new optimized threshhold
+				}
+				q1prev = q1next; //set q1(t) to be used in the next iteration to be equal to the current q1(t+1) which is q1next
+				mu1 = mu1next; //do the same for mu1. set mu1(t) of next iteration to equal the current mu1(t+1)
+				mu2 = mu2next; //set mu2(t) of next iteration to equal the current mu2(t+1)
+				if (q1next == 0) {
+					mu1 = 0; //this eliminates divide by 0 errors because the calculate of the next mu1 would be undefend if the next value of q1 is 0, according to the otsu recursive algorithm
+				}
+			}
+
+			txtProgress->AppendText("Applying Otsu's method...");
+			txtProgress->ScrollToCaret();
+			//set otsu_img values based on the optimized threshhold calculated above.
+			for (int i = 0; i < rows; i++) {
+				for (int j = 0; j < cols; j++) {
+					pixel = (int)otsu_img.at<uchar>(i, j);
+					if (pixel < optimizedthresh) { //if pixel is< than the threshhold, set it to 200
+						pixel = otsu_img.at<uchar>(i, j) = 200;
+					}
+					else { //if pixel is> than the threshhold, set it to 0
+						pixel = otsu_img.at<uchar>(i, j) = 0;
+					}
+				}
+			}
+
+			txtProgress->AppendText("\r\nOtsu's Method Completed...\r\n");
+			std::string otsu = std::string("Image Processing/") + final_path2 + std::string("__3__OTSU.jpg");
+			imwrite(otsu, otsu_img); message = gcnew System::String(otsu.c_str());
+			txtProgress->AppendText(message + " successfully created...");
+			txtProgress->ScrollToCaret();
+		
+			img_change = gcnew System::String(otsu.c_str());
+			img_otsu->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 
 		//*** END OF OTSU ***//
 
 		/* CANNY EDGE */
 
-		txtProgress->AppendText("\r\nCreating Canny edge filter...");
-		txtProgress->ScrollToCaret();
-		cv::Mat toCanny; // Original image
-		cv::Mat imgCanny; // Output image
+			txtProgress->AppendText("\r\nCreating Canny edge filter...");
+			txtProgress->ScrollToCaret();
+			cv::Mat toCanny = cv::imread(otsu); // Original image
+			cv::Mat imgCanny; // Output image
 
-		toCanny = cv::imread(otsu);
-		cv::Canny(toCanny,				// input image
-			imgCanny,                   // output image
-			100,                        // low threshold
-			200);                       // high threshold
+			cv::Canny(toCanny,				// input image
+				imgCanny,                   // output image
+				100,                        // low threshold
+				200);                       // high threshold
 
-		txtProgress->AppendText("\r\nCanny Edge filter Completed...\r\n");
-		std::string canny = std::string("Image Processing/CANNY__") + final_path2 + std::string(".jpg");
-		imwrite(canny, imgCanny); message = gcnew System::String(canny.c_str());
-		txtProgress->AppendText(message + " successfully created...");
-		txtProgress->ScrollToCaret();
+			txtProgress->AppendText("\r\nCanny Edge filter Completed...\r\n");
+			std::string canny = std::string("Image Processing/") + final_path2 + std::string("__4__CANNY.jpg");
+			imwrite(canny, imgCanny); message = gcnew System::String(canny.c_str());
+			txtProgress->AppendText(message + " successfully created...");
+			txtProgress->ScrollToCaret();
 
-		img_change = gcnew System::String(canny.c_str());
-		img_canny->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+			img_change = gcnew System::String(canny.c_str());
+			img_canny->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 
-		//*** END OF CANNY EDGE ***//
+		//*** END OF CANNY EDGE ***//ssss
+
+		//*** START OF SGDM ***//
+
+			txtProgress->AppendText("Applying SGDM...");
+			txtProgress->ScrollToCaret();
+			cv::Mat noSGDM = cv::imread(otsu);			
+		
+			int row = noSGDM.rows, col = noSGDM.cols;
+			Mat gl = Mat::zeros(256, 256, CV_32FC1);
+
+			//creating glcm matrix with 256 levels,radius=1 and in the horizontal direction 
+			for (int i = 0; i < row; i++) {
+				for (int j = 0; j < col - 1; j++) {
+					gl.at<float>(noSGDM.at<uchar>(i, j), noSGDM.at<uchar>(i, j + 1)) = gl.at<float>(noSGDM.at<uchar>(i, j), noSGDM.at<uchar>(i, j + 1)) + 1;
+				}
+			}
+				
+			// normalizing glcm matrix for parameter determination
+			gl = gl + gl.t();			
+			gl = gl / cv::sum(gl)[0];
+
+			float energy = 0, contrast = 0, homogenity = 0, IDM = 0, entropy = 0, mean1 = 0,
+				shade = 0, prominence = 0;
+
+			for (int i = 0; i < 256; i++) {
+				for (int j = 0; j < 256; j++) {
+					energy = energy + pow(gl.at<float>(i, j), 2);            //finding parameters
+					contrast = contrast + pow((i - j), 2) * gl.at<float>(i, j);
+					//homogenity = homogenity + gl.at<float>(i, j) / (1 + abs(i - j));
+					homogenity = homogenity + ( gl.at<float>(i, j) / (1 + pow((i - j), 2)) );
+					if (i != j)
+						IDM = IDM + gl.at<float>(i, j) / ((i - j)*(i - j));                      //Taking k=2;
+					if (gl.at<float>(i, j) != 0)
+						entropy = entropy - gl.at<float>(i, j)*log10(gl.at<float>(i, j));
+					mean1 = mean1 + 0.5*(i*gl.at<float>(i, j) + j*gl.at<float>(i, j));
+					int mx = i * gl.at<float>(i, j), my = j * gl.at<float>(i, j);
+					shade = shade + pow((i - mx) + (j - my), 3) * gl.at<float>(i, j);
+					prominence = prominence + pow((i - mx) + (j - my), 4) * gl.at<float>(i, j);
+				}
+			}			
+
+			ofstream csv;
+
+			if (std::ifstream("sample.csv")) {
+				csv.open("sample.csv", std::ios_base::app);
+			}
+			else {
+				csv.open("sample.csv");
+				csv << "Filename, Energy, Contrast, Homogenity, IDM, Entropy, Mean1, Cluster Shade, Cluster Prominence\n";
+			}
+			
+			csv << final_path2 + "," + std::to_string(energy) + "," + std::to_string(contrast) + "," + std::to_string(homogenity)
+				+ "," + std::to_string(IDM) + "," + std::to_string(entropy) + "," + std::to_string(mean1)
+				+ "," + std::to_string(shade) + "," + std::to_string(prominence) + "\n";
+			csv.close();
+
+			txtProgress->AppendText("\r\nSGDM Method Completed...");
+			txtProgress->ScrollToCaret();
+
+		//*** END OF SGDM ***//
 
 		}
 			else {
@@ -948,6 +1046,7 @@ namespace form1 {
 		
 		txtProgress->AppendText("\r\n.\r\n.\r\nImage Processing complete.");
 		txtProgress->ScrollToCaret();
+		firstPanel->BringToFront();
 		//MessageBox::Show("Done");
 		}
 	}
@@ -963,5 +1062,31 @@ namespace form1 {
 	private: System::Void btnLocation_Click(System::Object^  sender, System::EventArgs^  e) {
 		System::Diagnostics::Process::Start("C:/Users/Sam/Documents/School/THESIS/THESIS II/programs/form1/form1/Image Processing");
 	}
+
+	int mouseX = 0, mouseY = 0;
+	bool mouseDown;
+
+	private: System::Void panelBtn_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+		if (mouseDown) {
+			mouseX = MousePosition.X - 490;
+			mouseY = MousePosition.Y - 30;
+
+			this->SetDesktopLocation(mouseX, mouseY);
+		}
+	}
+	
+	private: System::Void panelBtn_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+		mouseDown = true;
+	}		
+	private: System::Void panelBtn_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+		mouseDown = false;
+	}
+
+	private: System::Void btnMin_Click(System::Object^  sender, System::EventArgs^  e) {
+		this->WindowState = FormWindowState::Minimized;
+	}
+
+
+
 };
 } 
