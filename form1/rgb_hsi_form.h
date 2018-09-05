@@ -5,7 +5,7 @@
 #pragma once
 #include <Windows.h>
 
-// Convert String^ to std::string
+// Convert String^ to std::strings
 #include <msclr/marshal_cppstd.h>
 
 // For string to become filesystem path
