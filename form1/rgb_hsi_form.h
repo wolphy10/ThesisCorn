@@ -22,8 +22,12 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/opencv.hpp"
 
+// Vectors
+#include <vector>
+
 using namespace std;
 using namespace cv;
+using std::vector;
 
 #pragma once
 
@@ -697,7 +701,7 @@ namespace form1 {
 						r = image.at<Vec3b>(i, j)[2];
 
 						in = (b + g + r) / 3;
-						// Intensity = 1/3 (r + g + b)
+						// Intensity = (1/3) * (r + g + b)
 
 						float min_val = 0;
 						min_val = std::min(r, std::min(b, g));
@@ -879,76 +883,94 @@ namespace form1 {
 			float sum = 0;					// sum of all histogram values to calculate the mean grey level value of the imagem values before threshholding
 			float histogram[256], probability[256];
 
-			cv::Mat otsu_img = cv::imread(blurredH, CV_8UC1);
-			int rows = otsu_img.rows, cols = otsu_img.cols;
-			cv::Size size = otsu_img.size();
-			rows = size.height; cols = size.width;		
-
-			for (int i = 0; i <= 255; i++) {
-				histogram[i] = 0;
-				probability[i] = 0;
-			}
-
-			// cycle through entire otsu_img and get pixel values and populate the histogram with them
-			for (int i = 0; i < rows; i++) {
-				for (int j = 0; j < cols; j++) {				
-					pixel = (int)otsu_img.at<uchar>(i, j);
-					sum += pixel;
-					histogram[pixel]++;
+			for (int count = 0; count < 2; count++) {
+				cv::Mat otsu_img;
+				if (count == 0) {
+					otsu_img = cv::imread(blurredH, CV_8UC1);
 				}
-			}
-
-			//calculate the probability of each histogram value and store them in the probability array
-			for (int i = 0; i <= 255; i++) {
-				probability[i] = histogram[i] / (cols*rows);
-			}
-
-			float p1 = probability[0];		// Initial probability p1 which is equal to just the probability of the 0 grey value
-			float q1 = p1;					// Initial q which is the sum of probabilities before 1, which is equal to p1		
-			float mu1 = 0;					// Initial mean before the 1 has to be 0. mu(1)=0		
-			float mu2 = 0;					// Initial mean after the 0. Initially set to 0. This gets reset in the algorithm		
-			float mu = sum / (cols*rows);	// Mean grey level (mu) calculation
-		
-			float q1prev = q1; //set previous q1, q1(t), to equal the current q1
-			for (int t = 1; t < 255; t++) {
-				float q1next = q1prev + probability[t + 1]; //q1next-q1(t+1)
-				float mu1next = (q1prev*mu1 + (t + 1)*(probability[t + 1])) / q1next; //set mu1(t+1)
-				float mu2next = (mu - q1next*mu1next) / (1 - q1next); //set mu2(t+1)
-				betweenvariance = q1prev*(1 - q1prev)*((mu1 - mu2)*(mu1 - mu2)); //calculate between group variance
-																				 //max between group variance is initially set to 0. Change the max between group variance, and change the optimized threshold to t if the current variance is > max.
-				if (betweenvariance > maxbetweenvariance) {
-					maxbetweenvariance = betweenvariance;
-					optimizedthresh = t; //set new optimized threshhold
+				else {
+					otsu_img = cv::imread(blurredS, CV_8UC1);
 				}
-				q1prev = q1next; //set q1(t) to be used in the next iteration to be equal to the current q1(t+1) which is q1next
-				mu1 = mu1next; //do the same for mu1. set mu1(t) of next iteration to equal the current mu1(t+1)
-				mu2 = mu2next; //set mu2(t) of next iteration to equal the current mu2(t+1)
-				if (q1next == 0) {
-					mu1 = 0; //this eliminates divide by 0 errors because the calculate of the next mu1 would be undefend if the next value of q1 is 0, according to the otsu recursive algorithm
-				}
-			}
+				
+				int rows = otsu_img.rows, cols = otsu_img.cols;
+				cv::Size size = otsu_img.size();
+				rows = size.height; cols = size.width;
 
-			txtProgress->AppendText("Applying Otsu's method...");
-			txtProgress->ScrollToCaret();
-			//set otsu_img values based on the optimized threshhold calculated above.
-			for (int i = 0; i < rows; i++) {
-				for (int j = 0; j < cols; j++) {
-					pixel = (int)otsu_img.at<uchar>(i, j);
-					if (pixel < optimizedthresh) { //if pixel is< than the threshhold, set it to 200
-						pixel = otsu_img.at<uchar>(i, j) = 200;
-					}
-					else { //if pixel is> than the threshhold, set it to 0
-						pixel = otsu_img.at<uchar>(i, j) = 0;
+				for (int i = 0; i <= 255; i++) {
+					histogram[i] = 0;
+					probability[i] = 0;
+				}
+
+				// cycle through entire otsu_img and get pixel values and populate the histogram with them
+				for (int i = 0; i < rows; i++) {
+					for (int j = 0; j < cols; j++) {
+						pixel = (int)otsu_img.at<uchar>(i, j);
+						sum += pixel;
+						histogram[pixel]++;
 					}
 				}
-			}
 
-			txtProgress->AppendText("\r\nOtsu's Method Completed...\r\n");
-			std::string otsu = std::string("Image Processing/") + final_path2 + std::string("__3__OTSU.jpg");
-			imwrite(otsu, otsu_img); message = gcnew System::String(otsu.c_str());
-			txtProgress->AppendText(message + " successfully created...");
-			txtProgress->ScrollToCaret();
-		
+				//calculate the probability of each histogram value and store them in the probability array
+				for (int i = 0; i <= 255; i++) {
+					probability[i] = histogram[i] / (cols*rows);
+				}
+
+				float p1 = probability[0];		// Initial probability p1 which is equal to just the probability of the 0 grey value
+				float q1 = p1;					// Initial q which is the sum of probabilities before 1, which is equal to p1		
+				float mu1 = 0;					// Initial mean before the 1 has to be 0. mu(1)=0		
+				float mu2 = 0;					// Initial mean after the 0. Initially set to 0. This gets reset in the algorithm		
+				float mu = sum / (cols*rows);	// Mean grey level (mu) calculation
+
+				float q1prev = q1;				//set previous q1, q1(t), to equal the current q1
+				for (int t = 1; t < 255; t++) {
+					float q1next = q1prev + probability[t + 1]; //q1next-q1(t+1)
+					float mu1next = (q1prev*mu1 + (t + 1)*(probability[t + 1])) / q1next; //set mu1(t+1)
+					float mu2next = (mu - q1next*mu1next) / (1 - q1next); //set mu2(t+1)
+					betweenvariance = q1prev*(1 - q1prev)*((mu1 - mu2)*(mu1 - mu2)); //calculate between group variance
+																					 //max between group variance is initially set to 0. Change the max between group variance, and change the optimized threshold to t if the current variance is > max.
+					if (betweenvariance > maxbetweenvariance) {
+						maxbetweenvariance = betweenvariance;
+						optimizedthresh = t; //set new optimized threshhold
+					}
+					q1prev = q1next; //set q1(t) to be used in the next iteration to be equal to the current q1(t+1) which is q1next
+					mu1 = mu1next; //do the same for mu1. set mu1(t) of next iteration to equal the current mu1(t+1)
+					mu2 = mu2next; //set mu2(t) of next iteration to equal the current mu2(t+1)
+					if (q1next == 0) {
+						mu1 = 0; //this eliminates divide by 0 errors because the calculate of the next mu1 would be undefend if the next value of q1 is 0, according to the otsu recursive algorithm
+					}
+				}
+
+				txtProgress->AppendText("Applying Otsu's method...");
+				txtProgress->ScrollToCaret();
+				//set otsu_img values based on the optimized threshhold calculated above.
+				for (int i = 0; i < rows; i++) {
+					for (int j = 0; j < cols; j++) {
+						pixel = (int)otsu_img.at<uchar>(i, j);
+						if (pixel < optimizedthresh) { //if pixel is< than the threshhold, set it to 200
+							pixel = otsu_img.at<uchar>(i, j) = 200;
+						}
+						else { //if pixel is> than the threshhold, set it to 0
+							pixel = otsu_img.at<uchar>(i, j) = 0;
+						}
+					}
+				}
+
+				txtProgress->AppendText("\r\nOtsu's Method Completed...\r\n");
+				std::string otsu;
+
+				if (count == 0) {
+					otsu = std::string("Image Processing/") + final_path2 + std::string("__3__HUE_OTSU.jpg");
+				}
+				else {
+					otsu = std::string("Image Processing/") + final_path2 + std::string("__3__SAT_OTSU.jpg");
+				}
+								
+				imwrite(otsu, otsu_img); message = gcnew System::String(otsu.c_str());
+				txtProgress->AppendText(message + " successfully created...");
+				txtProgress->ScrollToCaret();				
+			}			
+			
+			std::string otsu = std::string("Image Processing/") + final_path2 + std::string("__3__HUE_OTSU.jpg");
 			img_change = gcnew System::String(otsu.c_str());
 			img_otsu->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 
@@ -1047,6 +1069,14 @@ namespace form1 {
 		txtProgress->ScrollToCaret();
 		firstPanel->BringToFront();
 		//MessageBox::Show("Done");
+
+
+		// *** START OF SHAPE DETECTION ***//
+
+		
+
+		// *** END OF SHAPE DETECTION ***//
+
 		}
 	}
 
