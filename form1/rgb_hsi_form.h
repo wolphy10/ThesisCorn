@@ -1018,7 +1018,6 @@ namespace form1 {
 			}			
 
 			ofstream csv;
-
 			if (std::ifstream("sample.csv")) {
 				csv.open("sample.csv", std::ios_base::app);
 			}
