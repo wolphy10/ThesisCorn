@@ -653,7 +653,7 @@ namespace form1 {
 
 		//*** START OF RGB CONVERSION ***/
 
-		rgb_hsi_form::openFile->InitialDirectory = "C:\\Users\Sam\Documents\School\THESIS\THESIS II\corn pics\sRGB\July 7";
+		rgb_hsi_form::openFile->InitialDirectory = "C:/Users/Sam/Documents/School/THESIS/THESIS II/corn pics/sRGB/NO RESIZE/July 7";
 		openFile->Filter = "JPG (*.jpg)|*.jpg|All files (*.*)|*.*";
 		openFile->FilterIndex = 2;
 		openFile->RestoreDirectory = true;
@@ -771,7 +771,7 @@ namespace form1 {
 			txtProgress->AppendText("\r\nCreating Gaussian filter kernel...\r\n");
 
 			const double PI = atan(1) * 4;
-			double sigma = 40; // 2 orig --- the higher, the more blurred | 20 previously used
+			double sigma = 20; // 2 orig --- the higher, the more blurred | 40 previously used
 			const int kernalWidth = 5, kernalHeight = 5; // 5 always!
 
 			float kernalArray[kernalWidth][kernalHeight];
@@ -806,7 +806,7 @@ namespace form1 {
 
 			Mat Hgray(hue.size(), CV_8UC1);
 			Mat HueBlurred(hue.size(), CV_8UC1); 
-			cvtColor(hue, Hgray, CV_RGB2GRAY);
+			cvtColor(hue, Hgray, CV_RGB2GRAY);		
 
 			int verticleImageBound = (kernalHeight - 1) / 2, horizontalImageBound = (kernalWidth - 1) / 2;
 
@@ -873,25 +873,24 @@ namespace form1 {
 
 		/*
 			START OF OTSU | OTSU'S METHOD			
-		*/
+		*/			
+			txtProgress->AppendText("\r\nStart of Otsu's Method...\r\n");			
+			for (int count = 0; count < 2; count++) {				
+				int pixel = 0;					// pixel value
+				float betweenvariance = 0;		// between group variance
+				float maxbetweenvariance = 0;	// max between group variance
+				float optimizedthresh = 0;		// optimized threshhold, at the end of otsu's algorithm this will be the thresshold with the max between group vairance
+				float sum = 0;					// sum of all histogram values to calculate the mean grey level value of the imagem values before threshholding
+				float histogram[256], probability[256];
 
-			txtProgress->AppendText("\r\nStart of Otsu's Method...\r\n");
-			int pixel;						// pixel value
-			float betweenvariance = 0;		// between group variance
-			float maxbetweenvariance = 0;	// max between group variance
-			float optimizedthresh = 0;		// optimized threshhold, at the end of otsu's algorithm this will be the thresshold with the max between group vairance
-			float sum = 0;					// sum of all histogram values to calculate the mean grey level value of the imagem values before threshholding
-			float histogram[256], probability[256];
-
-			for (int count = 0; count < 2; count++) {
 				cv::Mat otsu_img;
 				if (count == 0) {
 					otsu_img = cv::imread(blurredH, CV_8UC1);
 				}
-				else {
+				else {	
 					otsu_img = cv::imread(blurredS, CV_8UC1);
 				}
-				
+
 				int rows = otsu_img.rows, cols = otsu_img.cols;
 				cv::Size size = otsu_img.size();
 				rows = size.height; cols = size.width;
@@ -916,40 +915,46 @@ namespace form1 {
 				}
 
 				float p1 = probability[0];		// Initial probability p1 which is equal to just the probability of the 0 grey value
-				float q1 = p1;					// Initial q which is the sum of probabilities before 1, which is equal to p1		
+				float q1 = p1;					// Initial q which is the sum of probabilities before 1, which is equal to p1
 				float mu1 = 0;					// Initial mean before the 1 has to be 0. mu(1)=0		
 				float mu2 = 0;					// Initial mean after the 0. Initially set to 0. This gets reset in the algorithm		
 				float mu = sum / (cols*rows);	// Mean grey level (mu) calculation
+				float q1next, mu1next, mu2next;
 
 				float q1prev = q1;				//set previous q1, q1(t), to equal the current q1
 				for (int t = 1; t < 255; t++) {
-					float q1next = q1prev + probability[t + 1]; //q1next-q1(t+1)
-					float mu1next = (q1prev*mu1 + (t + 1)*(probability[t + 1])) / q1next; //set mu1(t+1)
-					float mu2next = (mu - q1next*mu1next) / (1 - q1next); //set mu2(t+1)
-					betweenvariance = q1prev*(1 - q1prev)*((mu1 - mu2)*(mu1 - mu2)); //calculate between group variance
-																					 //max between group variance is initially set to 0. Change the max between group variance, and change the optimized threshold to t if the current variance is > max.
+					q1next = q1prev + probability[t + 1];								//q1next-q1(t+1)
+					mu1next = (q1prev * mu1 + (t + 1) * (probability[t + 1])) / q1next;	//set mu1(t+1)
+					mu2next = (mu - q1next * mu1next) / (1 - q1next);					//set mu2(t+1)
+					betweenvariance = q1prev * (1 - q1prev) * ((mu1 - mu2) * (mu1 - mu2));		//calculate between group variance
+					
+					//max between group variance is initially set to 0. Change the max between group variance, and change the optimized threshold to t if the current variance is > max.
 					if (betweenvariance > maxbetweenvariance) {
 						maxbetweenvariance = betweenvariance;
-						optimizedthresh = t; //set new optimized threshhold
+						optimizedthresh = t;	//set new optimized threshhold
 					}
-					q1prev = q1next; //set q1(t) to be used in the next iteration to be equal to the current q1(t+1) which is q1next
-					mu1 = mu1next; //do the same for mu1. set mu1(t) of next iteration to equal the current mu1(t+1)
-					mu2 = mu2next; //set mu2(t) of next iteration to equal the current mu2(t+1)
+
+					q1prev = q1next;			//set q1(t) to be used in the next iteration to be equal to the current q1(t+1) which is q1next
+					mu1 = mu1next;				//do the same for mu1. set mu1(t) of next iteration to equal the current mu1(t+1)
+					mu2 = mu2next;				//set mu2(t) of next iteration to equal the current mu2(t+1)
+					
 					if (q1next == 0) {
-						mu1 = 0; //this eliminates divide by 0 errors because the calculate of the next mu1 would be undefend if the next value of q1 is 0, according to the otsu recursive algorithm
+						mu1 = 0;				//this eliminates divide by 0 errors because the calculate of the next mu1 would be undefend if the next value of q1 is 0, according to the otsu recursive algorithm
 					}
+
 				}
 
 				txtProgress->AppendText("Applying Otsu's method...");
 				txtProgress->ScrollToCaret();
+
 				//set otsu_img values based on the optimized threshhold calculated above.
 				for (int i = 0; i < rows; i++) {
 					for (int j = 0; j < cols; j++) {
 						pixel = (int)otsu_img.at<uchar>(i, j);
-						if (pixel < optimizedthresh) { //if pixel is< than the threshhold, set it to 200
-							pixel = otsu_img.at<uchar>(i, j) = 200;
+						if (pixel < optimizedthresh) {				//if pixel is < than the threshhold, set it to 255 (black)
+							pixel = otsu_img.at<uchar>(i, j) = 255;						
 						}
-						else { //if pixel is> than the threshhold, set it to 0
+						else {										//if pixel is > than the threshhold, set it to 0
 							pixel = otsu_img.at<uchar>(i, j) = 0;
 						}
 					}
@@ -991,7 +996,7 @@ namespace form1 {
 			txtProgress->AppendText("\r\nCanny Edge filter Completed...\r\n");
 			std::string canny = std::string("Image Processing/") + final_path2 + std::string("__4__CANNY.jpg");
 			imwrite(canny, imgCanny); message = gcnew System::String(canny.c_str());
-			txtProgress->AppendText(message + " successfully created...");
+			txtProgress->AppendText(message + " successfully created...\r\n");
 			txtProgress->ScrollToCaret();
 
 			img_change = gcnew System::String(canny.c_str());
@@ -1037,7 +1042,146 @@ namespace form1 {
 					shade = shade + pow((i - mx) + (j - my), 3) * gl.at<float>(i, j);
 					prominence = prominence + pow((i - mx) + (j - my), 4) * gl.at<float>(i, j);
 				}
-			}			
+			}
+
+			txtProgress->AppendText("\r\nSGDM Method Completed...");
+			txtProgress->ScrollToCaret();
+
+		//*** END OF SGDM ***//
+
+		// *** START OF SHAPE DETECTION ***//
+
+			std::vector<std::vector<cv::Point>> contours;
+			std::vector<cv::Point> approx;
+			cv::Mat dst;
+
+			cv::findContours(imgCanny.clone(), contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
+		
+			string shape[100];
+			int tri = 0, rect = 0, circle = 0, hexa = 0, penta = 0;		// Shape counters
+			int x = 0;
+
+			int fontface = cv::FONT_HERSHEY_SIMPLEX, thickness = 1, baseline = 0;			
+			double scale = 0.4;
+			float total_area[5] = { 0, 0, 0, 0, 0 };							// Triangle, Rectangle, Pentagon, Hexagon, Circle
+			imgCanny.copyTo(dst);
+
+			for (int i = 0; i < contours.size(); i++) {
+				// Approximate contour with accuracy proportional to the contour perimeter
+				cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
+
+				// Skip small or non-convex objects				
+				if (std::fabs(cv::contourArea(contours[i])) < 50 || !cv::isContourConvex(approx)) {
+					continue;
+				}				
+
+				if (approx.size() == 3) {
+					shape[x] = "Triangle";
+					tri++; x++;
+					//setLabel(dst, "TRI", contours[i]);    // Triangles
+					cv::Size text = cv::getTextSize("TRI", fontface, scale, thickness, &baseline);
+					cv::Rect r = cv::boundingRect(contours[i]);
+					cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
+					cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
+					cv::putText(dst, "TRI", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
+
+					total_area[0] = total_area[0] + contourArea(contours[i]);
+				}
+				else if (approx.size() >= 4)
+				{
+					// Number of vertices of polygonal curve
+					int vtc = approx.size();
+
+					// Get the cosines of all corners
+					std::vector<float> cos;
+					for (int j = 2; j < vtc + 1; j++) {
+						cv::Point pt1 = approx[j%vtc];
+						cv::Point pt2 = approx[j - 2];
+						cv::Point pt0 = approx[j - 1];
+
+						double dx1 = pt1.x - pt0.x;
+						double dy1 = pt1.y - pt0.y;
+						double dx2 = pt2.x - pt0.x;
+						double dy2 = pt2.y - pt0.y;
+						double answer = (dx1*dx2 + dy1*dy2) / sqrt((dx1*dx1 + dy1*dy1)*(dx2*dx2 + dy2*dy2) + 1e-10);
+						cos.push_back(answer);
+					}
+
+					// Sort ascending the cosine values
+					std::sort(cos.begin(), cos.end());
+
+					// Get the lowest and the highest cosine
+					double mincos = cos.front();
+					double maxcos = cos.back();
+
+					// Use the degrees obtained above and the number of vertices
+					// to determine the shape of the contour
+					if (vtc == 4) {						
+						shape[x] = "Rectangle";
+						rect++; x++;
+						//setLabel(dst, "RECT", contours[i]);
+						cv::Size text = cv::getTextSize("RECT", fontface, scale, thickness, &baseline);
+						cv::Rect r = cv::boundingRect(contours[i]);
+						cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
+						cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
+						cv::putText(dst, "RECT", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
+
+						total_area[1] = total_area[1] + contourArea(contours[i]);
+					}
+					else if (vtc == 5) {						
+						shape[x] = "Pentagon";
+						penta++; x++;
+						//setLabel(dst, "PENTA", contours[i]);
+						cv::Size text = cv::getTextSize("PENTA", fontface, scale, thickness, &baseline);
+						cv::Rect r = cv::boundingRect(contours[i]);
+						cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
+						cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
+						cv::putText(dst, "PENTA", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
+
+						total_area[2] = total_area[2] + contourArea(contours[i]);
+					}
+					else if (vtc == 6) {						
+						shape[x] = "Hexagon";
+						hexa++; x++;
+						//setLabel(dst, "HEXA", contours[i]);
+						cv::Size text = cv::getTextSize("HEXA", fontface, scale, thickness, &baseline);
+						cv::Rect r = cv::boundingRect(contours[i]);
+						cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
+						cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
+						cv::putText(dst, "HEXA", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
+
+						total_area[3] = total_area[3] + contourArea(contours[i]);
+					}
+					else {
+						// Detect and label circles
+						double area = cv::contourArea(contours[i]);
+						cv::Rect r = cv::boundingRect(contours[i]);
+						int radius = r.width / 2;
+
+						if (std::abs(1 - ((double)r.width / r.height)) <= 0.2 &&
+							std::abs(1 - (area / (CV_PI * (radius*radius)))) <= 0.2) {
+							shape[x] = "Circle";
+							circle++;  x++;
+							//setLabel(dst, "CIR", contours[i]);
+							cv::Size text = cv::getTextSize("CIR", fontface, scale, thickness, &baseline);
+							cv::Rect r = cv::boundingRect(contours[i]);
+							cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
+							cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
+							cv::putText(dst, "CIR", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
+
+							total_area[4] = total_area[4] + contourArea(contours[i]);
+						}
+					}
+				}
+
+				// Shape Size
+				//total_area += contourArea(contours[i]);
+			}
+
+			std::string shapepath = std::string("Image Processing/") + final_path2 + std::string("__5__SHAPE.jpg");
+			imwrite(shapepath, dst);
+
+			// *** END OF SHAPE DETECTION ***//
 
 			ofstream csv;
 			if (std::ifstream("sample.csv")) {
@@ -1045,39 +1189,29 @@ namespace form1 {
 			}
 			else {
 				csv.open("sample.csv");
-				csv << "Filename, Energy, Contrast, Homogenity, IDM, Entropy, Mean1, Cluster Shade, Cluster Prominence\n";
+				csv << "Filename, Energy, Contrast, Homogenity, IDM, Entropy, Mean1, Cluster Shade, Cluster Prominence, Shapes Detected, Circle, Triangle, Rectangle, Pentagon, Hexagon, Circle Avg. Area, Triangle Avg. Area, Rectangle Avg. Area, Pentagon Avg. Area, Hexagon Avg. Area\n";
 			}
-			
+
 			csv << final_path2 + "," + std::to_string(energy) + "," + std::to_string(contrast) + "," + std::to_string(homogenity)
 				+ "," + std::to_string(IDM) + "," + std::to_string(entropy) + "," + std::to_string(mean1)
-				+ "," + std::to_string(shade) + "," + std::to_string(prominence) + "\n";
+				+ "," + std::to_string(shade) + "," + std::to_string(prominence) + "," + std::to_string(x) + ","
+				+ std::to_string(circle) + "," + std::to_string(tri) + "," + std::to_string(rect) + "," + std::to_string(penta) + "," + std::to_string(hexa) + ","
+
+				+ std::to_string(total_area[0] / circle) + "," + std::to_string(total_area[1] / tri) + "," + std::to_string(total_area[2] / rect)
+				+ "," + std::to_string(total_area[3] / penta) + "," + std::to_string(total_area[4] / hexa);					
+
+			csv << "\n";
 			csv.close();
 
-			txtProgress->AppendText("\r\nSGDM Method Completed...");
+			txtProgress->AppendText("\r\n.\r\n.\r\nImage Processing complete.");
 			txtProgress->ScrollToCaret();
-
-		//*** END OF SGDM ***//
-
+			firstPanel->BringToFront();
+			//MessageBox::Show("Done");
+		}
 		}
 			else {
-				System::String^ error = gcnew System::String("Please select another file.");
-				MessageBox::Show(error);
-				MessageBox::Show(openFile->FileName);
-			}		
-		
-		txtProgress->AppendText("\r\n.\r\n.\r\nImage Processing complete.");
-		txtProgress->ScrollToCaret();
-		firstPanel->BringToFront();
-		//MessageBox::Show("Done");
-
-
-		// *** START OF SHAPE DETECTION ***//
-
-		
-
-		// *** END OF SHAPE DETECTION ***//
-
-		}
+				
+			}	
 	}
 
 	private: System::Void btnFirst_Click(System::Object^  sender, System::EventArgs^  e) {
