@@ -771,7 +771,7 @@ namespace form1 {
 			txtProgress->AppendText("\r\nCreating Gaussian filter kernel...\r\n");
 
 			const double PI = atan(1) * 4;
-			double sigma = 20; // 2 orig --- the higher, the more blurred | 40 previously used
+			double sigma = 40; // 2 orig --- the higher, the more blurred | 20 previously used
 			const int kernalWidth = 5, kernalHeight = 5; // 5 always!
 
 			float kernalArray[kernalWidth][kernalHeight];
@@ -873,9 +873,38 @@ namespace form1 {
 
 		/*
 			START OF OTSU | OTSU'S METHOD			
-		*/			
-			txtProgress->AppendText("\r\nStart of Otsu's Method...\r\n");			
-			for (int count = 0; count < 2; count++) {				
+		*/
+			txtProgress->AppendText("\r\nStart of Otsu's Method...\r\n");						
+			
+			std::string otsu;				// Filename
+			cv::Mat otsu_img = cv::imread(blurredH, CV_8UC1);
+			
+			// Cropped at Region of Interest (ROI)
+			/*
+			cv::Rect ROI(0, 0, otsu_img.size().width / 2, otsu_img.size().height / 2);
+			otsu_img = otsu_img(ROI);
+			cv::Rect ROI2((otsu_img.size().width / 2) + 1, 0, (otsu_img.size().width / 2) - 2, otsu_img.size().height / 2);
+			otsu_img2 = otsu_img2(ROI2);
+			*/
+
+			cv::Mat cropped
+				= otsu_img(cv::Range(0, otsu_img.rows / 2 - 1), cv::Range(0, otsu_img.cols / 2 - 1));
+				std::string crop1 = std::string("Image Processing/") + final_path2 + std::string("__5__CROP_1.jpg");
+				imwrite(crop1, cropped);
+			cropped
+				= otsu_img(cv::Range(0, otsu_img.rows / 2 - 1), cv::Range(otsu_img.cols / 2, otsu_img.cols - 1));
+				std::string crop2 = std::string("Image Processing/") + final_path2 + std::string("__5__CROP_2.jpg");
+				imwrite(crop2, cropped);
+			cropped
+				= otsu_img(cv::Range(otsu_img.rows / 2, otsu_img.rows - 1), cv::Range(0, otsu_img.cols / 2 - 1));
+				std::string crop3 = std::string("Image Processing/") + final_path2 + std::string("__5__CROP_3.jpg");
+				imwrite(crop3, cropped);
+			cropped
+				= otsu_img(cv::Range(otsu_img.rows / 2, otsu_img.rows - 1), cv::Range(otsu_img.cols / 2, otsu_img.cols - 1));
+				std::string crop4 = std::string("Image Processing/") + final_path2 + std::string("__5__CROP_4.jpg");
+				imwrite(crop4, cropped);
+			
+			for (int turn = 0; turn < 4; turn++) {
 				int pixel = 0;					// pixel value
 				float betweenvariance = 0;		// between group variance
 				float maxbetweenvariance = 0;	// max between group variance
@@ -883,26 +912,19 @@ namespace form1 {
 				float sum = 0;					// sum of all histogram values to calculate the mean grey level value of the imagem values before threshholding
 				float histogram[256], probability[256];
 
-				cv::Mat otsu_img;
-				if (count == 0) {
-					otsu_img = cv::imread(blurredH, CV_8UC1);
-				}
-				else {	
-					otsu_img = cv::imread(blurredS, CV_8UC1);
-				}
+				if (turn == 0) otsu_img = cv::imread(crop1, CV_8UC1);
+				else if (turn == 1) otsu_img = cv::imread(crop2, CV_8UC1);
+				else if (turn == 2) otsu_img = cv::imread(crop3, CV_8UC1);
+				else otsu_img = cv::imread(crop4, CV_8UC1);
 
-				int rows = otsu_img.rows, cols = otsu_img.cols;
-				cv::Size size = otsu_img.size();
-				rows = size.height; cols = size.width;
-
-				for (int i = 0; i <= 255; i++) {
-					histogram[i] = 0;
-					probability[i] = 0;
+				for (int i = 0; i < 256; i++) {
+					histogram[i] = 0.0;
+					probability[i] = 0.0;
 				}
 
 				// cycle through entire otsu_img and get pixel values and populate the histogram with them
-				for (int i = 0; i < rows; i++) {
-					for (int j = 0; j < cols; j++) {
+				for (int i = 0; i < otsu_img.rows; i++) {
+					for (int j = 0; j < otsu_img.cols; j++) {
 						pixel = (int)otsu_img.at<uchar>(i, j);
 						sum += pixel;
 						histogram[pixel]++;
@@ -911,14 +933,14 @@ namespace form1 {
 
 				//calculate the probability of each histogram value and store them in the probability array
 				for (int i = 0; i <= 255; i++) {
-					probability[i] = histogram[i] / (cols*rows);
+					probability[i] = histogram[i] / (otsu_img.cols*otsu_img.rows);
 				}
 
 				float p1 = probability[0];		// Initial probability p1 which is equal to just the probability of the 0 grey value
 				float q1 = p1;					// Initial q which is the sum of probabilities before 1, which is equal to p1
 				float mu1 = 0;					// Initial mean before the 1 has to be 0. mu(1)=0		
 				float mu2 = 0;					// Initial mean after the 0. Initially set to 0. This gets reset in the algorithm		
-				float mu = sum / (cols*rows);	// Mean grey level (mu) calculation
+				float mu = sum / (otsu_img.cols*otsu_img.rows);	// Mean grey level (mu) calculation
 				float q1next, mu1next, mu2next;
 
 				float q1prev = q1;				//set previous q1, q1(t), to equal the current q1
@@ -927,8 +949,8 @@ namespace form1 {
 					mu1next = (q1prev * mu1 + (t + 1) * (probability[t + 1])) / q1next;	//set mu1(t+1)
 					mu2next = (mu - q1next * mu1next) / (1 - q1next);					//set mu2(t+1)
 					betweenvariance = q1prev * (1 - q1prev) * ((mu1 - mu2) * (mu1 - mu2));		//calculate between group variance
-					
-					//max between group variance is initially set to 0. Change the max between group variance, and change the optimized threshold to t if the current variance is > max.
+
+																								//max between group variance is initially set to 0. Change the max between group variance, and change the optimized threshold to t if the current variance is > max.
 					if (betweenvariance > maxbetweenvariance) {
 						maxbetweenvariance = betweenvariance;
 						optimizedthresh = t;	//set new optimized threshhold
@@ -937,22 +959,21 @@ namespace form1 {
 					q1prev = q1next;			//set q1(t) to be used in the next iteration to be equal to the current q1(t+1) which is q1next
 					mu1 = mu1next;				//do the same for mu1. set mu1(t) of next iteration to equal the current mu1(t+1)
 					mu2 = mu2next;				//set mu2(t) of next iteration to equal the current mu2(t+1)
-					
+
 					if (q1next == 0) {
 						mu1 = 0;				//this eliminates divide by 0 errors because the calculate of the next mu1 would be undefend if the next value of q1 is 0, according to the otsu recursive algorithm
 					}
-
 				}
 
 				txtProgress->AppendText("Applying Otsu's method...");
 				txtProgress->ScrollToCaret();
 
 				//set otsu_img values based on the optimized threshhold calculated above.
-				for (int i = 0; i < rows; i++) {
-					for (int j = 0; j < cols; j++) {
+				for (int i = 0; i < otsu_img.rows; i++) {
+					for (int j = 0; j < otsu_img.cols; j++) {
 						pixel = (int)otsu_img.at<uchar>(i, j);
 						if (pixel < optimizedthresh) {				//if pixel is < than the threshhold, set it to 255 (black)
-							pixel = otsu_img.at<uchar>(i, j) = 255;						
+							pixel = otsu_img.at<uchar>(i, j) = 255;
 						}
 						else {										//if pixel is > than the threshhold, set it to 0
 							pixel = otsu_img.at<uchar>(i, j) = 0;
@@ -960,22 +981,13 @@ namespace form1 {
 					}
 				}
 
-				txtProgress->AppendText("\r\nOtsu's Method Completed...\r\n");
-				std::string otsu;
-
-				if (count == 0) {
-					otsu = std::string("Image Processing/") + final_path2 + std::string("__3__HUE_OTSU.jpg");
-				}
-				else {
-					otsu = std::string("Image Processing/") + final_path2 + std::string("__3__SAT_OTSU.jpg");
-				}
-								
-				imwrite(otsu, otsu_img); message = gcnew System::String(otsu.c_str());
-				txtProgress->AppendText(message + " successfully created...");
-				txtProgress->ScrollToCaret();				
-			}			
-			
-			std::string otsu = std::string("Image Processing/") + final_path2 + std::string("__3__HUE_OTSU.jpg");
+				otsu = std::string("Image Processing/") + final_path2 + std::string("__5__OTSU_") +
+					std::string((std::to_string(turn)).c_str()) + std::string(".jpg");
+				imwrite(otsu, otsu_img);
+			}
+						
+			txtProgress->AppendText("\r\nOtsu's Method Completed...");		
+			txtProgress->ScrollToCaret();
 			img_change = gcnew System::String(otsu.c_str());
 			img_otsu->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 
@@ -1052,6 +1064,7 @@ namespace form1 {
 		// *** START OF SHAPE DETECTION ***//
 
 			std::vector<std::vector<cv::Point>> contours;
+			std::vector<std::vector<cv::Point>> save;
 			std::vector<cv::Point> approx;
 			cv::Mat dst;
 
@@ -1066,12 +1079,15 @@ namespace form1 {
 			float total_area[5] = { 0, 0, 0, 0, 0 };							// Triangle, Rectangle, Pentagon, Hexagon, Circle
 			imgCanny.copyTo(dst);
 
+			int flag = 0;
+
 			for (int i = 0; i < contours.size(); i++) {
 				// Approximate contour with accuracy proportional to the contour perimeter
 				cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
 
 				// Skip small or non-convex objects				
 				if (std::fabs(cv::contourArea(contours[i])) < 50 || !cv::isContourConvex(approx)) {
+					// < 50 orig
 					continue;
 				}				
 
