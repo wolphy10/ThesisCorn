@@ -687,9 +687,6 @@ namespace form1 {
 
 			if (image.data && !image.empty()) {
 				Mat h1(image.rows, image.cols, image.type());
-				Mat s1(image.rows, image.cols, image.type());
-				Mat i1(image.rows, image.cols, image.type());
-
 				float r, g, b, h, s, in;
 
 				for (int i = 0; i < image.rows; i++)
@@ -729,38 +726,25 @@ namespace form1 {
 						h1.at<Vec3b>(i, j)[0] = (h * 180) / 3.14159265;
 						h1.at<Vec3b>(i, j)[1] = (h * 180) / 3.14159265;
 						h1.at<Vec3b>(i, j)[2] = (h * 180) / 3.14159265;
-
-						s1.at<Vec3b>(i, j)[0] = s * 100;
-						s1.at<Vec3b>(i, j)[1] = s * 100;
-						s1.at<Vec3b>(i, j)[2] = s * 100;
 					}
 				}
 
 				std::string final_path2 = msclr::interop::marshal_as<std::string>(final_path);
+
 				std::string h1_path = std::string("Image Processing/") + final_path2 + std::string("__1__HUE.jpg");
 				txtProgress->AppendText("Hue Selection Completed...\r\n");
-				std::string s1_path = std::string("Image Processing/") + final_path2 + std::string("__1__SAT.jpg");
-				txtProgress->AppendText("Saturation Selection Completed...");
-				txtProgress->ScrollToCaret();
 						
 				imwrite(h1_path, h1); message = gcnew System::String(h1_path.c_str());
-				txtProgress->AppendText("\r\n" + message + " successfully created...\r\n");
-				imwrite(s1_path, s1); message = gcnew System::String(s1_path.c_str());
 				txtProgress->AppendText(message + " successfully created...");
 				txtProgress->ScrollToCaret();
 
 				delete img_Hue->Image;
 				img_Hue->Image = nullptr;
-				delete img_Saturation->Image;
-				img_Saturation->Image = nullptr;
 			
 				std::string open_hue = "C:/Users/Sam/Documents/School/THESIS/THESIS II/programs/form1/form1/" + h1_path;
-				std::string open_sat = "C:/Users/Sam/Documents/School/THESIS/THESIS II/programs/form1/form1/" + s1_path;							
 				
 				img_change = gcnew System::String(open_hue.c_str());				
 				img_Hue->BackgroundImage = System::Drawing::Image::FromFile(img_change);
-				img_change = gcnew System::String(open_sat.c_str());
-				img_Saturation->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 
 				//*** END OF RGB CONVERSION ***/
 
@@ -768,7 +752,8 @@ namespace form1 {
 
 		/* start producing Gaussian filter kernel */
 
-			txtProgress->AppendText("\r\nCreating Gaussian filter kernel...\r\n");
+			txtProgress->AppendText("\r\nCreating Gaussian filter kernel...");
+			txtProgress->ScrollToCaret();
 
 			const double PI = atan(1) * 4;
 			double sigma = 40; // 2 orig --- the higher, the more blurred | 20 previously used
@@ -796,11 +781,12 @@ namespace form1 {
 				}
 			}
 
-			txtProgress->AppendText("Gaussian filter kernel created...\r\n");
+			txtProgress->AppendText("\r\nGaussian filter kernel created...");
+			txtProgress->ScrollToCaret();
 		
 		//*** End producing Gaussian filter kernel ***//
 
-			txtProgress->AppendText("Applying Gaussian filter to hue image...");
+			txtProgress->AppendText("\r\nApplying Gaussian filter to hue image...");
 			txtProgress->ScrollToCaret();
 			cv::Mat hue = cv::imread(open_hue);
 
@@ -828,40 +814,13 @@ namespace form1 {
 				}
 			}
 
-			txtProgress->AppendText("\r\nGaussian filter to hue successfully applied...\r\n");		
-			txtProgress->AppendText("Applying Gaussian filter to saturation image...");
+			txtProgress->AppendText("\r\nGaussian filter to hue successfully applied...");
 			txtProgress->ScrollToCaret();
 
-			cv::Mat sat = cv::imread(open_sat);
-			Mat Sgray(sat.size(), CV_8UC1);
-			Mat SatBlurred(sat.size(), CV_8UC1);
-			cvtColor(sat, Sgray, CV_RGB2GRAY);
+			std::string blurredH = std::string("Image Processing/") + final_path2 + std::string("__2__BLURREDHUE.jpg");			
+			imwrite(blurredH, HueBlurred); message = gcnew System::String(blurredH.c_str());
 
-			//*** FOR SAT ***//
-			for (int row = 0 + verticleImageBound; row < Sgray.rows - verticleImageBound; row++) {
-				for (int col = 0 + horizontalImageBound; col < Sgray.cols - horizontalImageBound; col++) {
-					float value = 0.0;
-					for (int kRow = 0; kRow < kernalHeight; kRow++) {
-						for (int kCol = 0; kCol < kernalWidth; kCol++) {
-							//multiply pixel value with corresponding gaussian kernal value
-							float pixel = Sgray.at<uchar>(kRow + row - verticleImageBound, kCol + col - horizontalImageBound) * kernalArray[kRow][kCol];
-							value += pixel;
-						}
-					}
-					//assign new values to central point
-					SatBlurred.at<uchar>(row, col) = cvRound(value);
-				}
-			}
-
-			txtProgress->AppendText("\r\nGaussian filter to saturation successfully applied...");		
-			txtProgress->ScrollToCaret();
-			std::string blurredH = std::string("Image Processing/") + final_path2 + std::string("__2__BLURREDHUE.jpg");
-			std::string blurredS = std::string("Image Processing/") + final_path2 + std::string("__2__BLURREDSAT.jpg");
-			imwrite(blurredH, HueBlurred); imwrite(blurredS, SatBlurred);
-			message = gcnew System::String(blurredH.c_str());
 			txtProgress->AppendText("\r\n" + message + " successfully created...");
-			message = gcnew System::String(blurredS.c_str());
-			txtProgress->AppendText(message + " successfully created...");
 			txtProgress->ScrollToCaret();
 		
 			img_change = gcnew System::String(open_hue.c_str());
@@ -879,29 +838,21 @@ namespace form1 {
 			std::string otsu;				// Filename
 			cv::Mat otsu_img = cv::imread(blurredH, CV_8UC1);
 			
-			// Cropped at Region of Interest (ROI)
-			/*
-			cv::Rect ROI(0, 0, otsu_img.size().width / 2, otsu_img.size().height / 2);
-			otsu_img = otsu_img(ROI);
-			cv::Rect ROI2((otsu_img.size().width / 2) + 1, 0, (otsu_img.size().width / 2) - 2, otsu_img.size().height / 2);
-			otsu_img2 = otsu_img2(ROI2);
-			*/
-
 			cv::Mat cropped
 				= otsu_img(cv::Range(0, otsu_img.rows / 2 - 1), cv::Range(0, otsu_img.cols / 2 - 1));
-				std::string crop1 = std::string("Image Processing/") + final_path2 + std::string("__5__CROP_1.jpg");
+				std::string crop1 = std::string("Image Processing/") + final_path2 + std::string("__3__CROP_1.jpg");
 				imwrite(crop1, cropped);
 			cropped
 				= otsu_img(cv::Range(0, otsu_img.rows / 2 - 1), cv::Range(otsu_img.cols / 2, otsu_img.cols - 1));
-				std::string crop2 = std::string("Image Processing/") + final_path2 + std::string("__5__CROP_2.jpg");
+				std::string crop2 = std::string("Image Processing/") + final_path2 + std::string("__3__CROP_2.jpg");
 				imwrite(crop2, cropped);
 			cropped
 				= otsu_img(cv::Range(otsu_img.rows / 2, otsu_img.rows - 1), cv::Range(0, otsu_img.cols / 2 - 1));
-				std::string crop3 = std::string("Image Processing/") + final_path2 + std::string("__5__CROP_3.jpg");
+				std::string crop3 = std::string("Image Processing/") + final_path2 + std::string("__3__CROP_3.jpg");
 				imwrite(crop3, cropped);
 			cropped
 				= otsu_img(cv::Range(otsu_img.rows / 2, otsu_img.rows - 1), cv::Range(otsu_img.cols / 2, otsu_img.cols - 1));
-				std::string crop4 = std::string("Image Processing/") + final_path2 + std::string("__5__CROP_4.jpg");
+				std::string crop4 = std::string("Image Processing/") + final_path2 + std::string("__3__CROP_4.jpg");
 				imwrite(crop4, cropped);
 			
 			for (int turn = 0; turn < 4; turn++) {
@@ -981,7 +932,7 @@ namespace form1 {
 					}
 				}
 
-				otsu = std::string("Image Processing/") + final_path2 + std::string("__5__OTSU_") +
+				otsu = std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_") +
 					std::string((std::to_string(turn)).c_str()) + std::string(".jpg");
 				imwrite(otsu, otsu_img);
 			}
@@ -997,227 +948,245 @@ namespace form1 {
 
 			txtProgress->AppendText("\r\nCreating Canny edge filter...");
 			txtProgress->ScrollToCaret();
-			cv::Mat toCanny = cv::imread(otsu); // Original image
-			cv::Mat imgCanny; // Output image
+			cv::Mat canny_img;
+			std::string canny;
+			
+			for (int turn = 0; turn < 4; turn++) {
+				if (turn == 0) canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_0.jpg")), CV_8UC1);
+				else if (turn == 1) canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_1.jpg")), CV_8UC1);
+				else if (turn == 2) canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_2.jpg")), CV_8UC1);
+				else canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_3.jpg")), CV_8UC1);
 
-			cv::Canny(toCanny,				// input image
-				imgCanny,                   // output image
-				100,                        // low threshold
-				200);                       // high threshold
+				cv::Canny(canny_img,				// input image
+					canny_img,                   // output image
+					100,                        // low threshold
+					200);                       // high threshold
 
-			txtProgress->AppendText("\r\nCanny Edge filter Completed...\r\n");
-			std::string canny = std::string("Image Processing/") + final_path2 + std::string("__4__CANNY.jpg");
-			imwrite(canny, imgCanny); message = gcnew System::String(canny.c_str());
-			txtProgress->AppendText(message + " successfully created...\r\n");
+					canny = std::string("Image Processing/") + final_path2 + std::string("__5__CANNY_") +
+						std::string((std::to_string(turn)).c_str()) + std::string(".jpg");;
+					imwrite(canny, canny_img);
+			}
+			
+			txtProgress->AppendText("\r\nCanny Edge filter Completed...");			
 			txtProgress->ScrollToCaret();
 
 			img_change = gcnew System::String(canny.c_str());
 			img_canny->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 
-		//*** END OF CANNY EDGE ***//ssss
+		//*** END OF CANNY EDGE ***//
 
 		//*** START OF SGDM ***//
 
-			txtProgress->AppendText("Applying SGDM...");
+			ofstream csv;
+			// CSV FILE
+
+			txtProgress->AppendText("\r\nApplying SGDM...");
 			txtProgress->ScrollToCaret();
-			cv::Mat noSGDM = cv::imread(otsu);			
-		
-			int row = noSGDM.rows, col = noSGDM.cols;
-			Mat gl = Mat::zeros(256, 256, CV_32FC1);
+			cv::Mat SGDM;			
+			
+			for (int turn = 0; turn < 4; turn++) {
+				if (turn == 0) SGDM = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_0.jpg")), CV_8UC1);
+				else if (turn == 1) SGDM = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_1.jpg")), CV_8UC1);
+				else if (turn == 2) SGDM = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_2.jpg")), CV_8UC1);
+				else SGDM = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_3.jpg")), CV_8UC1);
 
-			//creating glcm matrix with 256 levels,radius=1 and in the horizontal direction 
-			for (int i = 0; i < row; i++) {
-				for (int j = 0; j < col - 1; j++) {
-					gl.at<float>(noSGDM.at<uchar>(i, j), noSGDM.at<uchar>(i, j + 1)) = gl.at<float>(noSGDM.at<uchar>(i, j), noSGDM.at<uchar>(i, j + 1)) + 1;
+				Mat gl = Mat::zeros(256, 256, CV_32FC1);
+
+				//creating glcm matrix with 256 levels,radius=1 and in the horizontal direction 
+				for (int i = 0; i < SGDM.rows; i++) {
+					for (int j = 0; j < SGDM.cols - 1; j++) {
+						gl.at<float>(SGDM.at<uchar>(i, j), SGDM.at<uchar>(i, j + 1)) = gl.at<float>(SGDM.at<uchar>(i, j), SGDM.at<uchar>(i, j + 1)) + 1;
+					}
 				}
-			}
-				
-			// normalizing glcm matrix for parameter determination
-			gl = gl + gl.t();			
-			gl = gl / cv::sum(gl)[0];
 
-			float energy = 0, contrast = 0, homogenity = 0, IDM = 0, entropy = 0, mean1 = 0,
-				shade = 0, prominence = 0;
+				// normalizing glcm matrix for parameter determination
+				gl = gl + gl.t();
+				gl = gl / cv::sum(gl)[0];
 
-			for (int i = 0; i < 256; i++) {
-				for (int j = 0; j < 256; j++) {
-					energy = energy + pow(gl.at<float>(i, j), 2);            //finding parameters
-					contrast = contrast + pow((i - j), 2) * gl.at<float>(i, j);
-					//homogenity = homogenity + gl.at<float>(i, j) / (1 + abs(i - j));
-					homogenity = homogenity + ( gl.at<float>(i, j) / (1 + pow((i - j), 2)) );
-					if (i != j)
-						IDM = IDM + gl.at<float>(i, j) / ((i - j)*(i - j));                      //Taking k=2;
-					if (gl.at<float>(i, j) != 0)
-						entropy = entropy - gl.at<float>(i, j)*log10(gl.at<float>(i, j));
-					mean1 = mean1 + 0.5*(i*gl.at<float>(i, j) + j*gl.at<float>(i, j));
-					int mx = i * gl.at<float>(i, j), my = j * gl.at<float>(i, j);
-					shade = shade + pow((i - mx) + (j - my), 3) * gl.at<float>(i, j);
-					prominence = prominence + pow((i - mx) + (j - my), 4) * gl.at<float>(i, j);
+				float energy = 0, contrast = 0, homogenity = 0, IDM = 0, entropy = 0, mean1 = 0,
+					shade = 0, prominence = 0;
+
+				for (int i = 0; i < 256; i++) {
+					for (int j = 0; j < 256; j++) {
+						energy = energy + pow(gl.at<float>(i, j), 2);            //finding parameters
+						contrast = contrast + pow((i - j), 2) * gl.at<float>(i, j);
+						//homogenity = homogenity + gl.at<float>(i, j) / (1 + abs(i - j));
+						homogenity = homogenity + (gl.at<float>(i, j) / (1 + pow((i - j), 2)));
+						if (i != j)
+							IDM = IDM + gl.at<float>(i, j) / ((i - j)*(i - j));                      //Taking k=2;
+						if (gl.at<float>(i, j) != 0)
+							entropy = entropy - gl.at<float>(i, j)*log10(gl.at<float>(i, j));
+						mean1 = mean1 + 0.5*(i*gl.at<float>(i, j) + j*gl.at<float>(i, j));
+						int mx = i * gl.at<float>(i, j), my = j * gl.at<float>(i, j);
+						shade = shade + pow((i - mx) + (j - my), 3) * gl.at<float>(i, j);
+						prominence = prominence + pow((i - mx) + (j - my), 4) * gl.at<float>(i, j);
+					}
 				}
-			}
 
-			txtProgress->AppendText("\r\nSGDM Method Completed...");
-			txtProgress->ScrollToCaret();
-
-		//*** END OF SGDM ***//
-
-		// *** START OF SHAPE DETECTION ***//
-
-			std::vector<std::vector<cv::Point>> contours;
-			std::vector<std::vector<cv::Point>> save;
-			std::vector<cv::Point> approx;
-			cv::Mat dst;
-
-			cv::findContours(imgCanny.clone(), contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
-		
-			string shape[100];
-			int tri = 0, rect = 0, circle = 0, hexa = 0, penta = 0;		// Shape counters
-			int x = 0;
-
-			int fontface = cv::FONT_HERSHEY_SIMPLEX, thickness = 1, baseline = 0;			
-			double scale = 0.4;
-			float total_area[5] = { 0, 0, 0, 0, 0 };							// Triangle, Rectangle, Pentagon, Hexagon, Circle
-			imgCanny.copyTo(dst);
-
-			int flag = 0;
-
-			for (int i = 0; i < contours.size(); i++) {
-				// Approximate contour with accuracy proportional to the contour perimeter
-				cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
-
-				// Skip small or non-convex objects				
-				if (std::fabs(cv::contourArea(contours[i])) < 50 || !cv::isContourConvex(approx)) {
-					// < 50 orig
-					continue;
-				}				
-
-				if (approx.size() == 3) {
-					shape[x] = "Triangle";
-					tri++; x++;
-					//setLabel(dst, "TRI", contours[i]);    // Triangles
-					cv::Size text = cv::getTextSize("TRI", fontface, scale, thickness, &baseline);
-					cv::Rect r = cv::boundingRect(contours[i]);
-					cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
-					cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
-					cv::putText(dst, "TRI", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
-
-					total_area[0] = total_area[0] + contourArea(contours[i]);
+				if (std::ifstream("sample.csv")) {
+					csv.open("sample.csv", std::ios_base::app);
 				}
-				else if (approx.size() >= 4)
-				{
-					// Number of vertices of polygonal curve
-					int vtc = approx.size();
+				else {
+					csv.open("sample.csv");
+					csv << "Filename, Energy, Contrast, Homogenity, IDM, Entropy, Mean1, Cluster Shade, Cluster Prominence, Shapes Detected, Circle, Triangle, Rectangle, Pentagon, Hexagon, Circle Avg. Area, Triangle Avg. Area, Rectangle Avg. Area, Pentagon Avg. Area, Hexagon Avg. Area\n";
+				}
 
-					// Get the cosines of all corners
-					std::vector<float> cos;
-					for (int j = 2; j < vtc + 1; j++) {
-						cv::Point pt1 = approx[j%vtc];
-						cv::Point pt2 = approx[j - 2];
-						cv::Point pt0 = approx[j - 1];
+				csv << final_path2 + "," + std::to_string(energy) + "," + std::to_string(contrast) + "," + std::to_string(homogenity)
+					+ "," + std::to_string(IDM) + "," + std::to_string(entropy) + "," + std::to_string(mean1)
+					+ "," + std::to_string(shade) + "," + std::to_string(prominence) + ",";	
 
-						double dx1 = pt1.x - pt0.x;
-						double dy1 = pt1.y - pt0.y;
-						double dx2 = pt2.x - pt0.x;
-						double dy2 = pt2.y - pt0.y;
-						double answer = (dx1*dx2 + dy1*dy2) / sqrt((dx1*dx1 + dy1*dy1)*(dx2*dx2 + dy2*dy2) + 1e-10);
-						cos.push_back(answer);
+				txtProgress->AppendText("\r\nSGDM Method Completed...");
+				txtProgress->ScrollToCaret();
+
+				//*** END OF SGDM ***//
+
+				// *** START OF SHAPE DETECTION ***//
+
+				std::vector<std::vector<cv::Point>> contours;
+				std::vector<cv::Point> approx;
+				cv::Mat dst;
+
+				string shape[500];
+				int tri = 0, rect = 0, circle = 0, hexa = 0, penta = 0;		// Shape counters
+				int x = 0;
+				double scale = 0.4;
+				float total_area[5] = { 0, 0, 0, 0, 0 };	// Triangle, Rectangle, Pentagon, Hexagon, Circle			
+
+				if (turn == 0) dst = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__5__CANNY_0.jpg")), CV_8UC1);
+				else if (turn == 1) dst = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__5__CANNY_1.jpg")), CV_8UC1);
+				else if (turn == 2) dst = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__5__CANNY_2.jpg")), CV_8UC1);
+				else dst = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__5__CANNY_3.jpg")), CV_8UC1);
+
+				int flag = 0;
+				cv::findContours(dst, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
+				int fontface = cv::FONT_HERSHEY_SIMPLEX, thickness = 1, baseline = 0;
+
+				for (int i = 0; i < contours.size(); i++) {
+					// Approximate contour with accuracy proportional to the contour perimeter
+					cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
+
+					// Skip small or non-convex objects				
+					if (std::fabs(cv::contourArea(contours[i])) < 50 || !cv::isContourConvex(approx)) {
+						// < 50 orig
+						continue;
 					}
 
-					// Sort ascending the cosine values
-					std::sort(cos.begin(), cos.end());
-
-					// Get the lowest and the highest cosine
-					double mincos = cos.front();
-					double maxcos = cos.back();
-
-					// Use the degrees obtained above and the number of vertices
-					// to determine the shape of the contour
-					if (vtc == 4) {						
-						shape[x] = "Rectangle";
-						rect++; x++;
-						//setLabel(dst, "RECT", contours[i]);
-						cv::Size text = cv::getTextSize("RECT", fontface, scale, thickness, &baseline);
+					if (approx.size() == 3) {
+						shape[x] = "Triangle";
+						tri++; x++;
+						//setLabel(dst, "TRI", contours[i]);    // Triangles
+						cv::Size text = cv::getTextSize("TRI", fontface, scale, thickness, &baseline);
 						cv::Rect r = cv::boundingRect(contours[i]);
 						cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
 						cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
-						cv::putText(dst, "RECT", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
+						cv::putText(dst, "TRI", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
 
-						total_area[1] = total_area[1] + contourArea(contours[i]);
+						total_area[0] = total_area[0] + contourArea(contours[i]);
 					}
-					else if (vtc == 5) {						
-						shape[x] = "Pentagon";
-						penta++; x++;
-						//setLabel(dst, "PENTA", contours[i]);
-						cv::Size text = cv::getTextSize("PENTA", fontface, scale, thickness, &baseline);
-						cv::Rect r = cv::boundingRect(contours[i]);
-						cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
-						cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
-						cv::putText(dst, "PENTA", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
+					else if (approx.size() >= 4)
+					{
+						// Number of vertices of polygonal curve
+						int vtc = approx.size();
 
-						total_area[2] = total_area[2] + contourArea(contours[i]);
-					}
-					else if (vtc == 6) {						
-						shape[x] = "Hexagon";
-						hexa++; x++;
-						//setLabel(dst, "HEXA", contours[i]);
-						cv::Size text = cv::getTextSize("HEXA", fontface, scale, thickness, &baseline);
-						cv::Rect r = cv::boundingRect(contours[i]);
-						cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
-						cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
-						cv::putText(dst, "HEXA", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
+						// Get the cosines of all corners
+						std::vector<float> cos;
+						for (int j = 2; j < vtc + 1; j++) {
+							cv::Point pt1 = approx[j%vtc];
+							cv::Point pt2 = approx[j - 2];
+							cv::Point pt0 = approx[j - 1];
 
-						total_area[3] = total_area[3] + contourArea(contours[i]);
-					}
-					else {
-						// Detect and label circles
-						double area = cv::contourArea(contours[i]);
-						cv::Rect r = cv::boundingRect(contours[i]);
-						int radius = r.width / 2;
+							double dx1 = pt1.x - pt0.x;
+							double dy1 = pt1.y - pt0.y;
+							double dx2 = pt2.x - pt0.x;
+							double dy2 = pt2.y - pt0.y;
+							double answer = (dx1*dx2 + dy1*dy2) / sqrt((dx1*dx1 + dy1*dy1)*(dx2*dx2 + dy2*dy2) + 1e-10);
+							cos.push_back(answer);
+						}
 
-						if (std::abs(1 - ((double)r.width / r.height)) <= 0.2 &&
-							std::abs(1 - (area / (CV_PI * (radius*radius)))) <= 0.2) {
-							shape[x] = "Circle";
-							circle++;  x++;
-							//setLabel(dst, "CIR", contours[i]);
-							cv::Size text = cv::getTextSize("CIR", fontface, scale, thickness, &baseline);
+						// Sort ascending the cosine values
+						std::sort(cos.begin(), cos.end());
+
+						// Get the lowest and the highest cosine
+						double mincos = cos.front();
+						double maxcos = cos.back();
+
+						// Use the degrees obtained above and the number of vertices
+						// to determine the shape of the contour
+						if (vtc == 4) {
+							shape[x] = "Rectangle";
+							rect++; x++;
+							//setLabel(dst, "RECT", contours[i]);
+							cv::Size text = cv::getTextSize("RECT", fontface, scale, thickness, &baseline);
 							cv::Rect r = cv::boundingRect(contours[i]);
 							cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
 							cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
-							cv::putText(dst, "CIR", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
+							cv::putText(dst, "RECT", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
 
-							total_area[4] = total_area[4] + contourArea(contours[i]);
+							total_area[1] = total_area[1] + contourArea(contours[i]);
+						}
+						else if (vtc == 5) {
+							shape[x] = "Pentagon";
+							penta++; x++;
+							//setLabel(dst, "PENTA", contours[i]);
+							cv::Size text = cv::getTextSize("PENTA", fontface, scale, thickness, &baseline);
+							cv::Rect r = cv::boundingRect(contours[i]);
+							cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
+							cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
+							cv::putText(dst, "PENTA", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
+
+							total_area[2] = total_area[2] + contourArea(contours[i]);
+						}
+						else if (vtc == 6) {
+							shape[x] = "Hexagon";
+							hexa++; x++;
+							//setLabel(dst, "HEXA", contours[i]);
+							cv::Size text = cv::getTextSize("HEXA", fontface, scale, thickness, &baseline);
+							cv::Rect r = cv::boundingRect(contours[i]);
+							cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
+							cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
+							cv::putText(dst, "HEXA", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
+
+							total_area[3] = total_area[3] + contourArea(contours[i]);
+						}
+						else {
+							// Detect and label circles
+							double area = cv::contourArea(contours[i]);
+							cv::Rect r = cv::boundingRect(contours[i]);
+							int radius = r.width / 2;
+
+							if (std::abs(1 - ((double)r.width / r.height)) <= 0.2 &&
+								std::abs(1 - (area / (CV_PI * (radius*radius)))) <= 0.2) {
+								shape[x] = "Circle";
+								circle++;  x++;
+								//setLabel(dst, "CIR", contours[i]);
+								cv::Size text = cv::getTextSize("CIR", fontface, scale, thickness, &baseline);
+								cv::Rect r = cv::boundingRect(contours[i]);
+								cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
+								cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
+								cv::putText(dst, "CIR", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
+
+								total_area[4] = total_area[4] + contourArea(contours[i]);
+							}
 						}
 					}
-				}
 
-				// Shape Size
-				//total_area += contourArea(contours[i]);
 			}
 
-			std::string shapepath = std::string("Image Processing/") + final_path2 + std::string("__5__SHAPE.jpg");
-			imwrite(shapepath, dst);
+				std::string shapepath = std::string("Image Processing/") + final_path2 + std::string("__6__SHAPE_") +
+					std::string((std::to_string(turn)).c_str()) + std::string(".jpg");;
+				imwrite(shapepath, dst);
 
-			// *** END OF SHAPE DETECTION ***//
+				// *** END OF SHAPE DETECTION ***//
 
-			ofstream csv;
-			if (std::ifstream("sample.csv")) {
-				csv.open("sample.csv", std::ios_base::app);
+				csv << std::to_string(x) + "," + std::to_string(circle) + "," + std::to_string(tri) + "," 
+					+ std::to_string(rect) + "," + std::to_string(penta) + "," + std::to_string(hexa) + ","
+
+					+ std::to_string(total_area[0] / circle) + "," + std::to_string(total_area[1] / tri) + "," + std::to_string(total_area[2] / rect)
+					+ "," + std::to_string(total_area[3] / penta) + "," + std::to_string(total_area[4] / hexa);
+				
+				csv << "\n";
+				csv.close();
 			}
-			else {
-				csv.open("sample.csv");
-				csv << "Filename, Energy, Contrast, Homogenity, IDM, Entropy, Mean1, Cluster Shade, Cluster Prominence, Shapes Detected, Circle, Triangle, Rectangle, Pentagon, Hexagon, Circle Avg. Area, Triangle Avg. Area, Rectangle Avg. Area, Pentagon Avg. Area, Hexagon Avg. Area\n";
-			}
-
-			csv << final_path2 + "," + std::to_string(energy) + "," + std::to_string(contrast) + "," + std::to_string(homogenity)
-				+ "," + std::to_string(IDM) + "," + std::to_string(entropy) + "," + std::to_string(mean1)
-				+ "," + std::to_string(shade) + "," + std::to_string(prominence) + "," + std::to_string(x) + ","
-				+ std::to_string(circle) + "," + std::to_string(tri) + "," + std::to_string(rect) + "," + std::to_string(penta) + "," + std::to_string(hexa) + ","
-
-				+ std::to_string(total_area[0] / circle) + "," + std::to_string(total_area[1] / tri) + "," + std::to_string(total_area[2] / rect)
-				+ "," + std::to_string(total_area[3] / penta) + "," + std::to_string(total_area[4] / hexa);					
-
-			csv << "\n";
-			csv.close();
 
 			txtProgress->AppendText("\r\n.\r\n.\r\nImage Processing complete.");
 			txtProgress->ScrollToCaret();
@@ -1225,9 +1194,7 @@ namespace form1 {
 			//MessageBox::Show("Done");
 		}
 		}
-			else {
-				
-			}	
+			else { }	
 	}
 
 	private: System::Void btnFirst_Click(System::Object^  sender, System::EventArgs^  e) {
