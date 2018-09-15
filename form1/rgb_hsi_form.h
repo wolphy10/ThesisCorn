@@ -69,12 +69,16 @@ namespace form1 {
 	private: System::Windows::Forms::Button^  btnOpen;
 	private: System::Windows::Forms::OpenFileDialog^  openFile;
 	public: System::Windows::Forms::PictureBox^  img_Hue;
+	public: System::Windows::Forms::PictureBox^  img_crop0;
+
+
 	private:
-	public: System::Windows::Forms::PictureBox^  img_Saturation;
+
 
 	
 	private: System::Windows::Forms::Label^  lblHue;
-	private: System::Windows::Forms::Label^  lblSaturation;
+	private: System::Windows::Forms::Label^  lblCropped;
+
 	private: System::Windows::Forms::Panel^  progressPanel;
 
 
@@ -88,7 +92,9 @@ namespace form1 {
 	public: System::Windows::Forms::PictureBox^  img_noblur;
 	private: System::Windows::Forms::Label^  lblCanny;
 	private: System::Windows::Forms::Label^  lblBlur;
-	public: System::Windows::Forms::PictureBox^  img_canny;
+	public: System::Windows::Forms::PictureBox^  img_canny0;
+	private:
+
 	private:
 	public:
 	private:
@@ -103,7 +109,9 @@ namespace form1 {
 	private: System::Windows::Forms::Button^  btnSecond;
 	public: System::Windows::Forms::PictureBox^  img_blur;
 	private: System::Windows::Forms::Label^  lblNoBlur;
-	public: System::Windows::Forms::PictureBox^  img_otsu;
+	public: System::Windows::Forms::PictureBox^  img_otsu0;
+	private:
+
 	private:
 	public:
 
@@ -128,6 +136,27 @@ namespace form1 {
 	private: System::Windows::Forms::Panel^  panelBtn;
 	private: System::Windows::Forms::Label^  lblTitle;
 	private: System::Windows::Forms::Button^  btnMin;
+	public: System::Windows::Forms::PictureBox^  img_crop3;
+	private:
+
+	public: System::Windows::Forms::PictureBox^  img_crop2;
+
+	private:
+
+	public: System::Windows::Forms::PictureBox^  img_crop1;
+	public: System::Windows::Forms::PictureBox^  img_canny3;
+
+public: System::Windows::Forms::PictureBox^  img_canny1;
+public: System::Windows::Forms::PictureBox^  img_canny2;
+
+
+public: System::Windows::Forms::PictureBox^  img_otsu3;
+
+public: System::Windows::Forms::PictureBox^  img_otsu2;
+
+public: System::Windows::Forms::PictureBox^  img_otsu1;
+
+
 
 
 
@@ -178,22 +207,22 @@ namespace form1 {
 			this->btnOpen = (gcnew System::Windows::Forms::Button());
 			this->openFile = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->img_Hue = (gcnew System::Windows::Forms::PictureBox());
-			this->img_Saturation = (gcnew System::Windows::Forms::PictureBox());
+			this->img_crop0 = (gcnew System::Windows::Forms::PictureBox());
 			this->lblHue = (gcnew System::Windows::Forms::Label());
-			this->lblSaturation = (gcnew System::Windows::Forms::Label());
+			this->lblCropped = (gcnew System::Windows::Forms::Label());
 			this->progressPanel = (gcnew System::Windows::Forms::Panel());
 			this->txtProgress = (gcnew System::Windows::Forms::RichTextBox());
 			this->btnLocation = (gcnew System::Windows::Forms::Button());
 			this->firstPanel = (gcnew System::Windows::Forms::Panel());
 			this->secondPanel = (gcnew System::Windows::Forms::Panel());
 			this->lblOtsu = (gcnew System::Windows::Forms::Label());
-			this->img_otsu = (gcnew System::Windows::Forms::PictureBox());
+			this->img_otsu0 = (gcnew System::Windows::Forms::PictureBox());
 			this->lblNoBlur = (gcnew System::Windows::Forms::Label());
 			this->img_blur = (gcnew System::Windows::Forms::PictureBox());
 			this->img_noblur = (gcnew System::Windows::Forms::PictureBox());
 			this->lblCanny = (gcnew System::Windows::Forms::Label());
 			this->lblBlur = (gcnew System::Windows::Forms::Label());
-			this->img_canny = (gcnew System::Windows::Forms::PictureBox());
+			this->img_canny0 = (gcnew System::Windows::Forms::PictureBox());
 			this->btnSecond = (gcnew System::Windows::Forms::Button());
 			this->btnFirst = (gcnew System::Windows::Forms::Button());
 			this->origPanel = (gcnew System::Windows::Forms::Panel());
@@ -205,18 +234,36 @@ namespace form1 {
 			this->panelBtn = (gcnew System::Windows::Forms::Panel());
 			this->btnMin = (gcnew System::Windows::Forms::Button());
 			this->lblTitle = (gcnew System::Windows::Forms::Label());
+			this->img_crop1 = (gcnew System::Windows::Forms::PictureBox());
+			this->img_crop2 = (gcnew System::Windows::Forms::PictureBox());
+			this->img_crop3 = (gcnew System::Windows::Forms::PictureBox());
+			this->img_otsu1 = (gcnew System::Windows::Forms::PictureBox());
+			this->img_otsu2 = (gcnew System::Windows::Forms::PictureBox());
+			this->img_otsu3 = (gcnew System::Windows::Forms::PictureBox());
+			this->img_canny2 = (gcnew System::Windows::Forms::PictureBox());
+			this->img_canny1 = (gcnew System::Windows::Forms::PictureBox());
+			this->img_canny3 = (gcnew System::Windows::Forms::PictureBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_Hue))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_Saturation))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_crop0))->BeginInit();
 			this->progressPanel->SuspendLayout();
 			this->firstPanel->SuspendLayout();
 			this->secondPanel->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_otsu))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_otsu0))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_blur))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_noblur))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_canny))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_canny0))->BeginInit();
 			this->origPanel->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_orig))->BeginInit();
 			this->panelBtn->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_crop1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_crop2))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_crop3))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_otsu1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_otsu2))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_otsu3))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_canny2))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_canny1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_canny3))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// btnOpen
@@ -252,15 +299,15 @@ namespace form1 {
 			this->img_Hue->TabIndex = 1;
 			this->img_Hue->TabStop = false;
 			// 
-			// img_Saturation
+			// img_crop0
 			// 
-			this->img_Saturation->BackColor = System::Drawing::Color::White;
-			this->img_Saturation->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-			this->img_Saturation->Location = System::Drawing::Point(375, 6);
-			this->img_Saturation->Name = L"img_Saturation";
-			this->img_Saturation->Size = System::Drawing::Size(350, 317);
-			this->img_Saturation->TabIndex = 2;
-			this->img_Saturation->TabStop = false;
+			this->img_crop0->BackColor = System::Drawing::Color::White;
+			this->img_crop0->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->img_crop0->Location = System::Drawing::Point(389, 6);
+			this->img_crop0->Name = L"img_crop0";
+			this->img_crop0->Size = System::Drawing::Size(154, 154);
+			this->img_crop0->TabIndex = 2;
+			this->img_crop0->TabStop = false;
 			// 
 			// lblHue
 			// 
@@ -273,16 +320,16 @@ namespace form1 {
 			this->lblHue->TabIndex = 3;
 			this->lblHue->Text = L"Hue";
 			// 
-			// lblSaturation
+			// lblCropped
 			// 
-			this->lblSaturation->AutoSize = true;
-			this->lblSaturation->Font = (gcnew System::Drawing::Font(L"Segoe UI Semibold", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->lblCropped->AutoSize = true;
+			this->lblCropped->Font = (gcnew System::Drawing::Font(L"Segoe UI Semibold", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->lblSaturation->Location = System::Drawing::Point(667, 327);
-			this->lblSaturation->Name = L"lblSaturation";
-			this->lblSaturation->Size = System::Drawing::Size(59, 13);
-			this->lblSaturation->TabIndex = 4;
-			this->lblSaturation->Text = L"Saturation";
+			this->lblCropped->Location = System::Drawing::Point(649, 327);
+			this->lblCropped->Name = L"lblCropped";
+			this->lblCropped->Size = System::Drawing::Size(57, 13);
+			this->lblCropped->TabIndex = 4;
+			this->lblCropped->Text = L"Segments";
 			// 
 			// progressPanel
 			// 
@@ -332,10 +379,13 @@ namespace form1 {
 			// 
 			this->firstPanel->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(247)), static_cast<System::Int32>(static_cast<System::Byte>(247)),
 				static_cast<System::Int32>(static_cast<System::Byte>(247)));
+			this->firstPanel->Controls->Add(this->img_crop3);
+			this->firstPanel->Controls->Add(this->img_crop2);
+			this->firstPanel->Controls->Add(this->img_crop1);
 			this->firstPanel->Controls->Add(this->img_Hue);
-			this->firstPanel->Controls->Add(this->lblSaturation);
+			this->firstPanel->Controls->Add(this->lblCropped);
 			this->firstPanel->Controls->Add(this->lblHue);
-			this->firstPanel->Controls->Add(this->img_Saturation);
+			this->firstPanel->Controls->Add(this->img_crop0);
 			this->firstPanel->Location = System::Drawing::Point(246, 51);
 			this->firstPanel->Name = L"firstPanel";
 			this->firstPanel->Size = System::Drawing::Size(725, 348);
@@ -345,14 +395,20 @@ namespace form1 {
 			// 
 			this->secondPanel->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(247)), static_cast<System::Int32>(static_cast<System::Byte>(247)),
 				static_cast<System::Int32>(static_cast<System::Byte>(247)));
+			this->secondPanel->Controls->Add(this->img_canny3);
+			this->secondPanel->Controls->Add(this->img_canny1);
+			this->secondPanel->Controls->Add(this->img_canny2);
+			this->secondPanel->Controls->Add(this->img_otsu3);
+			this->secondPanel->Controls->Add(this->img_otsu2);
+			this->secondPanel->Controls->Add(this->img_otsu1);
 			this->secondPanel->Controls->Add(this->lblOtsu);
-			this->secondPanel->Controls->Add(this->img_otsu);
+			this->secondPanel->Controls->Add(this->img_otsu0);
 			this->secondPanel->Controls->Add(this->lblNoBlur);
 			this->secondPanel->Controls->Add(this->img_blur);
 			this->secondPanel->Controls->Add(this->img_noblur);
 			this->secondPanel->Controls->Add(this->lblCanny);
 			this->secondPanel->Controls->Add(this->lblBlur);
-			this->secondPanel->Controls->Add(this->img_canny);
+			this->secondPanel->Controls->Add(this->img_canny0);
 			this->secondPanel->Location = System::Drawing::Point(246, 51);
 			this->secondPanel->Name = L"secondPanel";
 			this->secondPanel->Size = System::Drawing::Size(725, 348);
@@ -363,28 +419,28 @@ namespace form1 {
 			this->lblOtsu->AutoSize = true;
 			this->lblOtsu->Font = (gcnew System::Drawing::Font(L"Segoe UI Semibold", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->lblOtsu->Location = System::Drawing::Point(343, 320);
+			this->lblOtsu->Location = System::Drawing::Point(225, 328);
 			this->lblOtsu->Name = L"lblOtsu";
 			this->lblOtsu->Size = System::Drawing::Size(81, 13);
 			this->lblOtsu->TabIndex = 8;
 			this->lblOtsu->Text = L"Otsu\'s Method";
 			// 
-			// img_otsu
+			// img_otsu0
 			// 
-			this->img_otsu->BackColor = System::Drawing::Color::White;
-			this->img_otsu->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-			this->img_otsu->Location = System::Drawing::Point(138, 11);
-			this->img_otsu->Name = L"img_otsu";
-			this->img_otsu->Size = System::Drawing::Size(286, 306);
-			this->img_otsu->TabIndex = 7;
-			this->img_otsu->TabStop = false;
+			this->img_otsu0->BackColor = System::Drawing::Color::White;
+			this->img_otsu0->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->img_otsu0->Location = System::Drawing::Point(114, 11);
+			this->img_otsu0->Name = L"img_otsu0";
+			this->img_otsu0->Size = System::Drawing::Size(154, 154);
+			this->img_otsu0->TabIndex = 7;
+			this->img_otsu0->TabStop = false;
 			// 
 			// lblNoBlur
 			// 
 			this->lblNoBlur->AutoSize = true;
 			this->lblNoBlur->Font = (gcnew System::Drawing::Font(L"Segoe UI Semibold", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->lblNoBlur->Location = System::Drawing::Point(78, 147);
+			this->lblNoBlur->Location = System::Drawing::Point(33, 152);
 			this->lblNoBlur->Name = L"lblNoBlur";
 			this->lblNoBlur->Size = System::Drawing::Size(45, 13);
 			this->lblNoBlur->TabIndex = 6;
@@ -394,9 +450,9 @@ namespace form1 {
 			// 
 			this->img_blur->BackColor = System::Drawing::Color::White;
 			this->img_blur->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Center;
-			this->img_blur->Location = System::Drawing::Point(12, 184);
+			this->img_blur->Location = System::Drawing::Point(7, 171);
 			this->img_blur->Name = L"img_blur";
-			this->img_blur->Size = System::Drawing::Size(111, 133);
+			this->img_blur->Size = System::Drawing::Size(100, 100);
 			this->img_blur->TabIndex = 5;
 			this->img_blur->TabStop = false;
 			// 
@@ -404,9 +460,9 @@ namespace form1 {
 			// 
 			this->img_noblur->BackColor = System::Drawing::Color::White;
 			this->img_noblur->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Center;
-			this->img_noblur->Location = System::Drawing::Point(12, 11);
+			this->img_noblur->Location = System::Drawing::Point(7, 49);
 			this->img_noblur->Name = L"img_noblur";
-			this->img_noblur->Size = System::Drawing::Size(111, 133);
+			this->img_noblur->Size = System::Drawing::Size(100, 100);
 			this->img_noblur->TabIndex = 1;
 			this->img_noblur->TabStop = false;
 			// 
@@ -415,7 +471,7 @@ namespace form1 {
 			this->lblCanny->AutoSize = true;
 			this->lblCanny->Font = (gcnew System::Drawing::Font(L"Segoe UI Semibold", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->lblCanny->Location = System::Drawing::Point(651, 320);
+			this->lblCanny->Location = System::Drawing::Point(538, 304);
 			this->lblCanny->Name = L"lblCanny";
 			this->lblCanny->Size = System::Drawing::Size(67, 13);
 			this->lblCanny->TabIndex = 4;
@@ -426,21 +482,21 @@ namespace form1 {
 			this->lblBlur->AutoSize = true;
 			this->lblBlur->Font = (gcnew System::Drawing::Font(L"Segoe UI Semibold", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->lblBlur->Location = System::Drawing::Point(71, 320);
+			this->lblBlur->Location = System::Drawing::Point(33, 274);
 			this->lblBlur->Name = L"lblBlur";
 			this->lblBlur->Size = System::Drawing::Size(52, 13);
 			this->lblBlur->TabIndex = 3;
 			this->lblBlur->Text = L"Gaussian";
 			// 
-			// img_canny
+			// img_canny0
 			// 
-			this->img_canny->BackColor = System::Drawing::Color::White;
-			this->img_canny->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-			this->img_canny->Location = System::Drawing::Point(432, 11);
-			this->img_canny->Name = L"img_canny";
-			this->img_canny->Size = System::Drawing::Size(286, 306);
-			this->img_canny->TabIndex = 2;
-			this->img_canny->TabStop = false;
+			this->img_canny0->BackColor = System::Drawing::Color::White;
+			this->img_canny0->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->img_canny0->Location = System::Drawing::Point(443, 35);
+			this->img_canny0->Name = L"img_canny0";
+			this->img_canny0->Size = System::Drawing::Size(130, 130);
+			this->img_canny0->TabIndex = 2;
+			this->img_canny0->TabStop = false;
 			// 
 			// btnSecond
 			// 
@@ -603,6 +659,96 @@ namespace form1 {
 			this->lblTitle->TabIndex = 6;
 			this->lblTitle->Text = L"Maize Disease Detection";
 			// 
+			// img_crop1
+			// 
+			this->img_crop1->BackColor = System::Drawing::Color::White;
+			this->img_crop1->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->img_crop1->Location = System::Drawing::Point(555, 6);
+			this->img_crop1->Name = L"img_crop1";
+			this->img_crop1->Size = System::Drawing::Size(154, 154);
+			this->img_crop1->TabIndex = 5;
+			this->img_crop1->TabStop = false;
+			// 
+			// img_crop2
+			// 
+			this->img_crop2->BackColor = System::Drawing::Color::White;
+			this->img_crop2->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->img_crop2->Location = System::Drawing::Point(389, 169);
+			this->img_crop2->Name = L"img_crop2";
+			this->img_crop2->Size = System::Drawing::Size(154, 154);
+			this->img_crop2->TabIndex = 6;
+			this->img_crop2->TabStop = false;
+			// 
+			// img_crop3
+			// 
+			this->img_crop3->BackColor = System::Drawing::Color::White;
+			this->img_crop3->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->img_crop3->Location = System::Drawing::Point(555, 169);
+			this->img_crop3->Name = L"img_crop3";
+			this->img_crop3->Size = System::Drawing::Size(154, 154);
+			this->img_crop3->TabIndex = 7;
+			this->img_crop3->TabStop = false;
+			// 
+			// img_otsu1
+			// 
+			this->img_otsu1->BackColor = System::Drawing::Color::White;
+			this->img_otsu1->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->img_otsu1->Location = System::Drawing::Point(274, 11);
+			this->img_otsu1->Name = L"img_otsu1";
+			this->img_otsu1->Size = System::Drawing::Size(154, 154);
+			this->img_otsu1->TabIndex = 9;
+			this->img_otsu1->TabStop = false;
+			// 
+			// img_otsu2
+			// 
+			this->img_otsu2->BackColor = System::Drawing::Color::White;
+			this->img_otsu2->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->img_otsu2->Location = System::Drawing::Point(114, 171);
+			this->img_otsu2->Name = L"img_otsu2";
+			this->img_otsu2->Size = System::Drawing::Size(154, 154);
+			this->img_otsu2->TabIndex = 10;
+			this->img_otsu2->TabStop = false;
+			// 
+			// img_otsu3
+			// 
+			this->img_otsu3->BackColor = System::Drawing::Color::White;
+			this->img_otsu3->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->img_otsu3->Location = System::Drawing::Point(274, 171);
+			this->img_otsu3->Name = L"img_otsu3";
+			this->img_otsu3->Size = System::Drawing::Size(154, 154);
+			this->img_otsu3->TabIndex = 11;
+			this->img_otsu3->TabStop = false;
+			// 
+			// img_canny2
+			// 
+			this->img_canny2->BackColor = System::Drawing::Color::White;
+			this->img_canny2->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->img_canny2->Location = System::Drawing::Point(443, 171);
+			this->img_canny2->Name = L"img_canny2";
+			this->img_canny2->Size = System::Drawing::Size(130, 130);
+			this->img_canny2->TabIndex = 12;
+			this->img_canny2->TabStop = false;
+			// 
+			// img_canny1
+			// 
+			this->img_canny1->BackColor = System::Drawing::Color::White;
+			this->img_canny1->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->img_canny1->Location = System::Drawing::Point(576, 35);
+			this->img_canny1->Name = L"img_canny1";
+			this->img_canny1->Size = System::Drawing::Size(130, 130);
+			this->img_canny1->TabIndex = 13;
+			this->img_canny1->TabStop = false;
+			// 
+			// img_canny3
+			// 
+			this->img_canny3->BackColor = System::Drawing::Color::White;
+			this->img_canny3->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->img_canny3->Location = System::Drawing::Point(576, 171);
+			this->img_canny3->Name = L"img_canny3";
+			this->img_canny3->Size = System::Drawing::Size(130, 130);
+			this->img_canny3->TabIndex = 14;
+			this->img_canny3->TabStop = false;
+			// 
 			// rgb_hsi_form
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -622,21 +768,30 @@ namespace form1 {
 			this->Text = L"RGB to HSI";
 			this->TopMost = true;
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_Hue))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_Saturation))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_crop0))->EndInit();
 			this->progressPanel->ResumeLayout(false);
 			this->firstPanel->ResumeLayout(false);
 			this->firstPanel->PerformLayout();
 			this->secondPanel->ResumeLayout(false);
 			this->secondPanel->PerformLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_otsu))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_otsu0))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_blur))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_noblur))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_canny))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_canny0))->EndInit();
 			this->origPanel->ResumeLayout(false);
 			this->origPanel->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_orig))->EndInit();
 			this->panelBtn->ResumeLayout(false);
 			this->panelBtn->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_crop1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_crop2))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_crop3))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_otsu1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_otsu2))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_otsu3))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_canny2))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_canny1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_canny3))->EndInit();
 			this->ResumeLayout(false);
 
 		}
@@ -737,14 +892,11 @@ namespace form1 {
 				imwrite(h1_path, h1); message = gcnew System::String(h1_path.c_str());
 				txtProgress->AppendText(message + " successfully created...");
 				txtProgress->ScrollToCaret();
-
-				delete img_Hue->Image;
-				img_Hue->Image = nullptr;
 			
 				std::string open_hue = "C:/Users/Sam/Documents/School/THESIS/THESIS II/programs/form1/form1/" + h1_path;
 				
 				img_change = gcnew System::String(open_hue.c_str());				
-				img_Hue->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+				//img_Hue->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 
 				//*** END OF RGB CONVERSION ***/
 
@@ -756,7 +908,7 @@ namespace form1 {
 			txtProgress->ScrollToCaret();
 
 			const double PI = atan(1) * 4;
-			double sigma = 40; // 2 orig --- the higher, the more blurred | 20 previously used
+			double sigma = 60; // 2 orig --- the higher, the more blurred | 40 previously used
 			const int kernalWidth = 5, kernalHeight = 5; // 5 always!
 
 			float kernalArray[kernalWidth][kernalHeight];
@@ -824,36 +976,44 @@ namespace form1 {
 			txtProgress->ScrollToCaret();
 		
 			img_change = gcnew System::String(open_hue.c_str());
-			img_noblur->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+			//img_noblur->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 			img_change = gcnew System::String(blurredH.c_str());
-			img_blur->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+			//img_blur->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 
 		#pragma endregion
 
 		/*
 			START OF OTSU | OTSU'S METHOD			
 		*/
-			txtProgress->AppendText("\r\nStart of Otsu's Method...\r\n");						
+			txtProgress->AppendText("\r\nStart of Otsu's Method...");					
 			
 			std::string otsu;				// Filename
 			cv::Mat otsu_img = cv::imread(blurredH, CV_8UC1);
 			
 			cv::Mat cropped
 				= otsu_img(cv::Range(0, otsu_img.rows / 2 - 1), cv::Range(0, otsu_img.cols / 2 - 1));
-				std::string crop1 = std::string("Image Processing/") + final_path2 + std::string("__3__CROP_1.jpg");
+				std::string crop1 = std::string("Image Processing/") + final_path2 + std::string("__3__CROP_0.jpg");
 				imwrite(crop1, cropped);
+				img_change = gcnew System::String(crop1.c_str());
+				//img_crop0->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 			cropped
 				= otsu_img(cv::Range(0, otsu_img.rows / 2 - 1), cv::Range(otsu_img.cols / 2, otsu_img.cols - 1));
-				std::string crop2 = std::string("Image Processing/") + final_path2 + std::string("__3__CROP_2.jpg");
+				std::string crop2 = std::string("Image Processing/") + final_path2 + std::string("__3__CROP_1.jpg");
 				imwrite(crop2, cropped);
+				img_change = gcnew System::String(crop2.c_str());
+				//img_crop1->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 			cropped
 				= otsu_img(cv::Range(otsu_img.rows / 2, otsu_img.rows - 1), cv::Range(0, otsu_img.cols / 2 - 1));
-				std::string crop3 = std::string("Image Processing/") + final_path2 + std::string("__3__CROP_3.jpg");
+				std::string crop3 = std::string("Image Processing/") + final_path2 + std::string("__3__CROP_2.jpg");
 				imwrite(crop3, cropped);
+				img_change = gcnew System::String(crop3.c_str());
+				//img_crop2->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 			cropped
 				= otsu_img(cv::Range(otsu_img.rows / 2, otsu_img.rows - 1), cv::Range(otsu_img.cols / 2, otsu_img.cols - 1));
-				std::string crop4 = std::string("Image Processing/") + final_path2 + std::string("__3__CROP_4.jpg");
+				std::string crop4 = std::string("Image Processing/") + final_path2 + std::string("__3__CROP_3.jpg");
 				imwrite(crop4, cropped);
+				img_change = gcnew System::String(crop4.c_str());
+				//img_crop3->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 			
 			for (int turn = 0; turn < 4; turn++) {
 				int pixel = 0;					// pixel value
@@ -916,7 +1076,7 @@ namespace form1 {
 					}
 				}
 
-				txtProgress->AppendText("Applying Otsu's method...");
+				txtProgress->AppendText("\r\nApplying Otsu's Method...");				
 				txtProgress->ScrollToCaret();
 
 				//set otsu_img values based on the optimized threshhold calculated above.
@@ -935,12 +1095,17 @@ namespace form1 {
 				otsu = std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_") +
 					std::string((std::to_string(turn)).c_str()) + std::string(".jpg");
 				imwrite(otsu, otsu_img);
+				img_change = gcnew System::String(otsu.c_str());
+				/*
+				if (turn == 0) img_otsu0->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+				else if (turn == 1) img_otsu1->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+				else if (turn == 2) img_otsu2->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+				else img_otsu3->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+				*/
 			}
 						
 			txtProgress->AppendText("\r\nOtsu's Method Completed...");		
-			txtProgress->ScrollToCaret();
-			img_change = gcnew System::String(otsu.c_str());
-			img_otsu->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+			txtProgress->ScrollToCaret();			
 
 		//*** END OF OTSU ***//
 
@@ -965,13 +1130,17 @@ namespace form1 {
 					canny = std::string("Image Processing/") + final_path2 + std::string("__5__CANNY_") +
 						std::string((std::to_string(turn)).c_str()) + std::string(".jpg");;
 					imwrite(canny, canny_img);
+					img_change = gcnew System::String(canny.c_str());
+					/*
+					if (turn == 0) img_canny0->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+					else if (turn == 1) img_canny1->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+					else if (turn == 2) img_canny2->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+					else img_canny3->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+					*/
 			}
 			
 			txtProgress->AppendText("\r\nCanny Edge filter Completed...");			
 			txtProgress->ScrollToCaret();
-
-			img_change = gcnew System::String(canny.c_str());
-			img_canny->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 
 		//*** END OF CANNY EDGE ***//
 
