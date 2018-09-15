@@ -766,8 +766,8 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			this->Controls->Add(this->panelBtn);
 			this->Controls->Add(this->origPanel);
 			this->Controls->Add(this->progressPanel);
-			this->Controls->Add(this->secondPanel);
 			this->Controls->Add(this->firstPanel);
+			this->Controls->Add(this->secondPanel);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
 			this->MaximizeBox = false;
 			this->Name = L"rgb_hsi_form";
@@ -903,7 +903,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				std::string open_hue = "C:/Users/Sam/Documents/School/THESIS/THESIS II/programs/form1/form1/" + h1_path;
 				
 				img_change = gcnew System::String(open_hue.c_str());				
-				//img_Hue->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+				img_Hue->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 
 				//*** END OF RGB CONVERSION ***/
 
@@ -983,9 +983,9 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			txtProgress->ScrollToCaret();
 		
 			img_change = gcnew System::String(open_hue.c_str());
-			//img_noblur->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+			img_noblur->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 			img_change = gcnew System::String(blurredH.c_str());
-			//img_blur->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+			img_blur->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 
 		#pragma endregion
 
@@ -1002,25 +1002,25 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				std::string crop1 = std::string("Image Processing/") + final_path2 + std::string("__3__CROP_0.jpg");
 				imwrite(crop1, cropped);
 				img_change = gcnew System::String(crop1.c_str());
-				//img_crop0->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+				img_crop0->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 			cropped
 				= otsu_img(cv::Range(0, otsu_img.rows / 2 - 1), cv::Range(otsu_img.cols / 2, otsu_img.cols - 1));
 				std::string crop2 = std::string("Image Processing/") + final_path2 + std::string("__3__CROP_1.jpg");
 				imwrite(crop2, cropped);
 				img_change = gcnew System::String(crop2.c_str());
-				//img_crop1->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+				img_crop1->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 			cropped
 				= otsu_img(cv::Range(otsu_img.rows / 2, otsu_img.rows - 1), cv::Range(0, otsu_img.cols / 2 - 1));
 				std::string crop3 = std::string("Image Processing/") + final_path2 + std::string("__3__CROP_2.jpg");
 				imwrite(crop3, cropped);
 				img_change = gcnew System::String(crop3.c_str());
-				//img_crop2->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+				img_crop2->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 			cropped
 				= otsu_img(cv::Range(otsu_img.rows / 2, otsu_img.rows - 1), cv::Range(otsu_img.cols / 2, otsu_img.cols - 1));
 				std::string crop4 = std::string("Image Processing/") + final_path2 + std::string("__3__CROP_3.jpg");
 				imwrite(crop4, cropped);
 				img_change = gcnew System::String(crop4.c_str());
-				//img_crop3->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+				img_crop3->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 						
 			for (int turn = 0; turn < 4; turn++) {
 				int pixel = 0;					// pixel value
@@ -1097,11 +1097,13 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				}
 
 				if (black < 100) {
+					
 					/*
 					string combine = std::to_string(black) + " // " + std::to_string(optimizedthresh);
 					message = gcnew System::String(combine.c_str());
 					MessageBox::Show(message);
 					*/
+					
 					if(optimizedthresh > 200) optimizedthresh = optimizedthresh * 0.25;
 					else optimizedthresh = optimizedthresh / 2;
 				}
@@ -1157,12 +1159,6 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 						std::string((std::to_string(turn)).c_str()) + std::string(".jpg");;
 					imwrite(canny, canny_img);
 					img_change = gcnew System::String(canny.c_str());
-					
-					if (turn == 0) img_shape0->BackgroundImage = System::Drawing::Image::FromFile(img_change);
-					else if (turn == 1) img_shape1->BackgroundImage = System::Drawing::Image::FromFile(img_change);
-					else if (turn == 2) img_shape2->BackgroundImage = System::Drawing::Image::FromFile(img_change);
-					else img_shape3->BackgroundImage = System::Drawing::Image::FromFile(img_change);
-					
 			}
 			
 			txtProgress->AppendText("\r\nCanny Edge filter Completed...");			
@@ -1241,7 +1237,6 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				std::vector<cv::Point> approx;
 				cv::Mat dst;
 
-				string shape[500];
 				int tri = 0, rect = 0, circle = 0, hexa = 0, penta = 0;		// Shape counters
 				int x = 0;
 				double scale = 0.4;
@@ -1261,13 +1256,13 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 					// Approximate contour with accuracy proportional to the contour perimete					
 					cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.01, true);
 
-					// Skip small or non-convex objects				
+					// Skip small or non-convex objects								
+					//if (std::fabs(cv::contourArea(contours[i])) < 50 || !cv::isContourConvex(approx)) {
 					if (std::fabs(cv::contourArea(contours[i])) < 50) {
 						continue;
 					}
 
 					if (approx.size() == 3) {
-						shape[x] = "Triangle";
 						tri++; x++;
 						//setLabel(dst, "TRI", contours[i]);    // Triangles
 						cv::Size text = cv::getTextSize("TRI", fontface, scale, thickness, &baseline);
@@ -1308,7 +1303,6 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 						// Use the degrees obtained above and the number of vertices
 						// to determine the shape of the contour
 						if (vtc == 4) {
-							shape[x] = "Rectangle";
 							rect++; x++;
 							cv::Size text = cv::getTextSize("RECT", fontface, scale, thickness, &baseline);
 							cv::Rect r = cv::boundingRect(contours[i]);
@@ -1319,7 +1313,6 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 							total_area[1] = total_area[1] + contourArea(contours[i]);
 						}
 						else if (vtc == 5) {
-							shape[x] = "Pentagon";
 							penta++; x++;
 							cv::Size text = cv::getTextSize("PENTA", fontface, scale, thickness, &baseline);
 							cv::Rect r = cv::boundingRect(contours[i]);
@@ -1330,7 +1323,6 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 							total_area[2] = total_area[2] + contourArea(contours[i]);
 						}
 						else if (vtc == 6) {
-							shape[x] = "Hexagon";
 							hexa++; x++;
 							cv::Size text = cv::getTextSize("HEXA", fontface, scale, thickness, &baseline);
 							cv::Rect r = cv::boundingRect(contours[i]);
@@ -1348,9 +1340,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 
 							if (std::abs(1 - ((double)r.width / r.height)) <= 0.2 &&
 								std::abs(1 - (area / (CV_PI * (radius*radius)))) <= 0.2) {
-								shape[x] = "Circle";
 								circle++;  x++;
-								//setLabel(dst, "CIR", contours[i]);
 								cv::Size text = cv::getTextSize("CIR", fontface, scale, thickness, &baseline);
 								cv::Rect r = cv::boundingRect(contours[i]);
 								cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
@@ -1367,6 +1357,12 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				std::string shapepath = std::string("Image Processing/") + final_path2 + std::string("__6__SHAPE_") +
 					std::string((std::to_string(turn)).c_str()) + std::string(".jpg");;
 				imwrite(shapepath, dst);
+
+				img_change = gcnew System::String(shapepath.c_str());
+				if (turn == 0) img_shape0->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+				else if (turn == 1) img_shape1->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+				else if (turn == 2) img_shape2->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+				else img_shape3->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 
 				// *** END OF SHAPE DETECTION ***//
 
