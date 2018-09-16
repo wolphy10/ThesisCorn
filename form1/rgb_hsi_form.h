@@ -1393,7 +1393,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 
 					+ std::to_string(total_area[0] / circle) + "," + std::to_string(total_area[1] / tri) + "," + std::to_string(total_area[2] / rect)
 					+ "," + std::to_string(total_area[3] / penta) + "," + std::to_string(total_area[4] / hexa) + "," + std::to_string(total_area[5] / irreg_S)
-					+ std::to_string(total_area[6] / irreg_L);
+					+ "," + std::to_string(total_area[6] / irreg_L);
 				
 				csv << "\n";
 				csv.close();
