@@ -1219,8 +1219,8 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				}
 				else {
 					csv.open("sample.csv");
-					csv << "Filename, Energy, Contrast, Homogenity, IDM, Entropy, Mean1, Cluster Shade, Cluster Prominence, Shapes Detected, Circle, Triangle, Rectangle, Pentagon, Hexagon, Circle Avg. Area, Triangle Avg. Area, Rectangle Avg. Area, Pentagon Avg. Area, Hexagon Avg. Area\n";
-				}
+					csv << "Filename, Energy, Contrast, Homogenity, IDM, Entropy, Mean1, Cluster Shade, Cluster Prominence, Shapes Detected, Circle, Triangle, Rectangle, Pentagon, Hexagon, Irregular Small, Irregular Large, Circle Area, Triangle Area, Rectangle Area, Pentagon Area, Hexagon Area, Irreg. S. Area, Irreg. L Area\n";
+				} 
 
 				csv << final_path2 + "__" + std::to_string(turn) + "," + std::to_string(energy) + "," + std::to_string(contrast) + "," + std::to_string(homogenity)
 					+ "," + std::to_string(IDM) + "," + std::to_string(entropy) + "," + std::to_string(mean1)
@@ -1237,10 +1237,10 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				std::vector<cv::Point> approx;
 				cv::Mat dst;
 
-				int tri = 0, rect = 0, circle = 0, hexa = 0, penta = 0;		// Shape counters
+				int tri = 0, rect = 0, circle = 0, hexa = 0, penta = 0, irreg_S = 0, irreg_L = 0;		// Shape counters
 				int x = 0;
 				double scale = 0.4;
-				float total_area[5] = { 0, 0, 0, 0, 0 };	// Triangle, Rectangle, Pentagon, Hexagon, Circle			
+				float total_area[7] = { 0, 0, 0, 0, 0, 0, 0 };	// Triangle, Rectangle, Pentagon, Hexagon, Circle, Irreg Small, Irreg Large			
 
 				if (turn == 0) dst = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__5__CANNY_0.jpg")), CV_8UC1);
 				else if (turn == 1) dst = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__5__CANNY_1.jpg")), CV_8UC1);
@@ -1258,7 +1258,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 
 					// Skip small or non-convex objects								
 					//if (std::fabs(cv::contourArea(contours[i])) < 50 || !cv::isContourConvex(approx)) {
-					if (std::fabs(cv::contourArea(contours[i])) < 50) {
+					if (std::fabs(cv::contourArea(contours[i])) < 200) {
 						continue;
 					}
 
@@ -1300,6 +1300,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 						double mincos = cos.front();
 						double maxcos = cos.back();
 
+						
 						// Use the degrees obtained above and the number of vertices
 						// to determine the shape of the contour
 						if (vtc == 4) {
@@ -1349,6 +1350,26 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 
 								total_area[4] = total_area[4] + contourArea(contours[i]);
 							}
+							else if (contourArea(contours[i]) < 1000) {
+								irreg_S++;  x++;
+								cv::Size text = cv::getTextSize("IRREG_S", fontface, scale, thickness, &baseline);
+								cv::Rect r = cv::boundingRect(contours[i]);
+								cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
+								cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
+								cv::putText(dst, "IRREG_S", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
+
+								total_area[5] = total_area[5] + contourArea(contours[i]);
+							}
+							else {
+								irreg_L++;  x++;
+								cv::Size text = cv::getTextSize("IRREG_L", fontface, scale, thickness, &baseline);
+								cv::Rect r = cv::boundingRect(contours[i]);
+								cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
+								cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
+								cv::putText(dst, "IRREG_L", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
+
+								total_area[6] = total_area[6] + contourArea(contours[i]);
+							}
 						}
 					}
 
@@ -1366,11 +1387,13 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 
 				// *** END OF SHAPE DETECTION ***//
 
-				csv << std::to_string(x) + "," + std::to_string(circle) + "," + std::to_string(tri) + "," 
+				csv << std::to_string(x) + "," + std::to_string(circle) + "," + std::to_string(tri) + ","
 					+ std::to_string(rect) + "," + std::to_string(penta) + "," + std::to_string(hexa) + ","
+					+ std::to_string(irreg_S) + "," + std::to_string(irreg_L) + ","
 
 					+ std::to_string(total_area[0] / circle) + "," + std::to_string(total_area[1] / tri) + "," + std::to_string(total_area[2] / rect)
-					+ "," + std::to_string(total_area[3] / penta) + "," + std::to_string(total_area[4] / hexa);
+					+ "," + std::to_string(total_area[3] / penta) + "," + std::to_string(total_area[4] / hexa) + "," + std::to_string(total_area[5] / irreg_S)
+					+ std::to_string(total_area[6] / irreg_L);
 				
 				csv << "\n";
 				csv.close();
