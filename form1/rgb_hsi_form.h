@@ -1104,7 +1104,8 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 					MessageBox::Show(message);
 					*/
 					
-					if(optimizedthresh > 200) optimizedthresh = optimizedthresh * 0.25;
+					if (optimizedthresh > 200) optimizedthresh = optimizedthresh * 0.25;
+					else if (optimizedthresh > 150 && optimizedthresh < 200) optimizedthresh = optimizedthresh * 0.3;
 					else optimizedthresh = optimizedthresh / 2;
 				}
 				
