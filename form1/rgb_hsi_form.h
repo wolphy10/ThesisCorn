@@ -1263,7 +1263,23 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 						continue;
 					}
 
-					if (approx.size() == 3) {
+					
+					if (contourArea(contours[i]) > 10000 && contourArea(contours[i]) < 80000) {						
+						/*
+						message = gcnew System::String(std::to_string(cv::convexHull(contours[i])).c_str());
+						MessageBox::Show(message);
+						drawContours(dst, contours, i, Scalar(255, 0, 0), 4);
+						*/						
+						irreg_L++;  x++;
+						cv::Size text = cv::getTextSize("IRREG_L", fontface, scale, thickness, &baseline);
+						cv::Rect r = cv::boundingRect(contours[i]);
+						cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
+						cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
+						cv::putText(dst, "IRREG_L", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
+
+						total_area[6] = total_area[6] + contourArea(contours[i]);						
+					}
+					else if (approx.size() == 3) {
 						tri++; x++;
 						//setLabel(dst, "TRI", contours[i]);    // Triangles
 						cv::Size text = cv::getTextSize("TRI", fontface, scale, thickness, &baseline);
@@ -1351,7 +1367,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 
 								total_area[4] = total_area[4] + contourArea(contours[i]);
 							}
-							else if (contourArea(contours[i]) < 1000) {
+							else if (contourArea(contours[i]) < 10000) {
 								irreg_S++;  x++;
 								cv::Size text = cv::getTextSize("IRREG_S", fontface, scale, thickness, &baseline);
 								cv::Rect r = cv::boundingRect(contours[i]);
@@ -1361,19 +1377,9 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 
 								total_area[5] = total_area[5] + contourArea(contours[i]);
 							}
-							else {
-								irreg_L++;  x++;
-								cv::Size text = cv::getTextSize("IRREG_L", fontface, scale, thickness, &baseline);
-								cv::Rect r = cv::boundingRect(contours[i]);
-								cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
-								cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
-								cv::putText(dst, "IRREG_L", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
-
-								total_area[6] = total_area[6] + contourArea(contours[i]);
-							}
 						}
 					}
-
+					
 			}
 
 				std::string shapepath = std::string("Image Processing/") + final_path2 + std::string("__6__SHAPE_") +
