@@ -949,7 +949,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			txtProgress->ScrollToCaret();
 			cv::Mat hue = cv::imread(open_hue);
 
-			Mat Hgray(hue.size(), CV_8UC1);
+			 Mat Hgray(hue.size(), CV_8UC1);
 			Mat HueBlurred(hue.size(), CV_8UC1); 
 			cvtColor(hue, Hgray, CV_RGB2GRAY);		
 
@@ -1220,7 +1220,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				}
 				else {
 					csv.open("sample.csv");
-					csv << "Filename, Energy, Contrast, Homogenity, IDM, Entropy, Mean1, Cluster Shade, Cluster Prominence, Shapes Detected, Circle, Triangle, Rectangle, Pentagon, Hexagon, Irregular Small, Irregular Large, Circle Area, Triangle Area, Rectangle Area, Pentagon Area, Hexagon Area, Irreg. S. Area, Irreg. L Area\n";
+					csv << "Filename, Energy, Contrast, Homogenity, IDM, Entropy, Mean1, Cluster Shade, Cluster Prominence, Shapes Detected, Circle, Triangle, Rectangle, Irregular Small, Irregular Large, Circle Area, Triangle Area, Rectangle Area, Irreg. S. Area, Irreg. L Area\n";
 				} 
 
 				csv << final_path2 + "__" + std::to_string(turn) + "," + std::to_string(energy) + "," + std::to_string(contrast) + "," + std::to_string(homogenity)
@@ -1238,10 +1238,10 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				std::vector<cv::Point> approx;
 				cv::Mat dst;
 
-				int tri = 0, rect = 0, circle = 0, hexa = 0, penta = 0, irreg_S = 0, irreg_L = 0;		// Shape counters
+				int tri = 0, rect = 0, circle = 0, irreg_S = 0, irreg_L = 0;		// Shape counters
 				int x = 0;
 				double scale = 0.4;
-				float total_area[7] = { 0, 0, 0, 0, 0, 0, 0 };	// Triangle, Rectangle, Pentagon, Hexagon, Circle, Irreg Small, Irreg Large			
+				float total_area[5] = { 0, 0, 0, 0, 0 };	// Triangle, Rectangle, Circle, Irreg Small, Irreg Large			
 
 				if (turn == 0) dst = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__5__CANNY_0.jpg")), CV_8UC1);
 				else if (turn == 1) dst = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__5__CANNY_1.jpg")), CV_8UC1);
@@ -1254,7 +1254,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				cv::findContours(dst, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE);
 
 				for (int i = 0; i < contours.size(); i++) {
-					// Approximate contour with accuracy proportional to the contour perimete					
+					// Approximate contour with accuracy proportional to the contour perimeter					
 					cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.01, true);
 
 					// Skip small or non-convex objects								
@@ -1264,7 +1264,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 					}
 
 					
-					if (contourArea(contours[i]) > 10000 && contourArea(contours[i]) < 80000) {						
+					if (contourArea(contours[i]) > 10000 && contourArea(contours[i]) < 100000) {						
 						/*
 						message = gcnew System::String(std::to_string(cv::convexHull(contours[i])).c_str());
 						MessageBox::Show(message);
@@ -1277,7 +1277,8 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 						cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
 						cv::putText(dst, "IRREG_L", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
 
-						total_area[6] = total_area[6] + contourArea(contours[i]);						
+						total_area[4] = total_area[4] + contourArea(contours[i]);	
+						drawContours(dst, contours, i, Scalar(255, 0, 0), 4);
 					}
 					else if (approx.size() == 3) {
 						tri++; x++;
@@ -1317,7 +1318,6 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 						double mincos = cos.front();
 						double maxcos = cos.back();
 
-						
 						// Use the degrees obtained above and the number of vertices
 						// to determine the shape of the contour
 						if (vtc == 4) {
@@ -1329,26 +1329,6 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 							cv::putText(dst, "RECT", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
 
 							total_area[1] = total_area[1] + contourArea(contours[i]);
-						}
-						else if (vtc == 5) {
-							penta++; x++;
-							cv::Size text = cv::getTextSize("PENTA", fontface, scale, thickness, &baseline);
-							cv::Rect r = cv::boundingRect(contours[i]);
-							cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
-							cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
-							cv::putText(dst, "PENTA", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
-
-							total_area[2] = total_area[2] + contourArea(contours[i]);
-						}
-						else if (vtc == 6) {
-							hexa++; x++;
-							cv::Size text = cv::getTextSize("HEXA", fontface, scale, thickness, &baseline);
-							cv::Rect r = cv::boundingRect(contours[i]);
-							cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
-							cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
-							cv::putText(dst, "HEXA", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
-
-							total_area[3] = total_area[3] + contourArea(contours[i]);
 						}
 						else {
 							// Detect and label circles
@@ -1365,7 +1345,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 								cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
 								cv::putText(dst, "CIR", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
 
-								total_area[4] = total_area[4] + contourArea(contours[i]);
+								total_area[2] = total_area[2] + contourArea(contours[i]);
 							}
 							else if (contourArea(contours[i]) < 10000) {
 								irreg_S++;  x++;
@@ -1375,7 +1355,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 								cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
 								cv::putText(dst, "IRREG_S", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
 
-								total_area[5] = total_area[5] + contourArea(contours[i]);
+								total_area[3] = total_area[3] + contourArea(contours[i]);
 							}
 						}
 					}
@@ -1395,12 +1375,10 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				// *** END OF SHAPE DETECTION ***//
 
 				csv << std::to_string(x) + "," + std::to_string(circle) + "," + std::to_string(tri) + ","
-					+ std::to_string(rect) + "," + std::to_string(penta) + "," + std::to_string(hexa) + ","
-					+ std::to_string(irreg_S) + "," + std::to_string(irreg_L) + ","
+					+ std::to_string(rect) + "," + std::to_string(irreg_S) + "," + std::to_string(irreg_L) + ","
 
 					+ std::to_string(total_area[0] / circle) + "," + std::to_string(total_area[1] / tri) + "," + std::to_string(total_area[2] / rect)
-					+ "," + std::to_string(total_area[3] / penta) + "," + std::to_string(total_area[4] / hexa) + "," + std::to_string(total_area[5] / irreg_S)
-					+ "," + std::to_string(total_area[6] / irreg_L);
+					+ "," + std::to_string(total_area[3] / irreg_S)	+ "," + std::to_string(total_area[4] / irreg_L);
 				
 				csv << "\n";
 				csv.close();
