@@ -1096,18 +1096,9 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 					}
 				}
 
-				if (black < 100) {
-					
-					/*
-					string combine = std::to_string(black) + " // " + std::to_string(optimizedthresh);
-					message = gcnew System::String(combine.c_str());
-					MessageBox::Show(message);
-					*/
-					
-					if (optimizedthresh > 200) optimizedthresh = optimizedthresh * 0.25;
-					else if (optimizedthresh > 150 && optimizedthresh < 200) optimizedthresh = optimizedthresh * 0.3;
-					else optimizedthresh = optimizedthresh / 2;
-				}
+				if (optimizedthresh > 200) optimizedthresh = optimizedthresh * 0.25;
+				else if (optimizedthresh > 150 && optimizedthresh < 200) optimizedthresh = optimizedthresh * 0.3;
+				else optimizedthresh = optimizedthresh / 2;				
 				
 				for (int i = 0; i < otsu_img.rows; i++) {
 					for (int j = 0; j < otsu_img.cols; j++) {
