@@ -1086,7 +1086,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				txtProgress->AppendText("\r\nApplying Otsu's Method...");				
 				txtProgress->ScrollToCaret();
 
-				int black = 0;
+				int black = 0;				
 
 				//set otsu_img values based on the optimized threshhold calculated above.
 				for (int i = 0; i < otsu_img.rows; i++) {
@@ -1096,9 +1096,22 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 					}
 				}
 
-				if (optimizedthresh > 200) optimizedthresh = optimizedthresh * 0.25;
-				else if (optimizedthresh > 150 && optimizedthresh < 200) optimizedthresh = optimizedthresh * 0.3;
-				else optimizedthresh = optimizedthresh / 2;				
+				if (black <= 5) {	// Downy
+					/*
+					string combine = std::to_string(turn) + "\n" + std::to_string(black) + " || " + std::to_string(optimizedthresh);
+					message = gcnew System::String(combine.c_str());
+					MessageBox::Show(message);
+					*/
+					
+					if (optimizedthresh >= 200) optimizedthresh = optimizedthresh * 0.3; 
+					else if (optimizedthresh >= 150 && optimizedthresh < 200) optimizedthresh = optimizedthresh * 0.4;
+					else optimizedthresh = optimizedthresh / 2;
+				}	
+				else {
+					if (optimizedthresh >= 200) optimizedthresh = optimizedthresh * 0.25;
+					else if (optimizedthresh >= 150 && optimizedthresh < 200) optimizedthresh = optimizedthresh * 0.3;
+					else optimizedthresh = optimizedthresh / 2;
+				}
 				
 				for (int i = 0; i < otsu_img.rows; i++) {
 					for (int j = 0; j < otsu_img.cols; j++) {
