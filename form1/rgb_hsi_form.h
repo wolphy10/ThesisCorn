@@ -1102,14 +1102,14 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 					message = gcnew System::String(combine.c_str());
 					MessageBox::Show(message);
 					*/
-					
-					if (optimizedthresh >= 200) optimizedthresh = optimizedthresh * 0.3; 
-					else if (optimizedthresh >= 150 && optimizedthresh < 200) optimizedthresh = optimizedthresh * 0.4;
+					if (optimizedthresh >= 150) optimizedthresh = optimizedthresh * 0.3;
+					else if (optimizedthresh >= 100 && optimizedthresh < 150) optimizedthresh = optimizedthresh * 0.2; //0.25
 					else optimizedthresh = optimizedthresh / 2;
 				}	
 				else {
 					if (optimizedthresh >= 200) optimizedthresh = optimizedthresh * 0.25;
 					else if (optimizedthresh >= 150 && optimizedthresh < 200) optimizedthresh = optimizedthresh * 0.3;
+					else if (optimizedthresh >= 100 && optimizedthresh < 150) optimizedthresh = optimizedthresh * 0.35;
 					else optimizedthresh = optimizedthresh / 2;
 				}
 				
