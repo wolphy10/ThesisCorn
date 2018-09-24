@@ -1035,6 +1035,8 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				else if (turn == 2) otsu_img = cv::imread(crop3, CV_8UC1);
 				else otsu_img = cv::imread(crop4, CV_8UC1);
 
+				Mat mapped = otsu_img.clone();
+
 				for (int i = 0; i < 256; i++) {
 					histogram[i] = 0.0;
 					probability[i] = 0.0;
@@ -1102,14 +1104,20 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 					message = gcnew System::String(combine.c_str());
 					MessageBox::Show(message);
 					*/
-					if (optimizedthresh >= 150) optimizedthresh = optimizedthresh * 0.3;
-					else if (optimizedthresh >= 100 && optimizedthresh < 150) optimizedthresh = optimizedthresh * 0.2; //0.25
+					if (optimizedthresh >= 240) optimizedthresh = optimizedthresh * 0.25;
+					else if (optimizedthresh >= 150) optimizedthresh = optimizedthresh * 0.3;
+					else if (optimizedthresh > 120 && optimizedthresh < 150) optimizedthresh = optimizedthresh * 0.4; //0.2 last
 					else optimizedthresh = optimizedthresh / 2;
 				}	
 				else {
+					/*
+					string combine = std::to_string(turn) + "\n" + std::to_string(black) + " || " + std::to_string(optimizedthresh);
+					message = gcnew System::String(combine.c_str());
+					MessageBox::Show(message);
+					*/
 					if (optimizedthresh >= 200) optimizedthresh = optimizedthresh * 0.25;
 					else if (optimizedthresh >= 150 && optimizedthresh < 200) optimizedthresh = optimizedthresh * 0.3;
-					else if (optimizedthresh >= 100 && optimizedthresh < 150) optimizedthresh = optimizedthresh * 0.35;
+					else if (optimizedthresh > 120 && optimizedthresh < 150) optimizedthresh = optimizedthresh * 0.35;
 					else optimizedthresh = optimizedthresh / 2;
 				}
 				
@@ -1117,10 +1125,12 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 					for (int j = 0; j < otsu_img.cols; j++) {
 						pixel = (int)otsu_img.at<uchar>(i, j);
 						if (pixel < optimizedthresh) {				//if pixel is < than the threshhold, set it to 255 (black)
+							mapped.at<uchar>(i, j) = otsu_img.at<uchar>(i, j);
 							pixel = otsu_img.at<uchar>(i, j) = 255;
 						}						
-						else {										//if pixel is > than the threshhold, set it to 0
-							pixel = otsu_img.at<uchar>(i, j) = 0;
+						else {										//if pixel is > than the threshhold, set it to 0							
+							pixel = otsu_img.at<uchar>(i, j) = 0;							
+							mapped.at<uchar>(i, j) = 0;			
 						}
 					}
 				}
@@ -1128,6 +1138,9 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				otsu = std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_") +
 					std::string((std::to_string(turn)).c_str()) + std::string(".jpg");
 				imwrite(otsu, otsu_img);
+				string map = std::string("Image Processing/") + final_path2 + std::string("__4__MAP_") +
+					std::string((std::to_string(turn)).c_str()) + std::string(".jpg");
+				imwrite(map, mapped);
 				img_change = gcnew System::String(otsu.c_str());
 				
 				if (turn == 0) img_otsu0->BackgroundImage = System::Drawing::Image::FromFile(img_change);
@@ -1150,10 +1163,10 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			std::string canny;
 			
 			for (int turn = 0; turn < 4; turn++) {
-				if (turn == 0) canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_0.jpg")), CV_8UC1);
-				else if (turn == 1) canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_1.jpg")), CV_8UC1);
-				else if (turn == 2) canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_2.jpg")), CV_8UC1);
-				else canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_3.jpg")), CV_8UC1);
+				if (turn == 0) canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__MAP_0.jpg")), CV_8UC1);
+				else if (turn == 1) canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__MAP_1.jpg")), CV_8UC1);
+				else if (turn == 2) canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__MAP_2.jpg")), CV_8UC1);
+				else canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__MAP_3.jpg")), CV_8UC1);
 
 				cv::Canny(canny_img,				// input image
 					canny_img,                   // output image
@@ -1178,13 +1191,13 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 
 			txtProgress->AppendText("\r\nApplying SGDM...");
 			txtProgress->ScrollToCaret();
-			cv::Mat SGDM;			
 			
 			for (int turn = 0; turn < 4; turn++) {
-				if (turn == 0) SGDM = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_0.jpg")), CV_8UC1);
-				else if (turn == 1) SGDM = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_1.jpg")), CV_8UC1);
-				else if (turn == 2) SGDM = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_2.jpg")), CV_8UC1);
-				else SGDM = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_3.jpg")), CV_8UC1);
+				cv::Mat SGDM;
+				if (turn == 0) SGDM = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__MAP_0.jpg")), CV_8UC1);
+				else if (turn == 1) SGDM = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__MAP_1.jpg")), CV_8UC1);
+				else if (turn == 2) SGDM = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__MAP_2.jpg")), CV_8UC1);
+				else SGDM = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__MAP_3.jpg")), CV_8UC1);
 
 				Mat gl = Mat::zeros(256, 256, CV_32FC1);
 
