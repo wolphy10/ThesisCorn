@@ -845,10 +845,10 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			}
 
 			final_path = gcnew System::String(img_path2.c_str());			
-			txtProgress->AppendText("Opening " + final_path + "...\r\n");
+			txtProgress->AppendText("Opening " + final_path + "...\r\n");					
 
 			if (image.data && !image.empty()) {
-				Mat h1(image.rows, image.cols, image.type());
+				Mat h1(image.rows, image.cols, image.type());				
 				float r, g, b, h, s, in;
 
 				for (int i = 0; i < image.rows; i++)
@@ -869,7 +869,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 						if (s < 0.00001) {
 							s = 0;	// Dark saturation
 						}
-						else if (s > 0.99999) {
+						else if (s > 0.99999) { 
 							s = 1;	// Light saturation
 						}
 
@@ -882,7 +882,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 							}
 							else {
 								h = ((360 * 3.14159265) / 180.0) - h;
-								//h = (2 * 3.14169265 - h);	// same result as above
+								//h = (2 * 3.14169265 - h);	// same result as above								
 							}
 						}
 						h1.at<Vec3b>(i, j)[0] = (h * 180) / 3.14159265;
@@ -892,7 +892,6 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				}
 
 				std::string final_path2 = msclr::interop::marshal_as<std::string>(final_path);
-
 				std::string h1_path = std::string("Image Processing/") + final_path2 + std::string("__1__HUE.jpg");
 				txtProgress->AppendText("Hue Selection Completed...\r\n");
 						
@@ -915,7 +914,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			txtProgress->ScrollToCaret();
 
 			const double PI = atan(1) * 4;
-			double sigma = 60; // 2 orig --- the higher, the more blurred | 40 previously used
+			double sigma = 80; // 2 orig --- the higher, the more blurred | 40 previously used
 			const int kernalWidth = 5, kernalHeight = 5; // 5 always!
 
 			float kernalArray[kernalWidth][kernalHeight];
@@ -992,11 +991,11 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 		/*
 			START OF OTSU | OTSU'S METHOD			
 		*/
-			txtProgress->AppendText("\r\nStart of Otsu's Method...");					
-			
+			txtProgress->AppendText("\r\nStart of Otsu's Method...");								
+
 			std::string otsu;				// Filename
 			cv::Mat otsu_img = cv::imread(blurredH, CV_8UC1);
-			
+
 			cv::Mat cropped
 				= otsu_img(cv::Range(0, otsu_img.rows / 2 - 1), cv::Range(0, otsu_img.cols / 2 - 1));
 				std::string crop1 = std::string("Image Processing/") + final_path2 + std::string("__3__CROP_0.jpg");
@@ -1035,7 +1034,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				else if (turn == 2) otsu_img = cv::imread(crop3, CV_8UC1);
 				else otsu_img = cv::imread(crop4, CV_8UC1);
 
-				Mat mapped = otsu_img.clone();
+				Mat green_img, mapped = otsu_img.clone();
 
 				for (int i = 0; i < 256; i++) {
 					histogram[i] = 0.0;
@@ -1069,8 +1068,8 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 					mu1next = (q1prev * mu1 + (t + 1) * (probability[t + 1])) / q1next;	//set mu1(t+1)
 					mu2next = (mu - q1next * mu1next) / (1 - q1next);					//set mu2(t+1)
 					betweenvariance = q1prev * (1 - q1prev) * ((mu1 - mu2) * (mu1 - mu2));		//calculate between group variance
-					
-					//max between group variance is initially set to 0. Change the max between group variance, and change the optimized threshold to t if the current variance is > max.
+
+																								//max between group variance is initially set to 0. Change the max between group variance, and change the optimized threshold to t if the current variance is > max.
 					if (betweenvariance > maxbetweenvariance) {
 						maxbetweenvariance = betweenvariance;
 						optimizedthresh = t;	//set new optimized threshhold
@@ -1085,10 +1084,10 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 					}
 				}
 
-				txtProgress->AppendText("\r\nApplying Otsu's Method...");				
+				txtProgress->AppendText("\r\nApplying Otsu's Method...");
 				txtProgress->ScrollToCaret();
 
-				int black = 0;				
+				int black = 0;
 
 				//set otsu_img values based on the optimized threshhold calculated above.
 				for (int i = 0; i < otsu_img.rows; i++) {
@@ -1098,39 +1097,76 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 					}
 				}
 
-				if (black <= 5) {	// Downy
-					/*
+				float old_optimizedthresh = optimizedthresh;
+				if (black <= 5) {
+					
 					string combine = std::to_string(turn) + "\n" + std::to_string(black) + " || " + std::to_string(optimizedthresh);
 					message = gcnew System::String(combine.c_str());
 					MessageBox::Show(message);
-					*/
-					if (optimizedthresh >= 240) optimizedthresh = optimizedthresh * 0.25;
+					
+					if (optimizedthresh >= 240) optimizedthresh = optimizedthresh * 0.4;
 					else if (optimizedthresh >= 150) optimizedthresh = optimizedthresh * 0.3;
 					else if (optimizedthresh > 120 && optimizedthresh < 150) optimizedthresh = optimizedthresh * 0.4; //0.2 last
 					else optimizedthresh = optimizedthresh / 2;
-				}	
+				}
 				else {
-					/*
+					
 					string combine = std::to_string(turn) + "\n" + std::to_string(black) + " || " + std::to_string(optimizedthresh);
 					message = gcnew System::String(combine.c_str());
 					MessageBox::Show(message);
-					*/
+					
 					if (optimizedthresh >= 200) optimizedthresh = optimizedthresh * 0.25;
 					else if (optimizedthresh >= 150 && optimizedthresh < 200) optimizedthresh = optimizedthresh * 0.3;
 					else if (optimizedthresh > 120 && optimizedthresh < 150) optimizedthresh = optimizedthresh * 0.35;
 					else optimizedthresh = optimizedthresh / 2;
 				}
-				
+
+				int counter = 0;
+				// Check for green
 				for (int i = 0; i < otsu_img.rows; i++) {
 					for (int j = 0; j < otsu_img.cols; j++) {
 						pixel = (int)otsu_img.at<uchar>(i, j);
-						if (pixel < optimizedthresh) {				//if pixel is < than the threshhold, set it to 255 (black)
-							mapped.at<uchar>(i, j) = otsu_img.at<uchar>(i, j);
-							pixel = otsu_img.at<uchar>(i, j) = 255;
-						}						
-						else {										//if pixel is > than the threshhold, set it to 0							
-							pixel = otsu_img.at<uchar>(i, j) = 0;							
-							mapped.at<uchar>(i, j) = 0;			
+						if (pixel < optimizedthresh) counter++;
+					}
+				}
+
+				message = gcnew System::String(std::to_string(counter).c_str());
+				MessageBox::Show(message);
+
+				// BOOK
+				if ((counter >= 5000 && counter <= 25000) || (counter >= 3000000 && counter <= 4500000)) {
+					//inRange(otsu_img, Scalar(68, 117, 103), Scalar(82, 140, 125), greens); // B G R
+					inRange(otsu_img, Scalar(68, 117, 103), Scalar(74, 129, 113), green_img); // B G R					
+					otsu = std::string("Image Processing/") + final_path2 + std::string("__GREEN__") +
+						std::string((std::to_string(turn)).c_str()) + std::string(".jpg");
+					imwrite(otsu, green_img);
+
+					for (int i = 0; i < otsu_img.rows; i++) {
+						for (int j = 0; j < otsu_img.cols; j++) {
+							pixel = (int)green_img.at<uchar>(i, j);					// Use green as mask
+							if (pixel < optimizedthresh) {												
+								mapped.at<uchar>(i, j) = 0;							// Make non-lesion as black
+								pixel = otsu_img.at<uchar>(i, j) = 0; 
+							}
+							else {										
+								mapped.at<uchar>(i, j) = otsu_img.at<uchar>(i, j);	// Get lesion from hue
+								pixel = otsu_img.at<uchar>(i, j) = 255;				// Otsu as white (lesion)
+							}
+						}
+					}
+				}
+				else {
+					for (int i = 0; i < otsu_img.rows; i++) {
+						for (int j = 0; j < otsu_img.cols; j++) {
+							pixel = (int)otsu_img.at<uchar>(i, j);
+							if (pixel < optimizedthresh) {				
+								mapped.at<uchar>(i, j) = otsu_img.at<uchar>(i, j);	// Get lesion from hue
+								pixel = otsu_img.at<uchar>(i, j) = 255;				// Otsu as white (lesion)
+							}
+							else {										
+								mapped.at<uchar>(i, j) = 0;							// Make non-lesion as black
+								pixel = otsu_img.at<uchar>(i, j) = 0;				// Otsu as black (non-lesion)
+							}
 						}
 					}
 				}
@@ -1155,7 +1191,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 
 		//*** END OF OTSU ***//
 
-		/* CANNY EDGE */
+		/* CANNY EDGE 
 
 			txtProgress->AppendText("\r\nCreating Canny edge filter...");
 			txtProgress->ScrollToCaret();
@@ -1170,8 +1206,8 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 
 				cv::Canny(canny_img,				// input image
 					canny_img,                   // output image
-					100,                        // low threshold
-					200);                       // high threshold
+					100,                        // low threshold -- 100 orig
+					200);                       // high threshold -- 200 orig
 
 					canny = std::string("Image Processing/") + final_path2 + std::string("__5__CANNY_") +
 						std::string((std::to_string(turn)).c_str()) + std::string(".jpg");;
@@ -1182,9 +1218,9 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			txtProgress->AppendText("\r\nCanny Edge filter Completed...");			
 			txtProgress->ScrollToCaret();
 
-		//*** END OF CANNY EDGE ***//
+		//*** END OF CANNY EDGE ***/
 
-		//*** START OF SGDM ***//
+		/* START OF SGDM 
 
 			ofstream csv;
 			// CSV FILE
@@ -1247,9 +1283,9 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				txtProgress->AppendText("\r\nSGDM Method Completed...");
 				txtProgress->ScrollToCaret();
 
-				//*** END OF SGDM ***//
+				//*** END OF SGDM ***/
 
-				// *** START OF SHAPE DETECTION ***//
+				/*** START OF SHAPE DETECTION ***
 
 				std::vector<std::vector<cv::Point>> contours;
 				std::vector<cv::Point> approx;
@@ -1286,7 +1322,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 						message = gcnew System::String(std::to_string(cv::convexHull(contours[i])).c_str());
 						MessageBox::Show(message);
 						drawContours(dst, contours, i, Scalar(255, 0, 0), 4);
-						*/						
+						* /						
 						irreg_L++;  x++;
 						cv::Size text = cv::getTextSize("IRREG_L", fontface, scale, thickness, &baseline);
 						cv::Rect r = cv::boundingRect(contours[i]);
@@ -1389,7 +1425,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				else if (turn == 2) img_shape2->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 				else img_shape3->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 
-				// *** END OF SHAPE DETECTION ***//
+				// *** END OF SHAPE DETECTION *** //
 
 				csv << std::to_string(x) + "," + std::to_string(circle) + "," + std::to_string(tri) + ","
 					+ std::to_string(rect) + "," + std::to_string(irreg_S) + "," + std::to_string(irreg_L) + ","
@@ -1400,6 +1436,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				csv << "\n";
 				csv.close();
 			}
+			*/
 
 			txtProgress->AppendText("\r\n.\r\n.\r\nImage Processing complete.");
 			txtProgress->ScrollToCaret();
