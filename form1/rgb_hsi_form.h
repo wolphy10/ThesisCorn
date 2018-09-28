@@ -1106,7 +1106,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 					*/
 					if (optimizedthresh >= 240) optimizedthresh = optimizedthresh * 0.4;
 					else if (optimizedthresh >= 150) optimizedthresh = optimizedthresh * 0.3;
-					else if (optimizedthresh > 120 && optimizedthresh < 150) optimizedthresh = optimizedthresh * 0.4; //0.2 last
+					else if (optimizedthresh > 120 && optimizedthresh < 150) optimizedthresh = optimizedthresh * 0.35; //0.2 last
 					else optimizedthresh = optimizedthresh / 2;
 				}
 				else {
@@ -1129,14 +1129,12 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 						if (pixel < optimizedthresh) counter++;
 					}
 				}
-
-				/*
+				
 				message = gcnew System::String(std::to_string(counter).c_str());
 				MessageBox::Show(message);
-				*/
-
+				
 				// BOOK
-				if ((counter >= 5000 && counter <= 25000) || (counter >= 3000000 && counter <= 4500000)) {
+				if ((counter >= 5000 && counter <= 25000) || (counter >= 3000000 && counter <= 5000000)) {
 					//inRange(otsu_img, Scalar(68, 117, 103), Scalar(82, 140, 125), greens); // B G R
 					inRange(otsu_img, Scalar(68, 117, 103), Scalar(74, 129, 113), green_img); // B G R					
 					otsu = std::string("Image Processing/") + final_path2 + std::string("__GREEN__") +
@@ -1208,8 +1206,8 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 
 				cv::Canny(canny_img,				// input image
 					canny_img,                   // output image
-					100,                        // low threshold -- 100 orig
-					200);                       // high threshold -- 200 orig
+					50,                        // low threshold -- 100 orig
+					150);                       // high threshold -- 200 orig
 
 					canny = std::string("Image Processing/") + final_path2 + std::string("__5__CANNY_") +
 						std::string((std::to_string(turn)).c_str()) + std::string(".jpg");;
