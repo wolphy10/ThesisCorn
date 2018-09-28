@@ -1129,10 +1129,10 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 						if (pixel < optimizedthresh) counter++;
 					}
 				}
-				
+				/*
 				message = gcnew System::String(std::to_string(counter).c_str());
 				MessageBox::Show(message);
-				
+				*/
 				// BOOK
 				if ((counter >= 5000 && counter <= 25000) || (counter >= 3000000 && counter <= 5000000)) {
 					//inRange(otsu_img, Scalar(68, 117, 103), Scalar(82, 140, 125), greens); // B G R
@@ -1199,15 +1199,15 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			std::string canny;
 			
 			for (int turn = 0; turn < 4; turn++) {
-				if (turn == 0) canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__MAP_0.jpg")), CV_8UC1);
-				else if (turn == 1) canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__MAP_1.jpg")), CV_8UC1);
-				else if (turn == 2) canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__MAP_2.jpg")), CV_8UC1);
-				else canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__MAP_3.jpg")), CV_8UC1);
+				if (turn == 0) canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_0.jpg")), CV_8UC1);
+				else if (turn == 1) canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_1.jpg")), CV_8UC1);
+				else if (turn == 2) canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_2.jpg")), CV_8UC1);
+				else canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_3.jpg")), CV_8UC1);
 
 				cv::Canny(canny_img,				// input image
 					canny_img,                   // output image
-					50,                        // low threshold -- 100 orig
-					150);                       // high threshold -- 200 orig
+					100,                        // low threshold -- 100 orig
+					200);                       // high threshold -- 200 orig
 
 					canny = std::string("Image Processing/") + final_path2 + std::string("__5__CANNY_") +
 						std::string((std::to_string(turn)).c_str()) + std::string(".jpg");;
@@ -1316,7 +1316,6 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 						continue;
 					}
 
-					
 					if (contourArea(contours[i]) > 10000 && contourArea(contours[i]) < 100000) {						
 						/*
 						message = gcnew System::String(std::to_string(cv::convexHull(contours[i])).c_str());
@@ -1411,9 +1410,8 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 								total_area[3] = total_area[3] + contourArea(contours[i]);
 							}
 						}
-					}
-					
-			}
+					}					
+				}
 
 				std::string shapepath = std::string("Image Processing/") + final_path2 + std::string("__6__SHAPE_") +
 					std::string((std::to_string(turn)).c_str()) + std::string(".jpg");;
