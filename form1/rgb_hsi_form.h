@@ -1099,22 +1099,22 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 
 				float old_optimizedthresh = optimizedthresh;
 				if (black <= 5) {
-					
+					/*
 					string combine = std::to_string(turn) + "\n" + std::to_string(black) + " || " + std::to_string(optimizedthresh);
 					message = gcnew System::String(combine.c_str());
 					MessageBox::Show(message);
-					
+					*/
 					if (optimizedthresh >= 240) optimizedthresh = optimizedthresh * 0.4;
 					else if (optimizedthresh >= 150) optimizedthresh = optimizedthresh * 0.3;
 					else if (optimizedthresh > 120 && optimizedthresh < 150) optimizedthresh = optimizedthresh * 0.4; //0.2 last
 					else optimizedthresh = optimizedthresh / 2;
 				}
 				else {
-					
+					/*
 					string combine = std::to_string(turn) + "\n" + std::to_string(black) + " || " + std::to_string(optimizedthresh);
 					message = gcnew System::String(combine.c_str());
 					MessageBox::Show(message);
-					
+					*/
 					if (optimizedthresh >= 200) optimizedthresh = optimizedthresh * 0.25;
 					else if (optimizedthresh >= 150 && optimizedthresh < 200) optimizedthresh = optimizedthresh * 0.3;
 					else if (optimizedthresh > 120 && optimizedthresh < 150) optimizedthresh = optimizedthresh * 0.35;
@@ -1130,8 +1130,10 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 					}
 				}
 
+				/*
 				message = gcnew System::String(std::to_string(counter).c_str());
 				MessageBox::Show(message);
+				*/
 
 				// BOOK
 				if ((counter >= 5000 && counter <= 25000) || (counter >= 3000000 && counter <= 4500000)) {
@@ -1191,7 +1193,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 
 		//*** END OF OTSU ***//
 
-		/* CANNY EDGE 
+		/* CANNY EDGE */
 
 			txtProgress->AppendText("\r\nCreating Canny edge filter...");
 			txtProgress->ScrollToCaret();
@@ -1220,7 +1222,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 
 		//*** END OF CANNY EDGE ***/
 
-		/* START OF SGDM 
+		/* START OF SGDM */ 
 
 			ofstream csv;
 			// CSV FILE
@@ -1285,7 +1287,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 
 				//*** END OF SGDM ***/
 
-				/*** START OF SHAPE DETECTION ***
+				/*** START OF SHAPE DETECTION ***/
 
 				std::vector<std::vector<cv::Point>> contours;
 				std::vector<cv::Point> approx;
@@ -1322,7 +1324,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 						message = gcnew System::String(std::to_string(cv::convexHull(contours[i])).c_str());
 						MessageBox::Show(message);
 						drawContours(dst, contours, i, Scalar(255, 0, 0), 4);
-						* /						
+						*/						
 						irreg_L++;  x++;
 						cv::Size text = cv::getTextSize("IRREG_L", fontface, scale, thickness, &baseline);
 						cv::Rect r = cv::boundingRect(contours[i]);
@@ -1436,7 +1438,6 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				csv << "\n";
 				csv.close();
 			}
-			*/
 
 			txtProgress->AppendText("\r\n.\r\n.\r\nImage Processing complete.");
 			txtProgress->ScrollToCaret();
