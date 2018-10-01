@@ -1156,7 +1156,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 						}
 					}
 					else {									// Goss
-						if (old_optimizedthresh >= 200) optimizedthresh = old_optimizedthresh * 0.1;
+						if (old_optimizedthresh >= 200) optimizedthresh = old_optimizedthresh;
 						for (int i = 0; i < otsu_img.rows; i++) {
 							for (int j = 0; j < otsu_img.cols; j++) {
 								pixel = (int)otsu_img.at<uchar>(i, j);
