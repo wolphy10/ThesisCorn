@@ -1097,7 +1097,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 					}
 				}
 
-				float old_optimizedthresh = optimizedthresh;
+				int old_optimizedthresh = optimizedthresh;
 				if (black <= 5) {
 					/*
 					string combine = std::to_string(turn) + "\n" + std::to_string(black) + " || " + std::to_string(optimizedthresh);
@@ -1133,24 +1133,41 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				message = gcnew System::String(std::to_string(counter).c_str());
 				MessageBox::Show(message);
 				*/
-				// BOOK
+				// BOOK THRES
 				if ((counter >= 5000 && counter <= 25000) || (counter >= 3000000 && counter <= 5000000)) {
-					//inRange(otsu_img, Scalar(68, 117, 103), Scalar(82, 140, 125), greens); // B G R
-					inRange(otsu_img, Scalar(68, 117, 103), Scalar(74, 129, 113), green_img); // B G R					
-					otsu = std::string("Image Processing/") + final_path2 + std::string("__GREEN__") +
-						std::string((std::to_string(turn)).c_str()) + std::string(".jpg");
-					imwrite(otsu, green_img);
+					if (old_optimizedthresh >= 240) {		// Downy
+						inRange(otsu_img, Scalar(68, 117, 103), Scalar(74, 129, 113), green_img); // B G R					
+						otsu = std::string("Image Processing/") + final_path2 + std::string("__GREEN__") +
+							std::string((std::to_string(turn)).c_str()) + std::string(".jpg");
+						imwrite(otsu, green_img);
 
-					for (int i = 0; i < otsu_img.rows; i++) {
-						for (int j = 0; j < otsu_img.cols; j++) {
-							pixel = (int)green_img.at<uchar>(i, j);					// Use green as mask
-							if (pixel < optimizedthresh) {												
-								mapped.at<uchar>(i, j) = 0;							// Make non-lesion as black
-								pixel = otsu_img.at<uchar>(i, j) = 0; 
+						for (int i = 0; i < otsu_img.rows; i++) {
+							for (int j = 0; j < otsu_img.cols; j++) {
+								pixel = (int)green_img.at<uchar>(i, j);					// Use green as mask
+								if (pixel < optimizedthresh) {
+									mapped.at<uchar>(i, j) = 0;							// Make non-lesion as black
+									pixel = otsu_img.at<uchar>(i, j) = 0;
+								}
+								else {
+									mapped.at<uchar>(i, j) = otsu_img.at<uchar>(i, j);	// Get lesion from hue
+									pixel = otsu_img.at<uchar>(i, j) = 255;				// Otsu as white (lesion)
+								}
 							}
-							else {										
-								mapped.at<uchar>(i, j) = otsu_img.at<uchar>(i, j);	// Get lesion from hue
-								pixel = otsu_img.at<uchar>(i, j) = 255;				// Otsu as white (lesion)
+						}
+					}
+					else {									// Goss
+						if (old_optimizedthresh >= 200) optimizedthresh = old_optimizedthresh * 0.1;
+						for (int i = 0; i < otsu_img.rows; i++) {
+							for (int j = 0; j < otsu_img.cols; j++) {
+								pixel = (int)otsu_img.at<uchar>(i, j);
+								if (pixel < optimizedthresh) {
+									mapped.at<uchar>(i, j) = otsu_img.at<uchar>(i, j);	// Get lesion from hue
+									pixel = otsu_img.at<uchar>(i, j) = 255;				// Otsu as white (lesion)
+								}
+								else {
+									mapped.at<uchar>(i, j) = 0;							// Make non-lesion as black
+									pixel = otsu_img.at<uchar>(i, j) = 0;				// Otsu as black (non-lesion)
+								}
 							}
 						}
 					}
@@ -1205,9 +1222,9 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				else canny_img = cv::imread((std::string("Image Processing/") + final_path2 + std::string("__4__OTSU_3.jpg")), CV_8UC1);
 
 				cv::Canny(canny_img,				// input image
-					canny_img,                   // output image
-					100,                        // low threshold -- 100 orig
-					200);                       // high threshold -- 200 orig
+					canny_img,						// output image
+					100,							// low threshold -- 100 orig
+					200);							// high threshold -- 200 orig
 
 					canny = std::string("Image Processing/") + final_path2 + std::string("__5__CANNY_") +
 						std::string((std::to_string(turn)).c_str()) + std::string(".jpg");;
@@ -1329,7 +1346,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 						cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
 						cv::putText(dst, "IRREG_L", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
 
-						total_area[4] = total_area[4] + contourArea(contours[i]);	
+						total_area[4] = total_area[4] + contourArea(contours[i]);
 						drawContours(dst, contours, i, Scalar(255, 0, 0), 4);
 					}
 					else if (approx.size() == 3) {
@@ -1340,7 +1357,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 						cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
 						cv::rectangle(dst, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
 						cv::putText(dst, "TRI", pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
-
+				
 						total_area[0] = total_area[0] + contourArea(contours[i]);
 					}
 					else if (approx.size() >= 4)
