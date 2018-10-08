@@ -131,8 +131,8 @@ namespace form1 {
 	private: System::Windows::Forms::Label^  lblPathHead;
 
 
-	private: System::Windows::Forms::Label^  label2;
-	private: System::Windows::Forms::Label^  lblDiseaseHead;
+
+
 	private: System::Windows::Forms::RichTextBox^  lblPath;
 
 	private: System::Windows::Forms::Panel^  panelBtn;
@@ -161,6 +161,45 @@ public: System::Windows::Forms::PictureBox^  img_otsu3;
 public: System::Windows::Forms::PictureBox^  img_otsu2;
 
 public: System::Windows::Forms::PictureBox^  img_otsu1;
+private: System::Windows::Forms::Button^  btnThird;
+private: System::Windows::Forms::Panel^  thirdPanel;
+
+public: System::Windows::Forms::PictureBox^  img_class3;
+private:
+
+public: System::Windows::Forms::PictureBox^  img_class2;
+private:
+
+public: System::Windows::Forms::PictureBox^  img_class1;
+
+
+private: System::Windows::Forms::Label^  label1;
+public:
+private: System::Windows::Forms::Label^  label2;
+public: System::Windows::Forms::PictureBox^  img_class0;
+private: System::Windows::Forms::Label^  label4;
+public:
+private: System::Windows::Forms::Label^  label3;
+private: System::Windows::Forms::RichTextBox^  txtClassify3;
+private: System::Windows::Forms::RichTextBox^  txtClassify2;
+private: System::Windows::Forms::RichTextBox^  txtClassify1;
+private: System::Windows::Forms::RichTextBox^  txtClassify0;
+private: System::Windows::Forms::Button^  btnPredict;
+private: System::Windows::Forms::Panel^  panel_pred;
+
+
+
+
+private:
+
+private:
+
+private:
+
+private:
+public:
+
+public:
 
 
 
@@ -241,14 +280,28 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			this->btnSecond = (gcnew System::Windows::Forms::Button());
 			this->btnFirst = (gcnew System::Windows::Forms::Button());
 			this->origPanel = (gcnew System::Windows::Forms::Panel());
+			this->panel_pred = (gcnew System::Windows::Forms::Panel());
+			this->btnPredict = (gcnew System::Windows::Forms::Button());
 			this->lblPath = (gcnew System::Windows::Forms::RichTextBox());
-			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->lblDiseaseHead = (gcnew System::Windows::Forms::Label());
 			this->lblPathHead = (gcnew System::Windows::Forms::Label());
 			this->img_orig = (gcnew System::Windows::Forms::PictureBox());
 			this->panelBtn = (gcnew System::Windows::Forms::Panel());
+			this->btnThird = (gcnew System::Windows::Forms::Button());
 			this->btnMin = (gcnew System::Windows::Forms::Button());
 			this->lblTitle = (gcnew System::Windows::Forms::Label());
+			this->thirdPanel = (gcnew System::Windows::Forms::Panel());
+			this->txtClassify3 = (gcnew System::Windows::Forms::RichTextBox());
+			this->txtClassify2 = (gcnew System::Windows::Forms::RichTextBox());
+			this->txtClassify1 = (gcnew System::Windows::Forms::RichTextBox());
+			this->txtClassify0 = (gcnew System::Windows::Forms::RichTextBox());
+			this->label4 = (gcnew System::Windows::Forms::Label());
+			this->label3 = (gcnew System::Windows::Forms::Label());
+			this->img_class3 = (gcnew System::Windows::Forms::PictureBox());
+			this->img_class2 = (gcnew System::Windows::Forms::PictureBox());
+			this->img_class1 = (gcnew System::Windows::Forms::PictureBox());
+			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->img_class0 = (gcnew System::Windows::Forms::PictureBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_Hue))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_crop0))->BeginInit();
 			this->progressPanel->SuspendLayout();
@@ -270,24 +323,28 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			this->origPanel->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_orig))->BeginInit();
 			this->panelBtn->SuspendLayout();
+			this->thirdPanel->SuspendLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_class3))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_class2))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_class1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_class0))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// btnOpen
 			// 
-			this->btnOpen->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(245)), static_cast<System::Int32>(static_cast<System::Byte>(243)),
-				static_cast<System::Int32>(static_cast<System::Byte>(241)));
-			this->btnOpen->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(219)),
-				static_cast<System::Int32>(static_cast<System::Byte>(218)), static_cast<System::Int32>(static_cast<System::Byte>(216)));
+			this->btnOpen->BackColor = System::Drawing::Color::White;
+			this->btnOpen->FlatAppearance->BorderSize = 0;
+			this->btnOpen->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(250)),
+				static_cast<System::Int32>(static_cast<System::Byte>(250)), static_cast<System::Int32>(static_cast<System::Byte>(251)));
 			this->btnOpen->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->btnOpen->Font = (gcnew System::Drawing::Font(L"Segoe UI", 8.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->btnOpen->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(18)), static_cast<System::Int32>(static_cast<System::Byte>(18)),
-				static_cast<System::Int32>(static_cast<System::Byte>(18)));
-			this->btnOpen->Location = System::Drawing::Point(253, 22);
+			this->btnOpen->Font = (gcnew System::Drawing::Font(L"Arial", 8.25F, System::Drawing::FontStyle::Bold));
+			this->btnOpen->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(141)),
+				static_cast<System::Int32>(static_cast<System::Byte>(35)));
+			this->btnOpen->Location = System::Drawing::Point(253, 20);
 			this->btnOpen->Name = L"btnOpen";
 			this->btnOpen->Size = System::Drawing::Size(112, 28);
 			this->btnOpen->TabIndex = 0;
-			this->btnOpen->Text = L"Open File";
+			this->btnOpen->Text = L"OPEN FILE";
 			this->btnOpen->UseVisualStyleBackColor = false;
 			this->btnOpen->Click += gcnew System::EventHandler(this, &rgb_hsi_form::btnOpen_Click);
 			// 
@@ -299,9 +356,9 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			// 
 			this->img_Hue->BackColor = System::Drawing::Color::White;
 			this->img_Hue->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-			this->img_Hue->Location = System::Drawing::Point(1, 6);
+			this->img_Hue->Location = System::Drawing::Point(12, 23);
 			this->img_Hue->Name = L"img_Hue";
-			this->img_Hue->Size = System::Drawing::Size(350, 317);
+			this->img_Hue->Size = System::Drawing::Size(350, 324);
 			this->img_Hue->TabIndex = 1;
 			this->img_Hue->TabStop = false;
 			// 
@@ -309,82 +366,83 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			// 
 			this->img_crop0->BackColor = System::Drawing::Color::White;
 			this->img_crop0->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-			this->img_crop0->Location = System::Drawing::Point(389, 6);
+			this->img_crop0->Location = System::Drawing::Point(395, 23);
 			this->img_crop0->Name = L"img_crop0";
-			this->img_crop0->Size = System::Drawing::Size(154, 154);
+			this->img_crop0->Size = System::Drawing::Size(156, 160);
 			this->img_crop0->TabIndex = 2;
 			this->img_crop0->TabStop = false;
 			// 
 			// lblHue
 			// 
 			this->lblHue->AutoSize = true;
-			this->lblHue->Font = (gcnew System::Drawing::Font(L"Segoe UI Semibold", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->lblHue->Location = System::Drawing::Point(324, 327);
+			this->lblHue->Font = (gcnew System::Drawing::Font(L"Segoe UI", 6.75F, System::Drawing::FontStyle::Bold));
+			this->lblHue->ForeColor = System::Drawing::Color::Gray;
+			this->lblHue->Location = System::Drawing::Point(10, 7);
 			this->lblHue->Name = L"lblHue";
-			this->lblHue->Size = System::Drawing::Size(27, 13);
+			this->lblHue->Size = System::Drawing::Size(24, 12);
 			this->lblHue->TabIndex = 3;
-			this->lblHue->Text = L"Hue";
+			this->lblHue->Text = L"HUE";
 			// 
 			// lblCropped
 			// 
 			this->lblCropped->AutoSize = true;
-			this->lblCropped->Font = (gcnew System::Drawing::Font(L"Segoe UI Semibold", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->lblCropped->Location = System::Drawing::Point(649, 327);
+			this->lblCropped->Font = (gcnew System::Drawing::Font(L"Segoe UI", 6.75F, System::Drawing::FontStyle::Bold));
+			this->lblCropped->ForeColor = System::Drawing::Color::Gray;
+			this->lblCropped->Location = System::Drawing::Point(393, 7);
 			this->lblCropped->Name = L"lblCropped";
-			this->lblCropped->Size = System::Drawing::Size(57, 13);
+			this->lblCropped->Size = System::Drawing::Size(52, 12);
 			this->lblCropped->TabIndex = 4;
-			this->lblCropped->Text = L"Segments";
+			this->lblCropped->Text = L"SEGMENTS";
 			// 
 			// progressPanel
 			// 
-			this->progressPanel->BackColor = System::Drawing::Color::White;
+			this->progressPanel->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(74)), static_cast<System::Int32>(static_cast<System::Byte>(69)),
+				static_cast<System::Int32>(static_cast<System::Byte>(66)));
 			this->progressPanel->Controls->Add(this->txtProgress);
-			this->progressPanel->Location = System::Drawing::Point(234, 405);
+			this->progressPanel->Location = System::Drawing::Point(234, 419);
 			this->progressPanel->Name = L"progressPanel";
-			this->progressPanel->Size = System::Drawing::Size(750, 129);
+			this->progressPanel->Size = System::Drawing::Size(750, 115);
 			this->progressPanel->TabIndex = 7;
 			// 
 			// txtProgress
 			// 
-			this->txtProgress->BackColor = System::Drawing::Color::White;
+			this->txtProgress->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(74)), static_cast<System::Int32>(static_cast<System::Byte>(69)),
+				static_cast<System::Int32>(static_cast<System::Byte>(66)));
 			this->txtProgress->BorderStyle = System::Windows::Forms::BorderStyle::None;
 			this->txtProgress->Cursor = System::Windows::Forms::Cursors::Arrow;
 			this->txtProgress->Font = (gcnew System::Drawing::Font(L"Consolas", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->txtProgress->Location = System::Drawing::Point(13, 13);
+			this->txtProgress->ForeColor = System::Drawing::Color::White;
+			this->txtProgress->Location = System::Drawing::Point(13, 11);
 			this->txtProgress->Name = L"txtProgress";
 			this->txtProgress->ReadOnly = true;
 			this->txtProgress->ScrollBars = System::Windows::Forms::RichTextBoxScrollBars::Vertical;
-			this->txtProgress->Size = System::Drawing::Size(725, 103);
+			this->txtProgress->Size = System::Drawing::Size(725, 95);
 			this->txtProgress->TabIndex = 100;
 			this->txtProgress->TabStop = false;
 			this->txtProgress->Text = L"";
 			// 
 			// btnLocation
 			// 
-			this->btnLocation->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(245)), static_cast<System::Int32>(static_cast<System::Byte>(243)),
-				static_cast<System::Int32>(static_cast<System::Byte>(241)));
-			this->btnLocation->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(219)),
-				static_cast<System::Int32>(static_cast<System::Byte>(218)), static_cast<System::Int32>(static_cast<System::Byte>(216)));
+			this->btnLocation->BackColor = System::Drawing::Color::White;
+			this->btnLocation->FlatAppearance->BorderColor = System::Drawing::Color::White;
+			this->btnLocation->FlatAppearance->BorderSize = 0;
+			this->btnLocation->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(250)),
+				static_cast<System::Int32>(static_cast<System::Byte>(250)), static_cast<System::Int32>(static_cast<System::Byte>(251)));
 			this->btnLocation->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->btnLocation->Font = (gcnew System::Drawing::Font(L"Segoe UI", 8.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->btnLocation->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(18)), static_cast<System::Int32>(static_cast<System::Byte>(18)),
-				static_cast<System::Int32>(static_cast<System::Byte>(18)));
-			this->btnLocation->Location = System::Drawing::Point(807, 22);
+			this->btnLocation->Font = (gcnew System::Drawing::Font(L"Arial", 8.25F, System::Drawing::FontStyle::Bold));
+			this->btnLocation->ForeColor = System::Drawing::Color::Black;
+			this->btnLocation->Location = System::Drawing::Point(800, 20);
 			this->btnLocation->Name = L"btnLocation";
 			this->btnLocation->Size = System::Drawing::Size(133, 28);
 			this->btnLocation->TabIndex = 3;
-			this->btnLocation->Text = L"Open File Location";
+			this->btnLocation->Text = L"SEE IMAGES";
 			this->btnLocation->UseVisualStyleBackColor = false;
 			this->btnLocation->Click += gcnew System::EventHandler(this, &rgb_hsi_form::btnLocation_Click);
 			// 
 			// firstPanel
 			// 
-			this->firstPanel->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(247)), static_cast<System::Int32>(static_cast<System::Byte>(247)),
-				static_cast<System::Int32>(static_cast<System::Byte>(247)));
+			this->firstPanel->BackColor = System::Drawing::Color::White;
 			this->firstPanel->Controls->Add(this->img_crop3);
 			this->firstPanel->Controls->Add(this->img_crop2);
 			this->firstPanel->Controls->Add(this->img_crop1);
@@ -392,18 +450,18 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			this->firstPanel->Controls->Add(this->lblCropped);
 			this->firstPanel->Controls->Add(this->lblHue);
 			this->firstPanel->Controls->Add(this->img_crop0);
-			this->firstPanel->Location = System::Drawing::Point(246, 51);
+			this->firstPanel->Location = System::Drawing::Point(246, 56);
 			this->firstPanel->Name = L"firstPanel";
-			this->firstPanel->Size = System::Drawing::Size(725, 348);
+			this->firstPanel->Size = System::Drawing::Size(725, 357);
 			this->firstPanel->TabIndex = 9;
 			// 
 			// img_crop3
 			// 
 			this->img_crop3->BackColor = System::Drawing::Color::White;
 			this->img_crop3->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-			this->img_crop3->Location = System::Drawing::Point(555, 169);
+			this->img_crop3->Location = System::Drawing::Point(559, 187);
 			this->img_crop3->Name = L"img_crop3";
-			this->img_crop3->Size = System::Drawing::Size(154, 154);
+			this->img_crop3->Size = System::Drawing::Size(156, 160);
 			this->img_crop3->TabIndex = 7;
 			this->img_crop3->TabStop = false;
 			// 
@@ -411,9 +469,9 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			// 
 			this->img_crop2->BackColor = System::Drawing::Color::White;
 			this->img_crop2->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-			this->img_crop2->Location = System::Drawing::Point(389, 169);
+			this->img_crop2->Location = System::Drawing::Point(395, 187);
 			this->img_crop2->Name = L"img_crop2";
-			this->img_crop2->Size = System::Drawing::Size(154, 154);
+			this->img_crop2->Size = System::Drawing::Size(156, 160);
 			this->img_crop2->TabIndex = 6;
 			this->img_crop2->TabStop = false;
 			// 
@@ -421,16 +479,15 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			// 
 			this->img_crop1->BackColor = System::Drawing::Color::White;
 			this->img_crop1->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-			this->img_crop1->Location = System::Drawing::Point(555, 6);
+			this->img_crop1->Location = System::Drawing::Point(559, 23);
 			this->img_crop1->Name = L"img_crop1";
-			this->img_crop1->Size = System::Drawing::Size(154, 154);
+			this->img_crop1->Size = System::Drawing::Size(156, 160);
 			this->img_crop1->TabIndex = 5;
 			this->img_crop1->TabStop = false;
 			// 
 			// secondPanel
 			// 
-			this->secondPanel->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(247)), static_cast<System::Int32>(static_cast<System::Byte>(247)),
-				static_cast<System::Int32>(static_cast<System::Byte>(247)));
+			this->secondPanel->BackColor = System::Drawing::Color::White;
 			this->secondPanel->Controls->Add(this->img_shape3);
 			this->secondPanel->Controls->Add(this->img_shape1);
 			this->secondPanel->Controls->Add(this->img_shape2);
@@ -445,18 +502,18 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			this->secondPanel->Controls->Add(this->lblCanny);
 			this->secondPanel->Controls->Add(this->lblBlur);
 			this->secondPanel->Controls->Add(this->img_shape0);
-			this->secondPanel->Location = System::Drawing::Point(246, 51);
+			this->secondPanel->Location = System::Drawing::Point(246, 56);
 			this->secondPanel->Name = L"secondPanel";
-			this->secondPanel->Size = System::Drawing::Size(725, 348);
+			this->secondPanel->Size = System::Drawing::Size(725, 357);
 			this->secondPanel->TabIndex = 10;
 			// 
 			// img_shape3
 			// 
 			this->img_shape3->BackColor = System::Drawing::Color::White;
 			this->img_shape3->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-			this->img_shape3->Location = System::Drawing::Point(576, 171);
+			this->img_shape3->Location = System::Drawing::Point(568, 188);
 			this->img_shape3->Name = L"img_shape3";
-			this->img_shape3->Size = System::Drawing::Size(130, 130);
+			this->img_shape3->Size = System::Drawing::Size(154, 164);
 			this->img_shape3->TabIndex = 14;
 			this->img_shape3->TabStop = false;
 			// 
@@ -464,9 +521,9 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			// 
 			this->img_shape1->BackColor = System::Drawing::Color::White;
 			this->img_shape1->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-			this->img_shape1->Location = System::Drawing::Point(576, 35);
+			this->img_shape1->Location = System::Drawing::Point(568, 21);
 			this->img_shape1->Name = L"img_shape1";
-			this->img_shape1->Size = System::Drawing::Size(130, 130);
+			this->img_shape1->Size = System::Drawing::Size(154, 164);
 			this->img_shape1->TabIndex = 13;
 			this->img_shape1->TabStop = false;
 			// 
@@ -474,9 +531,9 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			// 
 			this->img_shape2->BackColor = System::Drawing::Color::White;
 			this->img_shape2->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-			this->img_shape2->Location = System::Drawing::Point(443, 171);
+			this->img_shape2->Location = System::Drawing::Point(409, 188);
 			this->img_shape2->Name = L"img_shape2";
-			this->img_shape2->Size = System::Drawing::Size(130, 130);
+			this->img_shape2->Size = System::Drawing::Size(154, 164);
 			this->img_shape2->TabIndex = 12;
 			this->img_shape2->TabStop = false;
 			// 
@@ -484,9 +541,9 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			// 
 			this->img_otsu3->BackColor = System::Drawing::Color::White;
 			this->img_otsu3->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-			this->img_otsu3->Location = System::Drawing::Point(274, 171);
+			this->img_otsu3->Location = System::Drawing::Point(246, 188);
 			this->img_otsu3->Name = L"img_otsu3";
-			this->img_otsu3->Size = System::Drawing::Size(154, 154);
+			this->img_otsu3->Size = System::Drawing::Size(154, 164);
 			this->img_otsu3->TabIndex = 11;
 			this->img_otsu3->TabStop = false;
 			// 
@@ -494,9 +551,9 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			// 
 			this->img_otsu2->BackColor = System::Drawing::Color::White;
 			this->img_otsu2->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-			this->img_otsu2->Location = System::Drawing::Point(114, 171);
+			this->img_otsu2->Location = System::Drawing::Point(88, 188);
 			this->img_otsu2->Name = L"img_otsu2";
-			this->img_otsu2->Size = System::Drawing::Size(154, 154);
+			this->img_otsu2->Size = System::Drawing::Size(154, 164);
 			this->img_otsu2->TabIndex = 10;
 			this->img_otsu2->TabStop = false;
 			// 
@@ -504,51 +561,52 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			// 
 			this->img_otsu1->BackColor = System::Drawing::Color::White;
 			this->img_otsu1->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-			this->img_otsu1->Location = System::Drawing::Point(274, 11);
+			this->img_otsu1->Location = System::Drawing::Point(246, 21);
 			this->img_otsu1->Name = L"img_otsu1";
-			this->img_otsu1->Size = System::Drawing::Size(154, 154);
+			this->img_otsu1->Size = System::Drawing::Size(154, 164);
 			this->img_otsu1->TabIndex = 9;
 			this->img_otsu1->TabStop = false;
 			// 
 			// lblOtsu
 			// 
 			this->lblOtsu->AutoSize = true;
-			this->lblOtsu->Font = (gcnew System::Drawing::Font(L"Segoe UI Semibold", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->lblOtsu->Location = System::Drawing::Point(225, 328);
+			this->lblOtsu->Font = (gcnew System::Drawing::Font(L"Segoe UI", 6.75F, System::Drawing::FontStyle::Bold));
+			this->lblOtsu->ForeColor = System::Drawing::Color::Gray;
+			this->lblOtsu->Location = System::Drawing::Point(86, 7);
 			this->lblOtsu->Name = L"lblOtsu";
-			this->lblOtsu->Size = System::Drawing::Size(81, 13);
+			this->lblOtsu->Size = System::Drawing::Size(79, 12);
 			this->lblOtsu->TabIndex = 8;
-			this->lblOtsu->Text = L"Otsu\'s Method";
+			this->lblOtsu->Text = L"OTSU\'S METHOD";
 			// 
 			// img_otsu0
 			// 
 			this->img_otsu0->BackColor = System::Drawing::Color::White;
 			this->img_otsu0->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-			this->img_otsu0->Location = System::Drawing::Point(114, 11);
+			this->img_otsu0->Location = System::Drawing::Point(88, 21);
 			this->img_otsu0->Name = L"img_otsu0";
-			this->img_otsu0->Size = System::Drawing::Size(154, 154);
+			this->img_otsu0->Size = System::Drawing::Size(154, 164);
 			this->img_otsu0->TabIndex = 7;
 			this->img_otsu0->TabStop = false;
 			// 
 			// lblNoBlur
 			// 
 			this->lblNoBlur->AutoSize = true;
-			this->lblNoBlur->Font = (gcnew System::Drawing::Font(L"Segoe UI Semibold", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->lblNoBlur->Font = (gcnew System::Drawing::Font(L"Segoe UI", 6.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->lblNoBlur->Location = System::Drawing::Point(33, 152);
+			this->lblNoBlur->ForeColor = System::Drawing::Color::Gray;
+			this->lblNoBlur->Location = System::Drawing::Point(20, 53);
 			this->lblNoBlur->Name = L"lblNoBlur";
-			this->lblNoBlur->Size = System::Drawing::Size(45, 13);
+			this->lblNoBlur->Size = System::Drawing::Size(45, 12);
 			this->lblNoBlur->TabIndex = 6;
-			this->lblNoBlur->Text = L"No Blur";
+			this->lblNoBlur->Text = L"NO BLUR";
 			// 
 			// img_blur
 			// 
 			this->img_blur->BackColor = System::Drawing::Color::White;
 			this->img_blur->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Center;
-			this->img_blur->Location = System::Drawing::Point(7, 171);
+			this->img_blur->Location = System::Drawing::Point(2, 182);
 			this->img_blur->Name = L"img_blur";
-			this->img_blur->Size = System::Drawing::Size(100, 100);
+			this->img_blur->Size = System::Drawing::Size(80, 80);
 			this->img_blur->TabIndex = 5;
 			this->img_blur->TabStop = false;
 			// 
@@ -556,152 +614,159 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			// 
 			this->img_noblur->BackColor = System::Drawing::Color::White;
 			this->img_noblur->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Center;
-			this->img_noblur->Location = System::Drawing::Point(7, 49);
+			this->img_noblur->Location = System::Drawing::Point(2, 70);
 			this->img_noblur->Name = L"img_noblur";
-			this->img_noblur->Size = System::Drawing::Size(100, 100);
+			this->img_noblur->Size = System::Drawing::Size(80, 80);
 			this->img_noblur->TabIndex = 1;
 			this->img_noblur->TabStop = false;
 			// 
 			// lblCanny
 			// 
 			this->lblCanny->AutoSize = true;
-			this->lblCanny->Font = (gcnew System::Drawing::Font(L"Segoe UI Semibold", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->lblCanny->Location = System::Drawing::Point(526, 304);
+			this->lblCanny->Font = (gcnew System::Drawing::Font(L"Segoe UI", 6.75F, System::Drawing::FontStyle::Bold));
+			this->lblCanny->ForeColor = System::Drawing::Color::Gray;
+			this->lblCanny->Location = System::Drawing::Point(407, 7);
 			this->lblCanny->Name = L"lblCanny";
-			this->lblCanny->Size = System::Drawing::Size(98, 26);
+			this->lblCanny->Size = System::Drawing::Size(161, 12);
 			this->lblCanny->TabIndex = 4;
-			this->lblCanny->Text = L"Canny Edge\r\n(Shape Detection)";
+			this->lblCanny->Text = L"CANNY EDGE AND SHAPE CONTOUR\r\n";
 			this->lblCanny->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
 			// lblBlur
 			// 
 			this->lblBlur->AutoSize = true;
-			this->lblBlur->Font = (gcnew System::Drawing::Font(L"Segoe UI Semibold", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->lblBlur->Font = (gcnew System::Drawing::Font(L"Segoe UI", 6.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->lblBlur->Location = System::Drawing::Point(33, 274);
+			this->lblBlur->ForeColor = System::Drawing::Color::Gray;
+			this->lblBlur->Location = System::Drawing::Point(17, 165);
 			this->lblBlur->Name = L"lblBlur";
-			this->lblBlur->Size = System::Drawing::Size(52, 13);
+			this->lblBlur->Size = System::Drawing::Size(50, 12);
 			this->lblBlur->TabIndex = 3;
-			this->lblBlur->Text = L"Gaussian";
+			this->lblBlur->Text = L"GAUSSIAN";
 			// 
 			// img_shape0
 			// 
 			this->img_shape0->BackColor = System::Drawing::Color::White;
 			this->img_shape0->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-			this->img_shape0->Location = System::Drawing::Point(443, 35);
+			this->img_shape0->Location = System::Drawing::Point(409, 21);
 			this->img_shape0->Name = L"img_shape0";
-			this->img_shape0->Size = System::Drawing::Size(130, 130);
+			this->img_shape0->Size = System::Drawing::Size(154, 164);
 			this->img_shape0->TabIndex = 2;
 			this->img_shape0->TabStop = false;
 			// 
 			// btnSecond
 			// 
-			this->btnSecond->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(245)), static_cast<System::Int32>(static_cast<System::Byte>(243)),
-				static_cast<System::Int32>(static_cast<System::Byte>(241)));
-			this->btnSecond->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(219)),
-				static_cast<System::Int32>(static_cast<System::Byte>(218)), static_cast<System::Int32>(static_cast<System::Byte>(216)));
+			this->btnSecond->BackColor = System::Drawing::Color::White;
+			this->btnSecond->FlatAppearance->BorderSize = 0;
+			this->btnSecond->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(250)),
+				static_cast<System::Int32>(static_cast<System::Byte>(250)), static_cast<System::Int32>(static_cast<System::Byte>(251)));
 			this->btnSecond->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->btnSecond->Font = (gcnew System::Drawing::Font(L"Segoe UI", 8.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
+			this->btnSecond->Font = (gcnew System::Drawing::Font(L"Arial", 8.25F, System::Drawing::FontStyle::Bold));
 			this->btnSecond->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(18)), static_cast<System::Int32>(static_cast<System::Byte>(18)),
 				static_cast<System::Int32>(static_cast<System::Byte>(18)));
-			this->btnSecond->Location = System::Drawing::Point(437, 22);
+			this->btnSecond->Location = System::Drawing::Point(474, 20);
 			this->btnSecond->Name = L"btnSecond";
-			this->btnSecond->Size = System::Drawing::Size(60, 28);
+			this->btnSecond->Size = System::Drawing::Size(100, 28);
 			this->btnSecond->TabIndex = 2;
-			this->btnSecond->Text = L"Second";
+			this->btnSecond->Text = L"SECOND";
 			this->btnSecond->UseVisualStyleBackColor = false;
 			this->btnSecond->Click += gcnew System::EventHandler(this, &rgb_hsi_form::btnSecond_Click);
 			// 
 			// btnFirst
 			// 
-			this->btnFirst->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(245)), static_cast<System::Int32>(static_cast<System::Byte>(243)),
-				static_cast<System::Int32>(static_cast<System::Byte>(241)));
-			this->btnFirst->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(219)),
-				static_cast<System::Int32>(static_cast<System::Byte>(218)), static_cast<System::Int32>(static_cast<System::Byte>(216)));
+			this->btnFirst->BackColor = System::Drawing::Color::White;
+			this->btnFirst->FlatAppearance->BorderSize = 0;
+			this->btnFirst->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(250)),
+				static_cast<System::Int32>(static_cast<System::Byte>(250)), static_cast<System::Int32>(static_cast<System::Byte>(251)));
 			this->btnFirst->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->btnFirst->Font = (gcnew System::Drawing::Font(L"Segoe UI", 8.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
+			this->btnFirst->Font = (gcnew System::Drawing::Font(L"Arial", 8.25F, System::Drawing::FontStyle::Bold));
 			this->btnFirst->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(18)), static_cast<System::Int32>(static_cast<System::Byte>(18)),
 				static_cast<System::Int32>(static_cast<System::Byte>(18)));
-			this->btnFirst->Location = System::Drawing::Point(371, 22);
+			this->btnFirst->Location = System::Drawing::Point(371, 20);
 			this->btnFirst->Name = L"btnFirst";
-			this->btnFirst->Size = System::Drawing::Size(60, 28);
+			this->btnFirst->Size = System::Drawing::Size(100, 28);
 			this->btnFirst->TabIndex = 1;
-			this->btnFirst->Text = L"First";
+			this->btnFirst->Text = L"FIRST";
 			this->btnFirst->UseVisualStyleBackColor = false;
 			this->btnFirst->Click += gcnew System::EventHandler(this, &rgb_hsi_form::btnFirst_Click);
 			// 
 			// origPanel
 			// 
-			this->origPanel->BackColor = System::Drawing::Color::White;
-			this->origPanel->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
+			this->origPanel->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(250)), static_cast<System::Int32>(static_cast<System::Byte>(250)),
+				static_cast<System::Int32>(static_cast<System::Byte>(250)));
+			this->origPanel->Controls->Add(this->panel_pred);
+			this->origPanel->Controls->Add(this->btnPredict);
 			this->origPanel->Controls->Add(this->lblPath);
-			this->origPanel->Controls->Add(this->label2);
-			this->origPanel->Controls->Add(this->lblDiseaseHead);
 			this->origPanel->Controls->Add(this->lblPathHead);
 			this->origPanel->Controls->Add(this->img_orig);
-			this->origPanel->Location = System::Drawing::Point(-8, -5);
+			this->origPanel->Location = System::Drawing::Point(-2, -5);
 			this->origPanel->Name = L"origPanel";
-			this->origPanel->Size = System::Drawing::Size(246, 542);
+			this->origPanel->Size = System::Drawing::Size(238, 542);
 			this->origPanel->TabIndex = 13;
+			// 
+			// panel_pred
+			// 
+			this->panel_pred->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(141)),
+				static_cast<System::Int32>(static_cast<System::Byte>(35)));
+			this->panel_pred->Location = System::Drawing::Point(1, 506);
+			this->panel_pred->Name = L"panel_pred";
+			this->panel_pred->Size = System::Drawing::Size(10, 32);
+			this->panel_pred->TabIndex = 11;
+			this->panel_pred->Visible = false;
+			// 
+			// btnPredict
+			// 
+			this->btnPredict->BackColor = System::Drawing::Color::White;
+			this->btnPredict->Enabled = false;
+			this->btnPredict->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(219)),
+				static_cast<System::Int32>(static_cast<System::Byte>(218)), static_cast<System::Int32>(static_cast<System::Byte>(216)));
+			this->btnPredict->FlatAppearance->BorderSize = 0;
+			this->btnPredict->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->btnPredict->Font = (gcnew System::Drawing::Font(L"Segoe UI", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->btnPredict->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(141)),
+				static_cast<System::Int32>(static_cast<System::Byte>(35)));
+			this->btnPredict->Location = System::Drawing::Point(0, 506);
+			this->btnPredict->Name = L"btnPredict";
+			this->btnPredict->Size = System::Drawing::Size(238, 32);
+			this->btnPredict->TabIndex = 9;
+			this->btnPredict->Text = L"PREDICT";
+			this->btnPredict->UseVisualStyleBackColor = false;
+			this->btnPredict->Click += gcnew System::EventHandler(this, &rgb_hsi_form::btnPredict_Click);
 			// 
 			// lblPath
 			// 
-			this->lblPath->BackColor = System::Drawing::Color::White;
+			this->lblPath->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(250)), static_cast<System::Int32>(static_cast<System::Byte>(250)),
+				static_cast<System::Int32>(static_cast<System::Byte>(250)));
 			this->lblPath->BorderStyle = System::Windows::Forms::BorderStyle::None;
-			this->lblPath->Font = (gcnew System::Drawing::Font(L"Segoe UI", 8.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
+			this->lblPath->Font = (gcnew System::Drawing::Font(L"Segoe UI", 6.75F, System::Drawing::FontStyle::Bold));
 			this->lblPath->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(143)), static_cast<System::Int32>(static_cast<System::Byte>(143)),
 				static_cast<System::Int32>(static_cast<System::Byte>(143)));
-			this->lblPath->Location = System::Drawing::Point(14, 387);
+			this->lblPath->Location = System::Drawing::Point(9, 410);
 			this->lblPath->Name = L"lblPath";
 			this->lblPath->ReadOnly = true;
 			this->lblPath->Size = System::Drawing::Size(220, 46);
 			this->lblPath->TabIndex = 10;
 			this->lblPath->Text = L"C:\\\\";
 			// 
-			// label2
-			// 
-			this->label2->AutoSize = true;
-			this->label2->Font = (gcnew System::Drawing::Font(L"Segoe UI", 14.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->label2->Location = System::Drawing::Point(9, 466);
-			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(104, 25);
-			this->label2->TabIndex = 9;
-			this->label2->Text = L"Sakit Here";
-			// 
-			// lblDiseaseHead
-			// 
-			this->lblDiseaseHead->AutoSize = true;
-			this->lblDiseaseHead->Font = (gcnew System::Drawing::Font(L"Segoe UI", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->lblDiseaseHead->Location = System::Drawing::Point(11, 453);
-			this->lblDiseaseHead->Name = L"lblDiseaseHead";
-			this->lblDiseaseHead->Size = System::Drawing::Size(95, 13);
-			this->lblDiseaseHead->TabIndex = 8;
-			this->lblDiseaseHead->Text = L"Detected Disease";
-			// 
 			// lblPathHead
 			// 
 			this->lblPathHead->AutoSize = true;
-			this->lblPathHead->Font = (gcnew System::Drawing::Font(L"Segoe UI", 8.25F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
+			this->lblPathHead->Font = (gcnew System::Drawing::Font(L"Segoe UI", 6.75F, System::Drawing::FontStyle::Bold));
 			this->lblPathHead->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(143)), static_cast<System::Int32>(static_cast<System::Byte>(143)),
 				static_cast<System::Int32>(static_cast<System::Byte>(143)));
-			this->lblPathHead->Location = System::Drawing::Point(11, 371);
+			this->lblPathHead->Location = System::Drawing::Point(7, 390);
 			this->lblPathHead->Name = L"lblPathHead";
-			this->lblPathHead->Size = System::Drawing::Size(124, 13);
+			this->lblPathHead->Size = System::Drawing::Size(117, 12);
 			this->lblPathHead->TabIndex = 6;
-			this->lblPathHead->Text = L"Path of Original Image";
+			this->lblPathHead->Text = L"PATH OF ORIGINAL IMAGE";
 			// 
 			// img_orig
 			// 
-			this->img_orig->BackColor = System::Drawing::Color::White;
+			this->img_orig->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(250)), static_cast<System::Int32>(static_cast<System::Byte>(250)),
+				static_cast<System::Int32>(static_cast<System::Byte>(250)));
 			this->img_orig->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
-			this->img_orig->Location = System::Drawing::Point(14, 60);
+			this->img_orig->Location = System::Drawing::Point(9, 76);
 			this->img_orig->Name = L"img_orig";
 			this->img_orig->Size = System::Drawing::Size(220, 304);
 			this->img_orig->TabIndex = 5;
@@ -710,33 +775,49 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			// panelBtn
 			// 
 			this->panelBtn->BackColor = System::Drawing::Color::White;
-			this->panelBtn->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
+			this->panelBtn->Controls->Add(this->btnThird);
 			this->panelBtn->Controls->Add(this->btnMin);
 			this->panelBtn->Controls->Add(this->lblTitle);
 			this->panelBtn->Controls->Add(this->btnFirst);
 			this->panelBtn->Controls->Add(this->btnOpen);
 			this->panelBtn->Controls->Add(this->btnSecond);
 			this->panelBtn->Controls->Add(this->btnLocation);
-			this->panelBtn->Location = System::Drawing::Point(-8, -12);
+			this->panelBtn->Location = System::Drawing::Point(-3, -12);
 			this->panelBtn->Name = L"panelBtn";
-			this->panelBtn->Size = System::Drawing::Size(992, 60);
+			this->panelBtn->Size = System::Drawing::Size(986, 60);
 			this->panelBtn->TabIndex = 12;
 			this->panelBtn->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &rgb_hsi_form::panelBtn_MouseDown);
 			this->panelBtn->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &rgb_hsi_form::panelBtn_MouseMove);
 			this->panelBtn->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &rgb_hsi_form::panelBtn_MouseUp);
 			// 
+			// btnThird
+			// 
+			this->btnThird->BackColor = System::Drawing::Color::White;
+			this->btnThird->Enabled = false;
+			this->btnThird->FlatAppearance->BorderSize = 0;
+			this->btnThird->FlatAppearance->MouseOverBackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(250)),
+				static_cast<System::Int32>(static_cast<System::Byte>(250)), static_cast<System::Int32>(static_cast<System::Byte>(251)));
+			this->btnThird->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->btnThird->Font = (gcnew System::Drawing::Font(L"Arial", 8.25F, System::Drawing::FontStyle::Bold));
+			this->btnThird->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(18)), static_cast<System::Int32>(static_cast<System::Byte>(18)),
+				static_cast<System::Int32>(static_cast<System::Byte>(18)));
+			this->btnThird->Location = System::Drawing::Point(577, 20);
+			this->btnThird->Name = L"btnThird";
+			this->btnThird->Size = System::Drawing::Size(100, 28);
+			this->btnThird->TabIndex = 8;
+			this->btnThird->Text = L"THIRD";
+			this->btnThird->UseVisualStyleBackColor = false;
+			this->btnThird->Click += gcnew System::EventHandler(this, &rgb_hsi_form::btnThird_Click);
+			// 
 			// btnMin
 			// 
-			this->btnMin->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(245)), static_cast<System::Int32>(static_cast<System::Byte>(243)),
-				static_cast<System::Int32>(static_cast<System::Byte>(241)));
-			this->btnMin->FlatAppearance->BorderColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(219)),
-				static_cast<System::Int32>(static_cast<System::Byte>(218)), static_cast<System::Int32>(static_cast<System::Byte>(216)));
+			this->btnMin->BackColor = System::Drawing::Color::White;
+			this->btnMin->FlatAppearance->BorderColor = System::Drawing::Color::Gainsboro;
 			this->btnMin->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->btnMin->Font = (gcnew System::Drawing::Font(L"Segoe UI", 8.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->btnMin->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(18)), static_cast<System::Int32>(static_cast<System::Byte>(18)),
-				static_cast<System::Int32>(static_cast<System::Byte>(18)));
-			this->btnMin->Location = System::Drawing::Point(946, 22);
+			this->btnMin->Font = (gcnew System::Drawing::Font(L"Arial", 8.25F, System::Drawing::FontStyle::Bold));
+			this->btnMin->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(64)), static_cast<System::Int32>(static_cast<System::Byte>(64)),
+				static_cast<System::Int32>(static_cast<System::Byte>(64)));
+			this->btnMin->Location = System::Drawing::Point(939, 20);
 			this->btnMin->Name = L"btnMin";
 			this->btnMin->Size = System::Drawing::Size(32, 28);
 			this->btnMin->TabIndex = 7;
@@ -747,26 +828,183 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			// lblTitle
 			// 
 			this->lblTitle->AutoSize = true;
-			this->lblTitle->Font = (gcnew System::Drawing::Font(L"Segoe UI", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+			this->lblTitle->BackColor = System::Drawing::Color::White;
+			this->lblTitle->Font = (gcnew System::Drawing::Font(L"Gill Sans MT", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->lblTitle->ForeColor = System::Drawing::Color::Black;
-			this->lblTitle->Location = System::Drawing::Point(10, 29);
+			this->lblTitle->Location = System::Drawing::Point(10, 23);
 			this->lblTitle->Name = L"lblTitle";
-			this->lblTitle->Size = System::Drawing::Size(197, 21);
+			this->lblTitle->Size = System::Drawing::Size(196, 23);
 			this->lblTitle->TabIndex = 6;
 			this->lblTitle->Text = L"Maize Disease Detection";
+			// 
+			// thirdPanel
+			// 
+			this->thirdPanel->BackColor = System::Drawing::Color::White;
+			this->thirdPanel->Controls->Add(this->txtClassify0);
+			this->thirdPanel->Controls->Add(this->txtClassify3);
+			this->thirdPanel->Controls->Add(this->txtClassify2);
+			this->thirdPanel->Controls->Add(this->txtClassify1);
+			this->thirdPanel->Controls->Add(this->label4);
+			this->thirdPanel->Controls->Add(this->label3);
+			this->thirdPanel->Controls->Add(this->img_class3);
+			this->thirdPanel->Controls->Add(this->img_class2);
+			this->thirdPanel->Controls->Add(this->img_class1);
+			this->thirdPanel->Controls->Add(this->label1);
+			this->thirdPanel->Controls->Add(this->label2);
+			this->thirdPanel->Controls->Add(this->img_class0);
+			this->thirdPanel->Location = System::Drawing::Point(246, 56);
+			this->thirdPanel->Name = L"thirdPanel";
+			this->thirdPanel->Size = System::Drawing::Size(725, 357);
+			this->thirdPanel->TabIndex = 10;
+			// 
+			// txtClassify3
+			// 
+			this->txtClassify3->BackColor = System::Drawing::Color::White;
+			this->txtClassify3->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->txtClassify3->Font = (gcnew System::Drawing::Font(L"Circular Std Black", 14.2F, System::Drawing::FontStyle::Bold));
+			this->txtClassify3->Location = System::Drawing::Point(544, 210);
+			this->txtClassify3->Name = L"txtClassify3";
+			this->txtClassify3->ReadOnly = true;
+			this->txtClassify3->Size = System::Drawing::Size(137, 136);
+			this->txtClassify3->TabIndex = 13;
+			this->txtClassify3->TabStop = false;
+			this->txtClassify3->Text = L"";
+			// 
+			// txtClassify2
+			// 
+			this->txtClassify2->BackColor = System::Drawing::Color::White;
+			this->txtClassify2->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->txtClassify2->Font = (gcnew System::Drawing::Font(L"Circular Std Black", 14.2F, System::Drawing::FontStyle::Bold));
+			this->txtClassify2->Location = System::Drawing::Point(17, 210);
+			this->txtClassify2->Name = L"txtClassify2";
+			this->txtClassify2->ReadOnly = true;
+			this->txtClassify2->Size = System::Drawing::Size(137, 136);
+			this->txtClassify2->TabIndex = 12;
+			this->txtClassify2->TabStop = false;
+			this->txtClassify2->Text = L"";
+			// 
+			// txtClassify1
+			// 
+			this->txtClassify1->BackColor = System::Drawing::Color::White;
+			this->txtClassify1->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->txtClassify1->Font = (gcnew System::Drawing::Font(L"Circular Std Black", 14.2F, System::Drawing::FontStyle::Bold));
+			this->txtClassify1->Location = System::Drawing::Point(544, 35);
+			this->txtClassify1->Name = L"txtClassify1";
+			this->txtClassify1->ReadOnly = true;
+			this->txtClassify1->Size = System::Drawing::Size(137, 136);
+			this->txtClassify1->TabIndex = 11;
+			this->txtClassify1->TabStop = false;
+			this->txtClassify1->Text = L"";
+			// 
+			// txtClassify0
+			// 
+			this->txtClassify0->BackColor = System::Drawing::Color::White;
+			this->txtClassify0->BorderStyle = System::Windows::Forms::BorderStyle::None;
+			this->txtClassify0->Font = (gcnew System::Drawing::Font(L"Circular Std Black", 14.2F, System::Drawing::FontStyle::Bold));
+			this->txtClassify0->Location = System::Drawing::Point(16, 35);
+			this->txtClassify0->Name = L"txtClassify0";
+			this->txtClassify0->ReadOnly = true;
+			this->txtClassify0->Size = System::Drawing::Size(137, 136);
+			this->txtClassify0->TabIndex = 10;
+			this->txtClassify0->TabStop = false;
+			this->txtClassify0->Text = L"";
+			// 
+			// label4
+			// 
+			this->label4->AutoSize = true;
+			this->label4->Font = (gcnew System::Drawing::Font(L"Segoe UI", 6.75F, System::Drawing::FontStyle::Bold));
+			this->label4->ForeColor = System::Drawing::Color::Gray;
+			this->label4->Location = System::Drawing::Point(541, 1);
+			this->label4->Name = L"label4";
+			this->label4->Size = System::Drawing::Size(93, 24);
+			this->label4->TabIndex = 9;
+			this->label4->Text = L"PREDICTED DISEASE\r\nSegment 1";
+			// 
+			// label3
+			// 
+			this->label3->AutoSize = true;
+			this->label3->Font = (gcnew System::Drawing::Font(L"Segoe UI", 6.75F, System::Drawing::FontStyle::Bold));
+			this->label3->ForeColor = System::Drawing::Color::Gray;
+			this->label3->Location = System::Drawing::Point(14, 1);
+			this->label3->Name = L"label3";
+			this->label3->Size = System::Drawing::Size(93, 24);
+			this->label3->TabIndex = 8;
+			this->label3->Text = L"PREDICTED DISEASE\r\nSegment 0";
+			// 
+			// img_class3
+			// 
+			this->img_class3->BackColor = System::Drawing::Color::White;
+			this->img_class3->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->img_class3->Location = System::Drawing::Point(365, 176);
+			this->img_class3->Name = L"img_class3";
+			this->img_class3->Size = System::Drawing::Size(170, 170);
+			this->img_class3->TabIndex = 7;
+			this->img_class3->TabStop = false;
+			// 
+			// img_class2
+			// 
+			this->img_class2->BackColor = System::Drawing::Color::White;
+			this->img_class2->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->img_class2->Location = System::Drawing::Point(180, 176);
+			this->img_class2->Name = L"img_class2";
+			this->img_class2->Size = System::Drawing::Size(170, 170);
+			this->img_class2->TabIndex = 6;
+			this->img_class2->TabStop = false;
+			// 
+			// img_class1
+			// 
+			this->img_class1->BackColor = System::Drawing::Color::White;
+			this->img_class1->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->img_class1->Location = System::Drawing::Point(365, 1);
+			this->img_class1->Name = L"img_class1";
+			this->img_class1->Size = System::Drawing::Size(170, 170);
+			this->img_class1->TabIndex = 5;
+			this->img_class1->TabStop = false;
+			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Font = (gcnew System::Drawing::Font(L"Segoe UI", 6.75F, System::Drawing::FontStyle::Bold));
+			this->label1->ForeColor = System::Drawing::Color::Gray;
+			this->label1->Location = System::Drawing::Point(541, 176);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(93, 24);
+			this->label1->TabIndex = 4;
+			this->label1->Text = L"PREDICTED DISEASE\r\nSegment 3\r\n";
+			// 
+			// label2
+			// 
+			this->label2->AutoSize = true;
+			this->label2->Font = (gcnew System::Drawing::Font(L"Segoe UI", 6.75F, System::Drawing::FontStyle::Bold));
+			this->label2->ForeColor = System::Drawing::Color::Gray;
+			this->label2->Location = System::Drawing::Point(14, 176);
+			this->label2->Name = L"label2";
+			this->label2->Size = System::Drawing::Size(93, 24);
+			this->label2->TabIndex = 3;
+			this->label2->Text = L"PREDICTED DISEASE\r\nSegment 2";
+			// 
+			// img_class0
+			// 
+			this->img_class0->BackColor = System::Drawing::Color::White;
+			this->img_class0->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Zoom;
+			this->img_class0->Location = System::Drawing::Point(180, 1);
+			this->img_class0->Name = L"img_class0";
+			this->img_class0->Size = System::Drawing::Size(170, 170);
+			this->img_class0->TabIndex = 2;
+			this->img_class0->TabStop = false;
 			// 
 			// rgb_hsi_form
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(247)), static_cast<System::Int32>(static_cast<System::Byte>(247)),
-				static_cast<System::Int32>(static_cast<System::Byte>(247)));
+			this->BackColor = System::Drawing::Color::White;
 			this->ClientSize = System::Drawing::Size(980, 534);
 			this->Controls->Add(this->panelBtn);
 			this->Controls->Add(this->origPanel);
 			this->Controls->Add(this->progressPanel);
 			this->Controls->Add(this->firstPanel);
+			this->Controls->Add(this->thirdPanel);
 			this->Controls->Add(this->secondPanel);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
 			this->MaximizeBox = false;
@@ -799,6 +1037,12 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_orig))->EndInit();
 			this->panelBtn->ResumeLayout(false);
 			this->panelBtn->PerformLayout();
+			this->thirdPanel->ResumeLayout(false);
+			this->thirdPanel->PerformLayout();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_class3))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_class2))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_class1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->img_class0))->EndInit();
 			this->ResumeLayout(false);
 
 		}
@@ -806,6 +1050,9 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 	#pragma endregion
 
 	private: System::Void btnOpen_Click(System::Object^  sender, System::EventArgs^  e) {
+
+		// Delete maize
+		remove("maize.csv");
 
 		System::String^ message = "";		
 		System::String^ final_path = "";
@@ -844,11 +1091,14 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				img_path2.erase(period_idx);
 			}
 
-			final_path = gcnew System::String(img_path2.c_str());			
+			final_path = gcnew System::String(img_path2.c_str());						
+
 			txtProgress->AppendText("Opening " + final_path + "...\r\n");					
 
 			if (image.data && !image.empty()) {
 				Mat h1(image.rows, image.cols, image.type());				
+				Mat s1(image.rows, image.cols, image.type());
+				Mat i1(image.rows, image.cols, image.type());
 				float r, g, b, h, s, in;
 
 				for (int i = 0; i < image.rows; i++)
@@ -888,14 +1138,34 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 						h1.at<Vec3b>(i, j)[0] = (h * 180) / 3.14159265;
 						h1.at<Vec3b>(i, j)[1] = (h * 180) / 3.14159265;
 						h1.at<Vec3b>(i, j)[2] = (h * 180) / 3.14159265;
+
+						/*
+						s1.at<Vec3b>(i, j)[0] = s * 100;
+						s1.at<Vec3b>(i, j)[1] = s * 100;
+						s1.at<Vec3b>(i, j)[2] = s * 100;
+
+						i1.at<Vec3b>(i, j)[0] = in;
+						i1.at<Vec3b>(i, j)[1] = in;
+						i1.at<Vec3b>(i, j)[2] = in;
+						*/
 					}
 				}
 
+				txtProgress->AppendText("Hue Selection Completed...\r\n");
+
 				std::string final_path2 = msclr::interop::marshal_as<std::string>(final_path);
 				std::string h1_path = std::string("Image Processing/") + final_path2 + std::string("__1__HUE.jpg");
-				txtProgress->AppendText("Hue Selection Completed...\r\n");
-						
-				imwrite(h1_path, h1); message = gcnew System::String(h1_path.c_str());
+				imwrite(h1_path, h1);
+
+				/*
+				h1_path = std::string("Image Processing/") + final_path2 + std::string("__1__SAT.jpg");
+				imwrite(h1_path, s1);
+
+				h1_path = std::string("Image Processing/") + final_path2 + std::string("__1__INT.jpg");
+				imwrite(h1_path, i1);
+				*/
+				
+				message = gcnew System::String(h1_path.c_str());
 				txtProgress->AppendText(message + " successfully created...");
 				txtProgress->ScrollToCaret();
 			
@@ -948,7 +1218,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			txtProgress->ScrollToCaret();
 			cv::Mat hue = cv::imread(open_hue);
 
-			 Mat Hgray(hue.size(), CV_8UC1);
+			Mat Hgray(hue.size(), CV_8UC1);
 			Mat HueBlurred(hue.size(), CV_8UC1); 
 			cvtColor(hue, Hgray, CV_RGB2GRAY);		
 
@@ -1069,7 +1339,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 					mu2next = (mu - q1next * mu1next) / (1 - q1next);					//set mu2(t+1)
 					betweenvariance = q1prev * (1 - q1prev) * ((mu1 - mu2) * (mu1 - mu2));		//calculate between group variance
 
-																								//max between group variance is initially set to 0. Change the max between group variance, and change the optimized threshold to t if the current variance is > max.
+					//max between group variance is initially set to 0. Change the max between group variance, and change the optimized threshold to t if the current variance is > max.
 					if (betweenvariance > maxbetweenvariance) {
 						maxbetweenvariance = betweenvariance;
 						optimizedthresh = t;	//set new optimized threshhold
@@ -1103,7 +1373,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 					string combine = std::to_string(turn) + "\n" + std::to_string(black) + " || " + std::to_string(optimizedthresh);
 					message = gcnew System::String(combine.c_str());
 					MessageBox::Show(message);
-					*/
+					//*/
 					if (optimizedthresh >= 240) optimizedthresh = optimizedthresh * 0.4;
 					else if (optimizedthresh >= 150) optimizedthresh = optimizedthresh * 0.3;
 					else if (optimizedthresh > 120 && optimizedthresh < 150) optimizedthresh = optimizedthresh * 0.35; //0.2 last
@@ -1114,13 +1384,13 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 					string combine = std::to_string(turn) + "\n" + std::to_string(black) + " || " + std::to_string(optimizedthresh);
 					message = gcnew System::String(combine.c_str());
 					MessageBox::Show(message);
-					*/
+					//*/
 					if (optimizedthresh >= 200) optimizedthresh = optimizedthresh * 0.25;
 					else if (optimizedthresh >= 150 && optimizedthresh < 200) optimizedthresh = optimizedthresh * 0.3;
 					else if (optimizedthresh > 120 && optimizedthresh < 150) optimizedthresh = optimizedthresh * 0.35;
 					else optimizedthresh = optimizedthresh / 2;
 				}
-
+					
 				int counter = 0;
 				// Check for green
 				for (int i = 0; i < otsu_img.rows; i++) {
@@ -1132,11 +1402,15 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 				/*
 				message = gcnew System::String(std::to_string(counter).c_str());
 				MessageBox::Show(message);
-				*/
-				// BOOK THRES
-				if ((counter >= 5000 && counter <= 25000) || (counter >= 3000000 && counter <= 5000000)) {
-					if (old_optimizedthresh >= 240) {		// Downy
+				//*/
+				// BOOK THRES								
+				//if ((counter >= 5000 && counter <= 100000) || (counter >= 3000000 && counter <= 5000000)) { // Downy
+				if ((counter >= 5000 && counter <= 25000) || (counter >= 3000000 && counter <= 5000000)) {				
+					if (old_optimizedthresh >= 200) {		// Downy
 						inRange(otsu_img, Scalar(68, 117, 103), Scalar(74, 129, 113), green_img); // B G R					
+						//if (old_optimizedthresh >= 240) inRange(otsu_img, Scalar(68, 117, 103), Scalar(74, 129, 113), green_img); // B G R					
+						//else inRange(otsu_img, Scalar(84, 155, 148), Scalar(167, 217, 215), green_img); // B G R					
+						
 						otsu = std::string("Image Processing/") + final_path2 + std::string("__GREEN__") +
 							std::string((std::to_string(turn)).c_str()) + std::string(".jpg");
 						imwrite(otsu, green_img);
@@ -1154,7 +1428,7 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 								}
 							}
 						}
-					}
+					}				
 					else {									// Goss
 						if (old_optimizedthresh >= 200) optimizedthresh = old_optimizedthresh * 0.25;
 						for (int i = 0; i < otsu_img.rows; i++) {
@@ -1285,11 +1559,11 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 					}
 				}
 
-				if (std::ifstream("sample.csv")) {
-					csv.open("sample.csv", std::ios_base::app);
+				if (std::ifstream("maize.csv")) {
+					csv.open("maize.csv", std::ios_base::app);
 				}
 				else {
-					csv.open("sample.csv");
+					csv.open("maize.csv");
 					csv << "Filename, Energy, Contrast, Homogenity, IDM, Entropy, Mean1, Cluster Shade, Cluster Prominence, Shapes Detected, Circle, Triangle, Rectangle, Irregular Small, Irregular Large, Circle Area, Triangle Area, Rectangle Area, Irreg. S. Area, Irreg. L Area\n";
 				} 
 
@@ -1455,7 +1729,10 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 			txtProgress->AppendText("\r\n.\r\n.\r\nImage Processing complete.");
 			txtProgress->ScrollToCaret();
 			firstPanel->BringToFront();
-			//MessageBox::Show("Done");
+			
+			btnPredict->Enabled = true;
+			panel_pred->Visible = true;
+			btnThird->Enabled = false;					
 		}
 		}
 			else { }	
@@ -1496,7 +1773,67 @@ public: System::Windows::Forms::PictureBox^  img_otsu1;
 		this->WindowState = FormWindowState::Minimized;
 	}
 
+	private: System::Void btnThird_Click(System::Object^  sender, System::EventArgs^  e) {
+		thirdPanel->BringToFront();
+	}
 
+	private: System::Void btnPredict_Click(System::Object^  sender, System::EventArgs^  e) {
+		System::Diagnostics::Process::Start("C:/Users/Sam/Documents/School/THESIS/THESIS II/programs/form1/form1/classify.py");
+		
+		string predictions[4] = { "", "", "", "" };
+		int i = 0;
+		std::ifstream input("classify.txt");
 
+		for (std::string line; getline(input, line); ) {
+			predictions[i] = line;
+			i++;
+		}
+
+		System::String^ disease = gcnew System::String(predictions[0].c_str());
+		txtClassify0->Text = disease;
+		disease = gcnew System::String(predictions[1].c_str());
+		txtClassify1->Text = disease;
+		disease = gcnew System::String(predictions[2].c_str());
+		txtClassify2->Text = disease;
+		disease = gcnew System::String(predictions[3].c_str());
+		txtClassify3->Text = disease;
+
+		System::String^ img_change = lblPath->Text;
+		std::string open_me = msclr::interop::marshal_as<std::string>(img_change);
+		cv::Mat img = cv::imread(open_me);
+
+		cv::Mat cropped
+			= img(cv::Range(0, img.rows / 2 - 1), cv::Range(0, img.cols / 2 - 1));
+			std::string crop1 = std::string("Image Processing/ORIG_0.jpg");
+			imwrite(crop1, cropped);
+			img_change = gcnew System::String(crop1.c_str());
+			img_class0->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+		cropped
+			= img(cv::Range(0, img.rows / 2 - 1), cv::Range(img.cols / 2, img.cols - 1));
+			std::string crop2 = std::string("Image Processing/ORIG_1.jpg");
+			imwrite(crop2, cropped);
+			img_change = gcnew System::String(crop2.c_str());
+			img_class1->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+		cropped
+			= img(cv::Range(img.rows / 2, img.rows - 1), cv::Range(0, img.cols / 2 - 1));
+			std::string crop3 = std::string("Image Processing/ORIG_2.jpg");
+			imwrite(crop3, cropped);
+			img_change = gcnew System::String(crop3.c_str());
+			img_class2->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+		cropped
+			= img(cv::Range(img.rows / 2, img.rows - 1), cv::Range(img.cols / 2, img.cols - 1));
+			std::string crop4 = std::string("Image Processing/ORIG_3.jpg");
+			imwrite(crop4, cropped);
+			img_change = gcnew System::String(crop4.c_str());
+			img_class3->BackgroundImage = System::Drawing::Image::FromFile(img_change);
+
+		txtProgress->AppendText("\r\n.\r\n.\r\n.\r\n.\r\n.Prediction complete.");
+		txtProgress->ScrollToCaret();		
+		thirdPanel->BringToFront();
+		
+		btnThird->Enabled = true;
+		btnPredict->Enabled = false;
+		panel_pred->Visible = false;
+	}
 };
 } 
