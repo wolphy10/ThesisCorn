@@ -1827,7 +1827,7 @@ public:
 			img_change = gcnew System::String(crop4.c_str());
 			img_class3->BackgroundImage = System::Drawing::Image::FromFile(img_change);
 
-		txtProgress->AppendText("\r\n.\r\n.\r\n.\r\n.\r\n.Prediction complete.");
+		txtProgress->AppendText("\r\n.\r\n.\r\n.\r\n.\r\nPrediction complete.");
 		txtProgress->ScrollToCaret();		
 		thirdPanel->BringToFront();
 		
